@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gage Block Calculator</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #e9ecef;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        h1 {
+            font-size: 1.5em;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .input-section {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        input[type="number"] {
+            flex: 1;
+            padding: 12px;
+            font-size: 1em;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        .button {
+            padding: 10px 15px;
+            font-size: 0.9em;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.2s;
+            touch-action: manipulation;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .button-secondary {
+            background-color: #6c757d;
+        }
+        .button-secondary:hover {
+            background-color: #5a6268;
+        }
+        .collapsible-header {
+            background-color: #f1f3f5;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .block-selection {
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            display: none;
+        }
+        .block-selection.open {
+            display: block;
+        }
+        .block-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .block-item input {
+            margin-right: 10px;
+            transform: scale(1.5);
+        }
+        .block-item label {
+            font-size: 0.9em;
+            color: #333;
+        }
+        .results {
+            margin-top: 20px;
+        }
+        .combination {
+            background: #f8f9fa;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            border-left: 4px solid #28a745;
+        }
+        .error {
+            color: #dc3545;
+            text-align: center;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 0.8em;
+            color: #6c757d;
+            text-align: center;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 1.3em;
+            }
+            input[type="number"], .button {
+                font-size: 0.9em;
+                padding: 10px;
+            }
+            .block-item label {
+                font-size: 0.85em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="container">
+        <h1>Gage Block Calculator</h1>
+        <div class="input-section">
+            <input type="number" id="target" placeholder="Target dimension (inches)" step="0.0001" min="0" max="20" aria-label="Target dimension in inches">
+            <button class="button" id="fullscreenBtn" aria-label="Toggle full screen">⛶ Full Screen</button>
+            <button class="button button-secondary" id="exportBtn" aria-label="Export results">Export</button>
+        </div>
+        <div class="collapsible-header" id="blockHeader">
+            <span>Select Available Blocks</span>
+            <span>▼</span>
+        </div>
+        <div class="block-selection" id="blockSelection">
+            <div class="input-section">
+                <button class="button" id="selectAllBtn">Select All</button>
+                <button class="button button-secondary" id="deselectAllBtn">Deselect All</button>
+            </div>
+            <!-- Block checkboxes populated by JavaScript -->
+        </div>
+        <div class="results" id="results"></div>
+        <div class="footer">Made by Nicholas Duncan 2025</div>
+    </div>
+
+    <script>
+        // 81-piece imperial gage block set (in inches)
+        const blockSet = [
+            0.1001, 0.1002, 0.1003, 0.1004, 0.1005, 0.1006, 0.1007, 0.1008, 0.1009,
+            0.101, 0.102, 0.103, 0.104, 0.105, 0.106, 0.107, 0.108, 0.109,
+            0.110, 0.111, 0.112, 0.113, 0.114, 0.115, 0.116, 0.117, 0.118, 0.119,
+            0.120, 0.121, 0.122, 0.123, 0.124, 0.125, 0.126, 0.127, 0.128, 0.129,
+            0.130, 0.131, 0.132, 0.133, 0.134, 0.135, 0.136, 0.137, 0.138, 0.139,
+            0.140, 0.141, 0.142, 0.143, 0.144, 0.145, 0.146, 0.147, 0.148, 0.149,
+            0.050, 0.100, 0.150, 0.200, 0.250, 0.300, 0.350, 0.400, 0.450, 0.500,
+            0.550, 0.600, 0.650, 0.700, 0.750, 0.800, 0.850, 0.900, 0.950,
+            1.000, 2.000, 3.000, 4.000
+        ];
+
+        // Load saved state
+        const savedBlocks = JSON.parse(localStorage.getItem('availableBlocks')) || blockSet;
+        let availableBlocks = [...savedBlocks];
+        const savedTarget = localStorage.getItem('target') || '';
+
+        // Populate block selection
+        const blockSelection = document.getElementById('blockSelection');
+        blockSet.forEach(block => {
+            const div = document.createElement('div');
+            div.className = 'block-item';
+            div.innerHTML = `
+                <input type="checkbox" id="block-${block}" value="${block}" ${availableBlocks.includes(block) ? 'checked' : ''} aria-label="Block size ${block} inches">
+                <label for="block-${block}">${block} inches</label>
+            `;
+            blockSelection.appendChild(div);
+        });
+
+        // Memoized subset sum
+        const memo = new Map();
+        function findCombinations(target, blocks, maxStack = 20) {
+            const key = `${target}:${blocks.join(',')}`;
+            if (memo.has(key)) return memo.get(key);
+
+            const results = [];
+            const tolerance = 0.0001;
+
+            function subsetSum(blocks, target, partial = [], partialSum = 0, index = 0) {
+                if (partialSum > maxStack) return;
+                if (Math.abs(partialSum - target) < tolerance && partial.length > 0) {
+                    results.push([...partial]);
+                    return;
+                }
+                if (partialSum > target || index >= blocks.length) return;
+
+                subsetSum(blocks, target, [...partial, blocks[index]], partialSum + blocks[index], index + 1);
+                subsetSum(blocks, target, partial, partialSum, index + 1);
+            }
+
+            subsetSum(blocks, target);
+            const sortedResults = results.sort((a, b) => a.length - b.length || a.reduce((s, n) => s + n, 0) - b.reduce((s, n) => s + n, 0)).slice(0, 5);
+            memo.set(key, sortedResults);
+            return sortedResults;
+        }
+
+        // Verify math
+        function verifyMath(combination, target) {
+            const sum = combination.reduce((a, b) => a + Number(b), 0);
+            return Math.abs(sum - target) < 0.0001 ? '✓ Verified' : '✗ Error';
+        }
+
+        // Update results
+        function updateResults(target) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+
+            if (!target || target <= 0 || target > 20) {
+                resultsDiv.innerHTML = '<div class="error">Please enter a dimension between 0 and 20 inches</div>';
+                return;
+            }
+
+            const combinations = findCombinations(target, availableBlocks);
+            if (combinations.length === 0) {
+                resultsDiv.innerHTML = '<div class="error">No valid combinations found. Try selecting more blocks.</div>';
+                return;
+            }
+
+            combinations.forEach((combo, index) => {
+                const sum = combo.reduce((a, b) => a + Number(b), 0).toFixed(4);
+                const verification = verifyMath(combo, target);
+                const div = document.createElement('div');
+                div.className = 'combination';
+                div.innerHTML = `
+                    <strong>Combination ${index + 1}:</strong> ${combo.join(' + ')} = ${sum} inches (${verification})
+                `;
+                resultsDiv.appendChild(div);
+            });
+        }
+
+        // Export results
+        function exportResults(target, combinations) {
+            const text = combinations.map((combo, index) => {
+                const sum = combo.reduce((a, b) => a + Number(b), 0).toFixed(4);
+                return `Combination ${index + 1}: ${combo.join(' + ')} = ${sum} inches`;
+            }).join('\n');
+            const blob = new Blob([`Gage Block Calculator Results\nTarget: ${target} inches\n\n${text}`], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `gage_block_combinations_${target}.txt`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Full-screen toggle
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        fullscreenBtn.addEventListener('click', () => {
+            const container = document.getElementById('container');
+            if (!document.fullscreenElement) {
+                container.requestFullscreen().catch(err => console.error('Fullscreen error:', err));
+                fullscreenBtn.textContent = '⛶ Exit Full Screen';
+            } else {
+                document.exitFullscreen();
+                fullscreenBtn.textContent = '⛶ Full Screen';
+            }
+        });
+
+        // Collapsible block selection
+        const blockHeader = document.getElementById('blockHeader');
+        blockHeader.addEventListener('click', () => {
+            blockSelection.classList.toggle('open');
+            blockHeader.querySelector('span:last-child').textContent = blockSelection.classList.contains('open') ? '▲' : '▼';
+        });
+
+        // Handle input and checkbox changes
+        const targetInput = document.getElementById('target');
+        targetInput.value = savedTarget;
+        targetInput.addEventListener('input', () => {
+            const target = parseFloat(targetInput.value);
+            localStorage.setItem('target', targetInput.value);
+            updateResults(target);
+        });
+
+        blockSelection.addEventListener('change', (e) => {
+            if (e.target.type === 'checkbox') {
+                availableBlocks = blockSet.filter(block => {
+                    const checkbox = document.getElementById(`block-${block}`);
+                    return checkbox.checked;
+                });
+                localStorage.setItem('availableBlocks', JSON.stringify(availableBlocks));
+                const target = parseFloat(targetInput.value) || 0;
+                updateResults(target);
+            }
+        });
+
+        // Select/Deselect all
+        document.getElementById('selectAllBtn').addEventListener('click', () => {
+            blockSet.forEach(block => {
+                document.getElementById(`block-${block}`).checked = true;
+            });
+            availableBlocks = [...blockSet];
+            localStorage.setItem('availableBlocks', JSON.stringify(availableBlocks));
+            const target = parseFloat(targetInput.value) || 0;
+            updateResults(target);
+        });
+
+        document.getElementById('deselectAllBtn').addEventListener('click', () => {
+            blockSet.forEach(block => {
+                document.getElementById(`block-${block}`).checked = false;
+            });
+            availableBlocks = [];
+            localStorage.setItem('availableBlocks', JSON.stringify(availableBlocks));
+            const target = parseFloat(targetInput.value) || 0;
+            updateResults(target);
+        });
+
+        // Export button
+        document.getElementById('exportBtn').addEventListener('click', () => {
+            const target = parseFloat(targetInput.value) || 0;
+            const combinations = findCombinations(target, availableBlocks);
+            if (combinations.length > 0) {
+                exportResults(target, combinations);
+            } else {
+                alert('No combinations to export.');
+            }
+        });
+
+        // Initial render
+        if (savedTarget) {
+            updateResults(parseFloat(savedTarget));
+        }
+    </script>
+</body>
+</html>
