@@ -52,10 +52,13 @@
             border-radius: 6px;
             box-sizing: border-box;
         }
-        input[type="number"].block-count {
+        select.block-count {
             width: 60px;
             padding: 0.5vw;
             margin-left: 1vw;
+            font-size: calc(0.8rem + 0.4vw);
+            border: 1px solid #ced4da;
+            border-radius: 6px;
         }
         .button {
             padding: 1vw 1.5vw;
@@ -152,7 +155,7 @@
                 padding: 2vw;
                 font-size: calc(0.8rem + 0.5vw);
             }
-            input[type="number"].block-count {
+            select.block-count {
                 width: 50px;
                 padding: 1vw;
             }
@@ -173,7 +176,7 @@
             <span>▼</span>
         </div>
         <div class="block-selection" id="blockSelection">
-            <!-- Block checkboxes and count inputs populated by JavaScript -->
+            <!-- Block checkboxes and count dropdowns populated by JavaScript -->
         </div>
         <div class="results" id="results"></div>
         <div class="footer">Made by Nicholas Duncan 2025</div>
@@ -204,14 +207,56 @@
 
         // Initialize block availability (default: 1 per block)
         let blockAvailability = {};
+        let blockChecked = {};
         blockSet.forEach(block => {
             blockAvailability[block] = 1;
+            blockChecked[block] = true;
         });
+
+        // Load saved settings from localStorage
+        function loadSavedSettings() {
+            try {
+                const savedAvailability = localStorage.getItem('blockAvailability');
+                const savedChecked = localStorage.getItem('blockChecked');
+                if (savedAvailability) {
+                    blockAvailability = JSON.parse(savedAvailability);
+                    // Ensure all blocks are initialized
+                    blockSet.forEach(block => {
+                        if (!(block in blockAvailability)) {
+                            blockAvailability[block] = 1;
+                        }
+                    });
+                }
+                if (savedChecked) {
+                    blockChecked = JSON.parse(savedChecked);
+                    blockSet.forEach(block => {
+                        if (!(block in blockChecked)) {
+                            blockChecked[block] = true;
+                        }
+                    });
+                }
+                console.log('Loaded saved settings from localStorage');
+            } catch (e) {
+                console.error('Error loading settings:', e);
+            }
+        }
+
+        // Save settings to localStorage
+        function saveSettings() {
+            try {
+                localStorage.setItem('blockAvailability', JSON.stringify(blockAvailability));
+                localStorage.setItem('blockChecked', JSON.stringify(blockChecked));
+                console.log('Settings saved to localStorage');
+            } catch (e) {
+                console.error('Error saving settings:', e);
+            }
+        }
 
         // Populate block selection asynchronously
         const blockSelection = document.getElementById('blockSelection');
         function populateBlocks() {
             try {
+                loadSavedSettings();
                 blockSelection.innerHTML = `
                     <div class="input-section">
                         <button class="button" id="selectAllBtn">Select All</button>
@@ -222,9 +267,15 @@
                     const div = document.createElement('div');
                     div.className = 'block-item';
                     div.innerHTML = `
-                        <input type="checkbox" id="block-${block}" value="${block}" checked aria-label="Block size ${block} inches">
+                        <input type="checkbox" id="block-${block}" value="${block}" ${blockChecked[block] ? 'checked' : ''} aria-label="Block size ${block} inches">
                         <label for="block-${block}">${block} inches</label>
-                        <input type="number" class="block-count" id="count-${block}" min="0" max="5" value="1" aria-label="Number of ${block} inch blocks available">
+                        <select class="block-count" id="count-${block}" ${blockChecked[block] ? '' : 'disabled'} aria-label="Number of ${block} inch blocks available">
+                            <option value="1" ${blockAvailability[block] === 1 ? 'selected' : ''}>1</option>
+                            <option value="2" ${blockAvailability[block] === 2 ? 'selected' : ''}>2</option>
+                            <option value="3" ${blockAvailability[block] === 3 ? 'selected' : ''}>3</option>
+                            <option value="4" ${blockAvailability[block] === 4 ? 'selected' : ''}>4</option>
+                            <option value="5" ${blockAvailability[block] === 5 ? 'selected' : ''}>5</option>
+                        </select>
                     `;
                     blockSelection.appendChild(div);
                 });
@@ -238,12 +289,14 @@
                     try {
                         blockSet.forEach(block => {
                             const checkbox = document.getElementById(`block-${block}`);
-                            const countInput = document.getElementById(`count-${block}`);
+                            const countSelect = document.getElementById(`count-${block}`);
                             checkbox.checked = true;
-                            countInput.value = 5;
-                            countInput.disabled = false;
+                            countSelect.value = 5;
+                            countSelect.disabled = false;
                             blockAvailability[block] = 5;
+                            blockChecked[block] = true;
                         });
+                        saveSettings();
                         updateAvailableBlocks();
                         const target = parseFloat(targetInput.value) || 0;
                         updateResults(target);
@@ -258,12 +311,14 @@
                     try {
                         blockSet.forEach(block => {
                             const checkbox = document.getElementById(`block-${block}`);
-                            const countInput = document.getElementById(`count-${block}`);
+                            const countSelect = document.getElementById(`count-${block}`);
                             checkbox.checked = false;
-                            countInput.value = 0;
-                            countInput.disabled = true;
+                            countSelect.value = 1;
+                            countSelect.disabled = true;
                             blockAvailability[block] = 0;
+                            blockChecked[block] = false;
                         });
+                        saveSettings();
                         updateAvailableBlocks();
                         const target = parseFloat(targetInput.value) || 0;
                         updateResults(target);
@@ -274,30 +329,24 @@
                     }
                 });
 
-                // Attach event listeners for count inputs
+                // Attach event listeners for count dropdowns
                 blockSet.forEach(block => {
-                    const countInput = document.getElementById(`count-${block}`);
-                    countInput.addEventListener('input', () => {
+                    const countSelect = document.getElementById(`count-${block}`);
+                    countSelect.addEventListener('change', () => {
                         try {
-                            let value = parseInt(countInput.value);
-                            if (isNaN(value) || value < 0) {
-                                value = 0;
-                                countInput.value = 0;
-                            }
-                            if (value > 5) {
-                                value = 5;
-                                countInput.value = 5;
-                            }
+                            const value = parseInt(countSelect.value);
                             blockAvailability[block] = value;
                             const checkbox = document.getElementById(`block-${block}`);
                             checkbox.checked = value > 0;
-                            countInput.disabled = !checkbox.checked;
+                            blockChecked[block] = checkbox.checked;
+                            countSelect.disabled = !checkbox.checked;
+                            saveSettings();
                             updateAvailableBlocks();
                             const target = parseFloat(targetInput.value) || 0;
                             updateResults(target);
                             console.log(`Count updated for block ${block}: ${value}`);
                         } catch (e) {
-                            console.error('Count input error:', e);
+                            console.error('Count select error:', e);
                             document.getElementById('results').innerHTML = '<div class="error">Error updating block count. Please try again.</div>';
                         }
                     });
@@ -350,7 +399,6 @@
             }
 
             try {
-                // Sort blocks only once to avoid recursive sorting issues
                 const sortedBlocks = [...blocks].sort((a, b) => b - a);
                 subsetSum(sortedBlocks, target, [], {}, 0, 0);
                 console.log(`Combinations found: ${results.length}, iterations: ${iterations}`);
@@ -455,21 +503,23 @@
             try {
                 if (e.target.type === 'checkbox') {
                     const block = parseFloat(e.target.value);
-                    const countInput = document.getElementById(`count-${block}`);
-                    countInput.disabled = !e.target.checked;
+                    const countSelect = document.getElementById(`count-${block}`);
+                    countSelect.disabled = !e.target.checked;
+                    blockChecked[block] = e.target.checked;
                     if (!e.target.checked) {
-                        countInput.value = 0;
+                        countSelect.value = 1;
                         blockAvailability[block] = 0;
                     } else if (blockAvailability[block] === 0) {
-                        countInput.value = 1;
+                        countSelect.value = 1;
                         blockAvailability[block] = 1;
                     }
+                    saveSettings();
                     updateAvailableBlocks();
                     const target = parseFloat(targetInput.value) || 0;
                     updateResults(target);
                     console.log(`Checkbox changed for block ${block}: ${e.target.checked}`);
                 }
-            } catch (e) {
+            } catastch (e) {
                 console.error('Checkbox change error:', e);
                 document.getElementById('results').innerHTML = '<div class="error">Error updating blocks. Please try again.</div>';
             }
