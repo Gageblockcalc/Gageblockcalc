@@ -220,7 +220,6 @@
                 const savedChecked = localStorage.getItem('blockChecked');
                 if (savedAvailability) {
                     blockAvailability = JSON.parse(savedAvailability);
-                    // Ensure all blocks are initialized
                     blockSet.forEach(block => {
                         if (!(block in blockAvailability)) {
                             blockAvailability[block] = 1;
@@ -361,10 +360,13 @@
         // Update available blocks based on checkboxes and counts
         let availableBlocks = [];
         function updateAvailableBlocks() {
-            availableBlocks = blockSet.filter(block => {
+            availableBlocks = [];
+            blockSet.forEach(block => {
                 const checkbox = document.getElementById(`block-${block}`);
                 const count = blockAvailability[block] || 0;
-                return checkbox.checked && count > 0;
+                if (checkbox.checked && count > 0) {
+                    availableBlocks.push(block);
+                }
             });
             console.log('Available blocks updated:', availableBlocks);
         }
@@ -519,7 +521,7 @@
                     updateResults(target);
                     console.log(`Checkbox changed for block ${block}: ${e.target.checked}`);
                 }
-            } catastch (e) {
+            } catch (e) {
                 console.error('Checkbox change error:', e);
                 document.getElementById('results').innerHTML = '<div class="error">Error updating blocks. Please try again.</div>';
             }
