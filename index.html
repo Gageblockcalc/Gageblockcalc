@@ -202,10 +202,10 @@
             1.000, 2.000, 3.000, 4.000
         ];
 
-        // Initialize block availability (default: 5 per block)
+        // Initialize block availability (default: 1 per block)
         let blockAvailability = {};
         blockSet.forEach(block => {
-            blockAvailability[block] = 5;
+            blockAvailability[block] = 1;
         });
 
         // Populate block selection asynchronously
@@ -224,7 +224,7 @@
                     div.innerHTML = `
                         <input type="checkbox" id="block-${block}" value="${block}" checked aria-label="Block size ${block} inches">
                         <label for="block-${block}">${block} inches</label>
-                        <input type="number" class="block-count" id="count-${block}" min="0" max="5" value="5" aria-label="Number of ${block} inch blocks available">
+                        <input type="number" class="block-count" id="count-${block}" min="0" max="5" value="1" aria-label="Number of ${block} inch blocks available">
                     `;
                     blockSelection.appendChild(div);
                 });
@@ -280,9 +280,14 @@
                     countInput.addEventListener('input', () => {
                         try {
                             let value = parseInt(countInput.value);
-                            if (isNaN(value) || value < 0) value = 0;
-                            if (value > 5) value = 5;
-                            countInput.value = value;
+                            if (isNaN(value) || value < 0) {
+                                value = 0;
+                                countInput.value = 0;
+                            }
+                            if (value > 5) {
+                                value = 5;
+                                countInput.value = 5;
+                            }
                             blockAvailability[block] = value;
                             const checkbox = document.getElementById(`block-${block}`);
                             checkbox.checked = value > 0;
@@ -293,6 +298,7 @@
                             console.log(`Count updated for block ${block}: ${value}`);
                         } catch (e) {
                             console.error('Count input error:', e);
+                            document.getElementById('results').innerHTML = '<div class="error">Error updating block count. Please try again.</div>';
                         }
                     });
                 });
@@ -304,6 +310,7 @@
         setTimeout(populateBlocks, 0);
 
         // Update available blocks based on checkboxes and counts
+        let availableBlocks = [];
         function updateAvailableBlocks() {
             availableBlocks = blockSet.filter(block => {
                 const checkbox = document.getElementById(`block-${block}`);
@@ -342,6 +349,12 @@
             }
 
             try {
+                // Initialize block counts to ensure no undefined values
+                blockSet.forEach(block => {
+                    if (!(block in blockAvailability)) {
+                        blockAvailability[block] = 0;
+                    }
+                });
                 subsetSum(blocks.sort((a, b) => b - a), target, {}, 0, 0);
                 console.log(`Combinations found: ${results.length}, iterations: ${iterations}`);
                 return results.sort((a, b) => a.length - b.length || a.reduce((s, n) => s + n, 0) - b.reduce((s, n) => s + n, 0)).slice(0, 5);
@@ -375,6 +388,7 @@
                         return;
                     }
 
+                    updateAvailableBlocks();
                     const combinations = findCombinations(target, availableBlocks);
                     if (combinations.length === 0) {
                         resultsDiv.innerHTML = '<div class="error">No valid combinations found. Try selecting more blocks or increasing availability.</div>';
