@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Free gage block calculator for 81-piece imperial set. Find exact combinations up to 20 inches with auto-verification.">
+    <meta name="description" content="Free gage block calculator for 81-piece imperial set. Find exact combinations with no stack size limit and auto-verification.">
     <meta name="theme-color" content="#007bff">
     <title>Gage Block Calculator</title>
     <link rel="manifest" href="/Gageblockcalc/manifest.json">
@@ -169,7 +169,7 @@
     <div class="container">
         <h1>Gage Block Calculator</h1>
         <div class="input-section">
-            <input type="number" id="target" placeholder="Target dimension (inches)" step="0.0001" min="0" max="20" aria-label="Target dimension in inches">
+            <input type="number" id="target" placeholder="Target dimension (inches)" step="0.0001" min="0" aria-label="Target dimension in inches">
         </div>
         <div class="collapsible-header" id="blockHeader">
             <span>Select Available Blocks</span>
@@ -371,17 +371,15 @@
             console.log('Available blocks updated:', availableBlocks);
         }
 
-        // Subset sum respecting block availability, requiring exact matches
-        function findCombinations(target, blocks, maxStack = 20) {
+        // Subset sum respecting block availability, requiring exact matches, no stack size limit
+        function findCombinations(target, blocks) {
             const results = [];
-            const maxCombinations = 5;
             let iterations = 0;
             const maxIterations = 100000;
 
             function subsetSum(blocks, target, partial = [], blockCounts = {}, partialSum = 0, index = 0) {
-                if (iterations > maxIterations || results.length >= maxCombinations) return;
+                if (iterations > maxIterations) return;
                 iterations++;
-                if (partialSum > maxStack) return;
                 if (partialSum === target && partial.length > 0) {
                     results.push([...partial]);
                     return;
@@ -391,7 +389,7 @@
                 const block = blocks[index];
                 const count = blockCounts[block] || 0;
                 const maxCount = blockAvailability[block] || 0;
-                if (count < maxCount && partialSum + block <= maxStack) {
+                if (count < maxCount) {
                     blockCounts[block] = count + 1;
                     subsetSum(blocks, target, [...partial, block], blockCounts, partialSum + block, index);
                     blockCounts[block] = count;
@@ -403,7 +401,7 @@
                 const sortedBlocks = [...blocks].sort((a, b) => b - a);
                 subsetSum(sortedBlocks, target, [], {}, 0, 0);
                 console.log(`Combinations found: ${results.length}, iterations: ${iterations}`);
-                return results.sort((a, b) => a.length - b.length || a.reduce((s, n) => s + n, 0) - b.reduce((s, n) => s + n, 0)).slice(0, 5);
+                return results.sort((a, b) => a.length - b.length || a.reduce((s, n) => s + n, 0) - b.reduce((s, n) => s + n, 0));
             } catch (e) {
                 console.error('Calculation error:', e);
                 return [];
@@ -429,8 +427,8 @@
             setTimeout(() => {
                 try {
                     resultsDiv.innerHTML = '';
-                    if (!target || target <= 0 || target > 20) {
-                        resultsDiv.innerHTML = '<div class="error">Please enter a dimension between 0 and 20 inches</div>';
+                    if (!target || target <= 0) {
+                        resultsDiv.innerHTML = '<div class="error">Please enter a dimension greater than 0 inches</div>';
                         return;
                     }
 
@@ -444,6 +442,10 @@
                     if (combinations.length === 0) {
                         resultsDiv.innerHTML = '<div class="error">No exact combinations found. Try selecting more blocks or increasing availability.</div>';
                         return;
+                    }
+
+                    if (combinations.length < 5) {
+                        resultsDiv.innerHTML = '<div class="error">Only ' + combinations.length + ' exact combination(s) found. Try selecting more blocks or increasing availability.</div>';
                     }
 
                     combinations.forEach((combo, index) => {
