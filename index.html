@@ -23,7 +23,6 @@
             padding: 20px;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
         }
         h1 {
             font-size: 1.5em;
@@ -115,6 +114,12 @@
             font-size: 0.9em;
             margin-bottom: 10px;
         }
+        .loading {
+            color: #007bff;
+            text-align: center;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
         .footer {
             margin-top: 20px;
             font-size: 0.8em;
@@ -175,84 +180,113 @@
             1.000, 2.000, 3.000, 4.000
         ];
 
-        // Load saved state
-        const savedBlocks = JSON.parse(localStorage.getItem('availableBlocks')) || blockSet;
-        let availableBlocks = [...savedBlocks];
-        const savedTarget = localStorage.getItem('target') || '';
+        // Initialize blocks
+        let availableBlocks = [...blockSet];
 
-        // Populate block selection
+        // Lazy-load block selection
         const blockSelection = document.getElementById('blockSelection');
-        blockSet.forEach(block => {
-            const div = document.createElement('div');
-            div.className = 'block-item';
-            div.innerHTML = `
-                <input type="checkbox" id="block-${block}" value="${block}" ${availableBlocks.includes(block) ? 'checked' : ''} aria-label="Block size ${block} inches">
-                <label for="block-${block}">${block} inches</label>
-            `;
-            blockSelection.appendChild(div);
-        });
+        function populateBlocks() {
+            try {
+                blockSelection.innerHTML = `
+                    <div class="input-section">
+                        <button class="button" id="selectAllBtn">Select All</button>
+                        <button class="button button-secondary" id="deselectAllBtn">Deselect All</button>
+                    </div>
+                `;
+                blockSet.forEach(block => {
+                    const div = document.createElement('div');
+                    div.className = 'block-item';
+                    div.innerHTML = `
+                        <input type="checkbox" id="block-${block}" value="${block}" checked aria-label="Block size ${block} inches">
+                        <label for="block-${block}">${block} inches</label>
+                    `;
+                    blockSelection.appendChild(div);
+                });
+                console.log('Blocks populated successfully');
+            } catch (e) {
+                console.error('Error populating blocks:', e);
+                document.getElementById('results').innerHTML = '<div class="error">Error loading block selection. Please refresh.</div>';
+            }
+        }
+        setTimeout(populateBlocks, 0); // Async to prevent blocking
 
-        // Dynamic programming subset sum
+        // Simplified recursive subset sum
         function findCombinations(target, blocks, maxStack = 20) {
-            const tolerance = 0.0001;
-            const targetCents = Math.round(target * 10000); // Convert to integer (cents)
-            const blocksCents = blocks.map(b => Math.round(b * 10000));
-            const n = blocksCents.length;
-            const dp = Array(targetCents + 1).fill(false).map(() => []);
-            dp[0] = [[]];
-
-            for (let i = 0; i < n; i++) {
-                for (let sum = targetCents; sum >= 0; sum--) {
-                    if (dp[sum].length > 0 && sum + blocksCents[i] <= targetCents && sum + blocksCents[i] <= maxStack * 10000) {
-                        dp[sum + blocksCents[i]].push(...dp[sum].map(combo => [...combo, blocks[i]]));
-                    }
-                }
-            }
-
             const results = [];
-            for (let sum = targetCents - Math.round(tolerance * 10000); sum <= targetCents + Math.round(tolerance * 10000); sum++) {
-                if (dp[sum] && sum <= maxStack * 10000) {
-                    results.push(...dp[sum]);
+            const tolerance = 0.0001;
+            const maxCombinations = 5;
+            let iterations = 0;
+            const maxIterations = 100000; // Prevent infinite loops
+
+            function subsetSum(blocks, target, partial = [], partialSum = 0, index = 0) {
+                if (iterations > maxIterations || results.length >= maxCombinations) return;
+                iterations++;
+                if (partialSum > maxStack) return;
+                if (Math.abs(partialSum - target) < tolerance && partial.length > 0) {
+                    results.push([...partial]);
+                    return;
                 }
+                if (partialSum > target || index >= blocks.length) return;
+
+                subsetSum(blocks, target, [...partial, blocks[index]], partialSum + blocks[index], index + 1);
+                subsetSum(blocks, target, partial, partialSum, index + 1);
             }
 
-            return results
-                .sort((a, b) => a.length - b.length || a.reduce((s, n) => s + n, 0) - b.reduce((s, n) => s + n, 0))
-                .slice(0, 5);
+            try {
+                subsetSum(blocks.sort((a, b) => b - a), target); // Sort descending for faster pruning
+                console.log(`Combinations found: ${results.length}, iterations: ${iterations}`);
+                return results.sort((a, b) => a.length - b.length || a.reduce((s, n) => s + n, 0) - b.reduce((s, n) => s + n, 0)).slice(0, 5);
+            } catch (e) {
+                console.error('Calculation error:', e);
+                return [];
+            }
         }
 
         // Verify math
         function verifyMath(combination, target) {
-            const sum = combination.reduce((a, b) => a + Number(b), 0);
-            return Math.abs(sum - target) < 0.0001 ? '✓ Verified' : '✗ Error';
+            try {
+                const sum = combination.reduce((a, b) => a + Number(b), 0);
+                return Math.abs(sum - target) < 0.0001 ? '✓ Verified' : '✗ Error';
+            } catch (e) {
+                console.error('Verification error:', e);
+                return '✗ Error';
+            }
         }
 
         // Update results
         function updateResults(target) {
             const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = '';
+            resultsDiv.innerHTML = '<div class="loading">Calculating...</div>';
 
-            if (!target || target <= 0 || target > 20) {
-                resultsDiv.innerHTML = '<div class="error">Please enter a dimension between 0 and 20 inches</div>';
-                return;
-            }
+            setTimeout(() => {
+                try {
+                    resultsDiv.innerHTML = '';
+                    if (!target || target <= 0 || target > 20) {
+                        resultsDiv.innerHTML = '<div class="error">Please enter a dimension between 0 and 20 inches</div>';
+                        return;
+                    }
 
-            const combinations = findCombinations(target, availableBlocks);
-            if (combinations.length === 0) {
-                resultsDiv.innerHTML = '<div class="error">No valid combinations found. Try selecting more blocks.</div>';
-                return;
-            }
+                    const combinations = findCombinations(target, availableBlocks);
+                    if (combinations.length === 0) {
+                        resultsDiv.innerHTML = '<div class="error">No valid combinations found. Try selecting more blocks.</div>';
+                        return;
+                    }
 
-            combinations.forEach((combo, index) => {
-                const sum = combo.reduce((a, b) => a + Number(b), 0).toFixed(4);
-                const verification = verifyMath(combo, target);
-                const div = document.createElement('div');
-                div.className = 'combination';
-                div.innerHTML = `
-                    <strong>Combination ${index + 1}:</strong> ${combo.join(' + ')} = ${sum} inches (${verification})
-                `;
-                resultsDiv.appendChild(div);
-            });
+                    combinations.forEach((combo, index) => {
+                        const sum = combo.reduce((a, b) => a + Number(b), 0).toFixed(4);
+                        const verification = verifyMath(combo, target);
+                        const div = document.createElement('div');
+                        div.className = 'combination';
+                        div.innerHTML = `
+                            <strong>Combination ${index + 1}:</strong> ${combo.join(' + ')} = ${sum} inches (${verification})
+                        `;
+                        resultsDiv.appendChild(div);
+                    });
+                } catch (e) {
+                    resultsDiv.innerHTML = '<div class="error">Error calculating combinations. Please try again.</div>';
+                    console.error('Update error:', e);
+                }
+            }, 0);
         }
 
         // Debounce function
@@ -266,99 +300,128 @@
 
         // Export results
         function exportResults(target, combinations) {
-            const text = combinations.map((combo, index) => {
-                const sum = combo.reduce((a, b) => a + Number(b), 0).toFixed(4);
-                return `Combination ${index + 1}: ${combo.join(' + ')} = ${sum} inches`;
-            }).join('\n');
-            const blob = new Blob([`Gage Block Calculator Results\nTarget: ${target} inches\n\n${text}`], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `gage_block_combinations_${target}.txt`;
-            a.click();
-            URL.revokeObjectURL(url);
+            try {
+                const text = combinations.map((combo, index) => {
+                    const sum = combo.reduce((a, b) => a + Number(b), 0).toFixed(4);
+                    return `Combination ${index + 1}: ${combo.join(' + ')} = ${sum} inches`;
+                }).join('\n');
+                const blob = new Blob([`Gage Block Calculator Results\nTarget: ${target} inches\n\n${text}`], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `gage_block_combinations_${target}.txt`;
+                a.click();
+                URL.revokeObjectURL(url);
+            } catch (e) {
+                console.error('Export error:', e);
+                alert('Error exporting results.');
+            }
         }
 
         // Full-screen toggle
         const fullscreenBtn = document.getElementById('fullscreenBtn');
         fullscreenBtn.addEventListener('click', () => {
-            const container = document.getElementById('container');
-            if (!document.fullscreenElement) {
-                container.requestFullscreen().catch(err => console.error('Fullscreen error:', err));
-                fullscreenBtn.textContent = '⛶ Exit Full Screen';
-            } else {
-                document.exitFullscreen();
-                fullscreenBtn.textContent = '⛶ Full Screen';
+            try {
+                const container = document.getElementById('container');
+                if (!document.fullscreenElement) {
+                    container.requestFullscreen().catch(err => console.error('Fullscreen error:', err));
+                    fullscreenBtn.textContent = '⛶ Exit Full Screen';
+                } else {
+                    document.exitFullscreen();
+                    fullscreenBtn.textContent = '⛶ Full Screen';
+                }
+            } catch (e) {
+                console.error('Fullscreen toggle error:', e);
             }
         });
 
         // Collapsible block selection
         const blockHeader = document.getElementById('blockHeader');
         blockHeader.addEventListener('click', () => {
-            blockSelection.classList.toggle('open');
-            blockHeader.querySelector('span:last-child').textContent = blockSelection.classList.contains('open') ? '▲' : '▼';
+            try {
+                blockSelection.classList.toggle('open');
+                blockHeader.querySelector('span:last-child').textContent = blockSelection.classList.contains('open') ? '▲' : '▼';
+            } catch (e) {
+                console.error('Collapsible toggle error:', e);
+            }
         });
 
         // Handle input and checkbox changes
         const targetInput = document.getElementById('target');
-        targetInput.value = savedTarget;
         const debouncedUpdate = debounce((target) => {
-            localStorage.setItem('target', targetInput.value);
             updateResults(target);
-        }, 300);
+        }, 500);
         targetInput.addEventListener('input', () => {
-            const target = parseFloat(targetInput.value);
-            debouncedUpdate(target);
+            try {
+                const target = parseFloat(targetInput.value);
+                debouncedUpdate(target);
+            } catch (e) {
+                console.error('Input error:', e);
+                document.getElementById('results').innerHTML = '<div class="error">Invalid input. Please try again.</div>';
+            }
         });
 
         blockSelection.addEventListener('change', (e) => {
-            if (e.target.type === 'checkbox') {
-                availableBlocks = blockSet.filter(block => {
-                    const checkbox = document.getElementById(`block-${block}`);
-                    return checkbox.checked;
-                });
-                localStorage.setItem('availableBlocks', JSON.stringify(availableBlocks));
-                const target = parseFloat(targetInput.value) || 0;
-                updateResults(target);
+            try {
+                if (e.target.type === 'checkbox') {
+                    availableBlocks = blockSet.filter(block => {
+                        const checkbox = document.getElementById(`block-${block}`);
+                        return checkbox.checked;
+                    });
+                    const target = parseFloat(targetInput.value) || 0;
+                    updateResults(target);
+                }
+            } catch (e) {
+                console.error('Checkbox change error:', e);
+                document.getElementById('results').innerHTML = '<div class="error">Error updating blocks. Please try again.</div>';
             }
         });
 
         // Select/Deselect all
         document.getElementById('selectAllBtn').addEventListener('click', () => {
-            blockSet.forEach(block => {
-                document.getElementById(`block-${block}`).checked = true;
-            });
-            availableBlocks = [...blockSet];
-            localStorage.setItem('availableBlocks', JSON.stringify(availableBlocks));
-            const target = parseFloat(targetInput.value) || 0;
-            updateResults(target);
+            try {
+                blockSet.forEach(block => {
+                    document.getElementById(`block-${block}`).checked = true;
+                });
+                availableBlocks = [...blockSet];
+                const target = parseFloat(targetInput.value) || 0;
+                updateResults(target);
+            } catch (e) {
+                console.error('Select all error:', e);
+            }
         });
 
         document.getElementById('deselectAllBtn').addEventListener('click', () => {
-            blockSet.forEach(block => {
-                document.getElementById(`block-${block}`).checked = false;
-            });
-            availableBlocks = [];
-            localStorage.setItem('availableBlocks', JSON.stringify(availableBlocks));
-            const target = parseFloat(targetInput.value) || 0;
-            updateResults(target);
+            try {
+                blockSet.forEach(block => {
+                    document.getElementById(`block-${block}`).checked = false;
+                });
+                availableBlocks = [];
+                const target = parseFloat(targetInput.value) || 0;
+                updateResults(target);
+            } catch (e) {
+                console.error('Deselect all error:', e);
+            }
         });
 
         // Export button
         document.getElementById('exportBtn').addEventListener('click', () => {
-            const target = parseFloat(targetInput.value) || 0;
-            const combinations = findCombinations(target, availableBlocks);
-            if (combinations.length > 0) {
-                exportResults(target, combinations);
-            } else {
-                alert('No combinations to export.');
+            try {
+                const target = parseFloat(targetInput.value) || 0;
+                const combinations = findCombinations(target, availableBlocks);
+                if (combinations.length > 0) {
+                    exportResults(target, combinations);
+                } else {
+                    alert('No combinations to export.');
+                }
+            } catch (e) {
+                console.error('Export button error:', e);
+                alert('Error exporting results.');
             }
         });
 
-        // Initial render
-        if (savedTarget) {
-            updateResults(parseFloat(savedTarget));
-        }
+        // Log successful load
+        console.log('Page loaded successfully');
     </script>
 </body>
 </html>
