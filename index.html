@@ -2,51 +2,59 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="Free gage block calculator for 81-piece imperial set. Find combinations up to 20 inches with auto-verification.">
+    <meta name="theme-color" content="#007bff">
     <title>Gage Block Calculator</title>
+    <link rel="manifest" href="/gageblockcalc/manifest.json">
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        html, body {
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: #e9ecef;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-x: hidden;
         }
         .container {
-            width: 100%;
+            width: 90vw;
             max-width: 600px;
+            min-height: 100%;
             background: #fff;
-            padding: 20px;
+            padding: 2vw 4vw;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
         }
         h1 {
-            font-size: 1.5em;
+            font-size: calc(1.3rem + 1vw);
             text-align: center;
-            margin-bottom: 20px;
+            margin: 0 0 2vw 0;
             color: #333;
         }
         .input-section {
-            margin-bottom: 20px;
+            margin-bottom: 2vw;
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 1vw;
         }
         input[type="number"] {
             flex: 1;
-            padding: 12px;
-            font-size: 1em;
+            padding: 1.2vw;
+            font-size: calc(0.9rem + 0.5vw);
             border: 1px solid #ced4da;
             border-radius: 6px;
             box-sizing: border-box;
         }
         .button {
-            padding: 10px 15px;
-            font-size: 0.9em;
+            padding: 1vw 1.5vw;
+            font-size: calc(0.8rem + 0.5vw);
             border: none;
             border-radius: 6px;
             cursor: pointer;
@@ -66,18 +74,18 @@
         }
         .collapsible-header {
             background-color: #f1f3f5;
-            padding: 10px;
+            padding: 1vw;
             cursor: pointer;
             border-radius: 6px;
-            margin-bottom: 10px;
+            margin-bottom: 1vw;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         .block-selection {
-            max-height: 200px;
+            max-height: 40vh;
             overflow-y: auto;
-            padding: 10px;
+            padding: 1vw;
             border: 1px solid #ced4da;
             border-radius: 6px;
             display: none;
@@ -88,68 +96,67 @@
         .block-item {
             display: flex;
             align-items: center;
-            margin-bottom: 8px;
+            margin-bottom: 1vw;
         }
         .block-item input {
-            margin-right: 10px;
+            margin-right: 1vw;
             transform: scale(1.5);
         }
         .block-item label {
-            font-size: 0.9em;
+            font-size: calc(0.8rem + 0.4vw);
             color: #333;
         }
         .results {
-            margin-top: 20px;
+            margin-top: 2vw;
+            flex-grow: 1;
         }
         .combination {
             background: #f8f9fa;
-            padding: 12px;
-            margin-bottom: 10px;
+            padding: 1.2vw;
+            margin-bottom: 1vw;
             border-radius: 6px;
             border-left: 4px solid #28a745;
         }
         .error {
             color: #dc3545;
             text-align: center;
-            font-size: 0.9em;
-            margin-bottom: 10px;
+            font-size: calc(0.8rem + 0.4vw);
+            margin-bottom: 1vw;
         }
         .loading {
             color: #007bff;
             text-align: center;
-            font-size: 0.9em;
-            margin-bottom: 10px;
+            font-size: calc(0.8rem + 0.4vw);
+            margin-bottom: 1vw;
         }
         .footer {
-            margin-top: 20px;
-            font-size: 0.8em;
+            margin-top: 2vw;
+            font-size: calc(0.7rem + 0.3vw);
             color: #6c757d;
             text-align: center;
         }
         @media (max-width: 600px) {
             .container {
-                padding: 15px;
+                padding: 3vw;
             }
             h1 {
-                font-size: 1.3em;
+                font-size: calc(1.1rem + 1vw);
             }
             input[type="number"], .button {
-                font-size: 0.9em;
-                padding: 10px;
+                padding: 2vw;
+                font-size: calc(0.8rem + 0.5vw);
             }
             .block-item label {
-                font-size: 0.85em;
+                font-size: calc(0.7rem + 0.4vw);
             }
         }
     </style>
 </head>
 <body>
-    <div class="container" id="container">
+    <div class="container">
         <h1>Gage Block Calculator</h1>
         <div class="input-section">
             <input type="number" id="target" placeholder="Target dimension (inches)" step="0.0001" min="0" max="20" aria-label="Target dimension in inches">
-            <button class="button" id="fullscreenBtn" aria-label="Toggle full screen">⛶ Full Screen</button>
-            <button class="button button-secondary" id="exportBtn" aria-label="Export results">Export</button>
         </div>
         <div class="collapsible-header" id="blockHeader">
             <span>Select Available Blocks</span>
@@ -167,6 +174,15 @@
     </div>
 
     <script>
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/gageblockcalc/sw.js')
+                    .then(reg => console.log('Service Worker registered:', reg))
+                    .catch(err => console.error('Service Worker registration failed:', err));
+            });
+        }
+
         // 81-piece imperial gage block set (in inches)
         const blockSet = [
             0.1001, 0.1002, 0.1003, 0.1004, 0.1005, 0.1006, 0.1007, 0.1008, 0.1009,
@@ -183,7 +199,7 @@
         // Initialize blocks
         let availableBlocks = [...blockSet];
 
-        // Lazy-load block selection
+        // Populate block selection asynchronously
         const blockSelection = document.getElementById('blockSelection');
         function populateBlocks() {
             try {
@@ -208,17 +224,17 @@
                 document.getElementById('results').innerHTML = '<div class="error">Error loading block selection. Please refresh.</div>';
             }
         }
-        setTimeout(populateBlocks, 0); // Async to prevent blocking
+        setTimeout(populateBlocks, 0);
 
-        // Simplified recursive subset sum
+        // Subset sum allowing up to 5 uses per block
         function findCombinations(target, blocks, maxStack = 20) {
             const results = [];
             const tolerance = 0.0001;
             const maxCombinations = 5;
             let iterations = 0;
-            const maxIterations = 100000; // Prevent infinite loops
+            const maxIterations = 50000;
 
-            function subsetSum(blocks, target, partial = [], partialSum = 0, index = 0) {
+            function subsetSum(blocks, target, partial = [], blockCounts = {}, partialSum = 0, index = 0) {
                 if (iterations > maxIterations || results.length >= maxCombinations) return;
                 iterations++;
                 if (partialSum > maxStack) return;
@@ -228,12 +244,18 @@
                 }
                 if (partialSum > target || index >= blocks.length) return;
 
-                subsetSum(blocks, target, [...partial, blocks[index]], partialSum + blocks[index], index + 1);
-                subsetSum(blocks, target, partial, partialSum, index + 1);
+                const block = blocks[index];
+                const count = blockCounts[block] || 0;
+                if (count < 5) {
+                    blockCounts[block] = count + 1;
+                    subsetSum(blocks, target, [...partial, block], blockCounts, partialSum + block, index);
+                    blockCounts[block] = count;
+                }
+                subsetSum(blocks, target, partial, blockCounts, partialSum, index + 1);
             }
 
             try {
-                subsetSum(blocks.sort((a, b) => b - a), target); // Sort descending for faster pruning
+                subsetSum(blocks.sort((a, b) => b - a), target, {}, 0, 0);
                 console.log(`Combinations found: ${results.length}, iterations: ${iterations}`);
                 return results.sort((a, b) => a.length - b.length || a.reduce((s, n) => s + n, 0) - b.reduce((s, n) => s + n, 0)).slice(0, 5);
             } catch (e) {
@@ -297,43 +319,6 @@
                 timeout = setTimeout(() => func.apply(this, args), wait);
             };
         }
-
-        // Export results
-        function exportResults(target, combinations) {
-            try {
-                const text = combinations.map((combo, index) => {
-                    const sum = combo.reduce((a, b) => a + Number(b), 0).toFixed(4);
-                    return `Combination ${index + 1}: ${combo.join(' + ')} = ${sum} inches`;
-                }).join('\n');
-                const blob = new Blob([`Gage Block Calculator Results\nTarget: ${target} inches\n\n${text}`], { type: 'text/plain' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `gage_block_combinations_${target}.txt`;
-                a.click();
-                URL.revokeObjectURL(url);
-            } catch (e) {
-                console.error('Export error:', e);
-                alert('Error exporting results.');
-            }
-        }
-
-        // Full-screen toggle
-        const fullscreenBtn = document.getElementById('fullscreenBtn');
-        fullscreenBtn.addEventListener('click', () => {
-            try {
-                const container = document.getElementById('container');
-                if (!document.fullscreenElement) {
-                    container.requestFullscreen().catch(err => console.error('Fullscreen error:', err));
-                    fullscreenBtn.textContent = '⛶ Exit Full Screen';
-                } else {
-                    document.exitFullscreen();
-                    fullscreenBtn.textContent = '⛶ Full Screen';
-                }
-            } catch (e) {
-                console.error('Fullscreen toggle error:', e);
-            }
-        });
 
         // Collapsible block selection
         const blockHeader = document.getElementById('blockHeader');
@@ -401,22 +386,6 @@
                 updateResults(target);
             } catch (e) {
                 console.error('Deselect all error:', e);
-            }
-        });
-
-        // Export button
-        document.getElementById('exportBtn').addEventListener('click', () => {
-            try {
-                const target = parseFloat(targetInput.value) || 0;
-                const combinations = findCombinations(target, availableBlocks);
-                if (combinations.length > 0) {
-                    exportResults(target, combinations);
-                } else {
-                    alert('No combinations to export.');
-                }
-            } catch (e) {
-                console.error('Export button error:', e);
-                alert('Error exporting results.');
             }
         });
 
