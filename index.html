@@ -364,8 +364,10 @@
             blockSet.forEach(block => {
                 const checkbox = document.getElementById(`block-${block}`);
                 const count = blockAvailability[block] || 0;
-                if (checkbox.checked && count > 0) {
-                    availableBlocks.push(block);
+                if (checkbox && checkbox.checked && count > 0) {
+                    for (let i = 0; i < count; i++) {
+                        availableBlocks.push(block);
+                    }
                 }
             });
             console.log('Available blocks updated:', availableBlocks);
@@ -380,11 +382,13 @@
             function subsetSum(blocks, target, partial = [], blockCounts = {}, partialSum = 0, index = 0) {
                 if (iterations > maxIterations) return;
                 iterations++;
-                if (partialSum === target && partial.length > 0) {
+                const roundedSum = Math.round(partialSum * 10000) / 10000;
+                const roundedTarget = Math.round(target * 10000) / 10000;
+                if (roundedSum === roundedTarget && partial.length > 0) {
                     results.push([...partial]);
                     return;
                 }
-                if (partialSum > target || index >= blocks.length) return;
+                if (roundedSum > roundedTarget || index >= blocks.length) return;
 
                 const block = blocks[index];
                 const count = blockCounts[block] || 0;
@@ -398,7 +402,7 @@
             }
 
             try {
-                const sortedBlocks = [...blocks].sort((a, b) => b - a);
+                const sortedBlocks = [...new Set(blocks)].sort((a, b) => b - a);
                 subsetSum(sortedBlocks, target, [], {}, 0, 0);
                 console.log(`Combinations found: ${results.length}, iterations: ${iterations}`);
                 return results.sort((a, b) => a.length - b.length || a.reduce((s, n) => s + n, 0) - b.reduce((s, n) => s + n, 0));
@@ -412,7 +416,9 @@
         function verifyMath(combination, target) {
             try {
                 const sum = combination.reduce((a, b) => a + Number(b), 0);
-                return sum === target ? '✓ Verified' : '✗ Error';
+                const roundedSum = Math.round(sum * 10000) / 10000;
+                const roundedTarget = Math.round(target * 10000) / 10000;
+                return roundedSum === roundedTarget ? '✓ Verified' : '✗ Error';
             } catch (e) {
                 console.error('Verification error:', e);
                 return '✗ Error';
