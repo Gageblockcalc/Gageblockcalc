@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free gage block calculator for 81-piece imperial set. Find combinations up to 20 inches with auto-verification.">
     <title>Gage Block Calculator</title>
     <style>
         body {
@@ -191,31 +192,33 @@
             blockSelection.appendChild(div);
         });
 
-        // Memoized subset sum
-        const memo = new Map();
+        // Dynamic programming subset sum
         function findCombinations(target, blocks, maxStack = 20) {
-            const key = `${target}:${blocks.join(',')}`;
-            if (memo.has(key)) return memo.get(key);
-
-            const results = [];
             const tolerance = 0.0001;
+            const targetCents = Math.round(target * 10000); // Convert to integer (cents)
+            const blocksCents = blocks.map(b => Math.round(b * 10000));
+            const n = blocksCents.length;
+            const dp = Array(targetCents + 1).fill(false).map(() => []);
+            dp[0] = [[]];
 
-            function subsetSum(blocks, target, partial = [], partialSum = 0, index = 0) {
-                if (partialSum > maxStack) return;
-                if (Math.abs(partialSum - target) < tolerance && partial.length > 0) {
-                    results.push([...partial]);
-                    return;
+            for (let i = 0; i < n; i++) {
+                for (let sum = targetCents; sum >= 0; sum--) {
+                    if (dp[sum].length > 0 && sum + blocksCents[i] <= targetCents && sum + blocksCents[i] <= maxStack * 10000) {
+                        dp[sum + blocksCents[i]].push(...dp[sum].map(combo => [...combo, blocks[i]]));
+                    }
                 }
-                if (partialSum > target || index >= blocks.length) return;
-
-                subsetSum(blocks, target, [...partial, blocks[index]], partialSum + blocks[index], index + 1);
-                subsetSum(blocks, target, partial, partialSum, index + 1);
             }
 
-            subsetSum(blocks, target);
-            const sortedResults = results.sort((a, b) => a.length - b.length || a.reduce((s, n) => s + n, 0) - b.reduce((s, n) => s + n, 0)).slice(0, 5);
-            memo.set(key, sortedResults);
-            return sortedResults;
+            const results = [];
+            for (let sum = targetCents - Math.round(tolerance * 10000); sum <= targetCents + Math.round(tolerance * 10000); sum++) {
+                if (dp[sum] && sum <= maxStack * 10000) {
+                    results.push(...dp[sum]);
+                }
+            }
+
+            return results
+                .sort((a, b) => a.length - b.length || a.reduce((s, n) => s + n, 0) - b.reduce((s, n) => s + n, 0))
+                .slice(0, 5);
         }
 
         // Verify math
@@ -250,6 +253,15 @@
                 `;
                 resultsDiv.appendChild(div);
             });
+        }
+
+        // Debounce function
+        function debounce(func, wait) {
+            let timeout;
+            return function (...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
         }
 
         // Export results
@@ -290,10 +302,13 @@
         // Handle input and checkbox changes
         const targetInput = document.getElementById('target');
         targetInput.value = savedTarget;
-        targetInput.addEventListener('input', () => {
-            const target = parseFloat(targetInput.value);
+        const debouncedUpdate = debounce((target) => {
             localStorage.setItem('target', targetInput.value);
             updateResults(target);
+        }, 300);
+        targetInput.addEventListener('input', () => {
+            const target = parseFloat(targetInput.value);
+            debouncedUpdate(target);
         });
 
         blockSelection.addEventListener('change', (e) => {
