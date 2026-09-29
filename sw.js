@@ -1,5 +1,5 @@
 /* Gage Block Calculator — service worker (app shell offline) */
-const CACHE = 'gageblockcalc-v9';
+const CACHE = 'gageblockcalc-v10';
 const PRECACHE = [
   '/',
   '/index.html',

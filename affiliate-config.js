@@ -20,7 +20,6 @@
      * Optional product ASINs (Amazon product pages convert better than search).
      * Leave empty or remove an ASIN if a listing goes away — search is the fallback.
      * Verified listings (re-check stock periodically):
-     *   inch-81: B002SG7QRY (existing Mitutoyo 516-902-26 Grade 0, 81 pc)
      *   inch-36: B0C4GDDX4W (HFS 36 PC inch set, NIST-traceable, ASME B89.1.9-2023)
      *   metric-112: B003U9W3B2 (Mitutoyo 516-938-26 Grade 0, 112 pc)
      *   wear-in: B08486RF98 (Mitutoyo 0.050" steel square block, ASME Grade 0)
@@ -29,7 +28,6 @@
      */
     asins: {
       // Deep-link only to listings verified against their Amazon product pages.
-      'inch-81': 'B002SG7QRY',
       'inch-36': 'B0C4GDDX4W',
       'metric-112': 'B003U9W3B2',
       'wear-in': 'B08486RF98',

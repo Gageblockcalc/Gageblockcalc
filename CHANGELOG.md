@@ -1,3 +1,8 @@
+## 2026-09-29 — Remove broken Amazon deep link
+
+- Removed the unavailable inch-81 ASIN mapping so the calculator uses its tagged Amazon search fallback.
+- Bumped the service-worker cache to `gageblockcalc-v10`.
+
 # Changelog — Gage Block Calculator
 
 ## 2026-09-28 — Verified Amazon product deep links

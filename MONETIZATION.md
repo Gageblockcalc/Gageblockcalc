@@ -6,7 +6,7 @@ Affiliate UI is live (Recommended gear panel + Amazon disclosure). Calculator st
 
 ### 1. Amazon Associates
 - **Live:** `amazonTag: 'gageblockcalc-20'` in `affiliate-config.js`.
-- Verified deep links: inch-81 `B002SG7QRY`, inch-36 `B0C4GDDX4W`, metric-112 `B003U9W3B2`, and 0.050-inch wear block `B08486RF98`; unverified configurations use search fallback.
+- Verified deep links: inch-36 `B0C4GDDX4W`, metric-112 `B003U9W3B2`, and 0.050-inch wear block `B08486RF98`; inch-81 and other unverified configurations use search fallback.
 - After any config change: bump `sw.js` CACHE and redeploy so PWAs refresh.
 - Sign-up reference: https://affiliate-program.amazon.com/
 
