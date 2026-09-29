@@ -6,9 +6,14 @@
   <meta name="description" content="Gage block calculator for inch 81/36-piece and metric 112-piece sets. Classic digit-by-digit stacks with verification.">
   <meta name="theme-color" content="#0d6efd">
   <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Gage Blocks">
   <title>Gage Block Calculator</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='24' fill='%230d6efd'/%3E%3Crect x='24' y='56' width='80' height='16' rx='3' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
   <style>
     :root {
       --bg: #e9ecef;
@@ -278,6 +283,52 @@
       }
       h1 { font-size: 1.25rem; }
     }
+
+    .install-bar {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
+      background: #e7f1ff;
+      border: 1px solid #b6d4fe;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    .install-bar.visible { display: flex; }
+
+    .install-bar p {
+      margin: 0;
+      flex: 1;
+      color: var(--text);
+      line-height: 1.35;
+    }
+
+    .install-bar .button {
+      flex-shrink: 0;
+      min-height: 36px;
+      padding: 6px 12px;
+      font-size: 0.88rem;
+    }
+
+    .install-dismiss {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-size: 1.25rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 4px 6px;
+      min-width: 32px;
+      min-height: 32px;
+    }
+
+    .install-dismiss:hover { color: var(--text); }
+
+    @media (display-mode: standalone) {
+      .install-bar { display: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -309,6 +360,17 @@
     <div class="block-selection" id="blockSelection"></div>
 
     <div class="results" id="results" aria-live="polite"></div>
+
+    <div class="install-bar" id="installPrompt" hidden>
+      <p>Install this app for quick access offline.</p>
+      <button type="button" class="button" id="installBtn">Install app</button>
+      <button type="button" class="install-dismiss" id="installDismiss" aria-label="Dismiss">×</button>
+    </div>
+
+    <div class="install-bar" id="iosTip" hidden>
+      <p>On iPhone/iPad: tap Share, then <strong>Add to Home Screen</strong>.</p>
+      <button type="button" class="install-dismiss" id="iosTipDismiss" aria-label="Dismiss tip">×</button>
+    </div>
 
     <div class="footer">Made by Nicholas Duncan 2025</div>
   </div>

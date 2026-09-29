@@ -384,16 +384,130 @@
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        const swUrl = new URL('sw.js', window.location.href).href;
-        navigator.serviceWorker.register(swUrl).catch(function () {});
+        navigator.serviceWorker
+          .register('/sw.js', { scope: '/' })
+          .catch(function () {});
       });
     }
+
+    setupInstallUX();
 
     const initial = parseFloat($('#target').value);
     if (initial > 0) renderResults(initial);
     else
       $('#results').innerHTML =
         '<div class="hint">Enter a target dimension in ' + currentSet().unitName + '</div>';
+  }
+
+  function isStandalone() {
+    return (
+      window.matchMedia('(display-mode: standalone)').matches ||
+      window.matchMedia('(display-mode: fullscreen)').matches ||
+      window.navigator.standalone === true
+    );
+  }
+
+  function isIos() {
+    const ua = window.navigator.userAgent || '';
+    const iOS = /iPad|iPhone|iPod/.test(ua);
+    const iPadOS = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+    return iOS || iPadOS;
+  }
+
+  function setupInstallUX() {
+    const bar = $('#installPrompt');
+    const btn = $('#installBtn');
+    const dismiss = $('#installDismiss');
+    const iosBar = $('#iosTip');
+    const iosDismiss = $('#iosTipDismiss');
+    const IOS_KEY = 'gageblockcalc-ios-tip-dismissed';
+    const INSTALL_KEY = 'gageblockcalc-install-dismissed';
+
+    if (!bar || !iosBar) return;
+    if (isStandalone()) {
+      bar.hidden = true;
+      iosBar.hidden = true;
+      return;
+    }
+
+    let deferredPrompt = null;
+
+    function showBar(el) {
+      el.hidden = false;
+      el.classList.add('visible');
+    }
+
+    function hideBar(el) {
+      el.hidden = true;
+      el.classList.remove('visible');
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (localStorage.getItem(INSTALL_KEY) === '1') return;
+      hideBar(iosBar);
+      showBar(bar);
+    });
+
+    window.addEventListener('appinstalled', () => {
+      deferredPrompt = null;
+      hideBar(bar);
+      hideBar(iosBar);
+    });
+
+    if (btn) {
+      btn.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        try {
+          await deferredPrompt.userChoice;
+        } catch (_) {}
+        deferredPrompt = null;
+        hideBar(bar);
+      });
+    }
+
+    if (dismiss) {
+      dismiss.addEventListener('click', () => {
+        hideBar(bar);
+        try {
+          localStorage.setItem(INSTALL_KEY, '1');
+        } catch (_) {}
+      });
+    }
+
+    // iOS Safari has no beforeinstallprompt — show a short Share tip
+    if (isIos() && !isStandalone()) {
+      let dismissed = false;
+      try {
+        dismissed = localStorage.getItem(IOS_KEY) === '1';
+      } catch (_) {}
+      if (!dismissed) {
+        // Delay slightly so it does not fight the first paint
+        setTimeout(() => {
+          if (deferredPrompt) return; // Chromium already showing install
+          showBar(iosBar);
+        }, 1200);
+      }
+    }
+
+    if (iosDismiss) {
+      iosDismiss.addEventListener('click', () => {
+        hideBar(iosBar);
+        try {
+          localStorage.setItem(IOS_KEY, '1');
+        } catch (_) {}
+      });
+    }
+
+    // Hide if user later opens in standalone
+    window.matchMedia('(display-mode: standalone)').addEventListener('change', (e) => {
+      if (e.matches) {
+        hideBar(bar);
+        hideBar(iosBar);
+      }
+    });
   }
 
   init();
