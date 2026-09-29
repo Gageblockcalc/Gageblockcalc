@@ -63,3 +63,8 @@ Compared to the live site at https://gageblockcalc.com (single-file imperial 81-
 - Tagline + “How to build a gage block stack” section for search intent.
 - Added `robots.txt`; refreshed `sitemap.xml`.
 - SW cache `gageblockcalc-v6`.
+
+## 2026-09-28 — Inch size labels
+
+- Inch blocks now display with thousandths (e.g. `.110` not `.11`, `.050`, `1.000`).
+- SW cache `gageblockcalc-v7`.

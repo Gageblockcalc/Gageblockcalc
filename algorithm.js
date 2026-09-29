@@ -447,13 +447,11 @@ function formatSize(size, setDef) {
     const fixed5 = n.toFixed(5);
     if (/\.\d{4}[1-9]$/.test(fixed5)) return fixed5;
   }
-  const fixed = n.toFixed(4);
-  if (/\.\d{3}[1-9]$/.test(fixed)) return fixed;
-  if (/\.\d{2}[1-9]0$/.test(fixed)) return n.toFixed(3);
-  if (Number.isInteger(n)) return n.toFixed(3);
-  if (Math.abs(n * 20 - Math.round(n * 20)) < 1e-9) return n.toFixed(3);
-  if (Math.abs(n * 100 - Math.round(n * 100)) < 1e-9) return n.toFixed(2);
-  return fixed.replace(/0+$/, '').replace(/\.$/, '');
+  // .1001–.1009 style (needs 4 decimals)
+  const fixed4 = n.toFixed(4);
+  if (/\.\d{3}[1-9]$/.test(fixed4)) return fixed4;
+  // Standard inch gage-block marking: keep thousandths (.110 not .11, .050, 1.000)
+  return n.toFixed(3);
 }
 
 global.GageBlockAlgo = {
