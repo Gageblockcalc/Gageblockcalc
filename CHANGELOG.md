@@ -1,5 +1,11 @@
 # Changelog — Gage Block Calculator
 
+## 2026-09-28 — Verified Amazon product deep links
+
+- Added verified deep links for the HFS 36-piece inch set (`B0C4GDDX4W`), Mitutoyo 112-piece metric set (`B003U9W3B2`), and Mitutoyo 0.050" steel wear block (`B08486RF98`).
+- Added wear-link builder with search fallback; 28-piece inch and 88-piece metric configurations remain search-only because no exact verified listing was found.
+- Bumped service-worker cache to `gageblockcalc-v9`.
+
 Compared to the live site at https://gageblockcalc.com (single-file imperial 81-piece app).
 
 

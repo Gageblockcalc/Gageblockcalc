@@ -380,7 +380,9 @@
       setLink.textContent = 'Buy ' + setDef.name + ' set on Amazon →';
     }
     if (wearLink) {
-      wearLink.href = A.amazonSearchUrl(wearQ);
+      wearLink.href = typeof A.wearShopUrl === 'function'
+        ? A.wearShopUrl(setDef.unitLabel)
+        : A.amazonSearchUrl(wearQ);
       wearLink.textContent =
         setDef.unitLabel === 'mm'
           ? 'Buy 1 mm wear / protection blocks on Amazon →'

@@ -19,13 +19,20 @@
     /**
      * Optional product ASINs (Amazon product pages convert better than search).
      * Leave empty or remove an ASIN if a listing goes away — search is the fallback.
-     * Verified candidates (re-check stock periodically):
-     *   inch-81: B002SG7QRY (Mitutoyo 516-902-26 Grade 0, 81 pc)
-     *   wear-in: B003U9W32G (Mitutoyo ceramic wear pair — 0.1"; search still used for 0.050")
+     * Verified listings (re-check stock periodically):
+     *   inch-81: B002SG7QRY (existing Mitutoyo 516-902-26 Grade 0, 81 pc)
+     *   inch-36: B0C4GDDX4W (HFS 36 PC inch set, NIST-traceable, ASME B89.1.9-2023)
+     *   metric-112: B003U9W3B2 (Mitutoyo 516-938-26 Grade 0, 112 pc)
+     *   wear-in: B08486RF98 (Mitutoyo 0.050" steel square block, ASME Grade 0)
+     *   No exact verified Amazon listings found for the calculator's 28-piece inch or
+     *   88-piece metric configurations; those continue to use search fallback.
      */
     asins: {
-      // Prefer search for set size matching; keep only stable hero ASINs here.
+      // Deep-link only to listings verified against their Amazon product pages.
       'inch-81': 'B002SG7QRY',
+      'inch-36': 'B0C4GDDX4W',
+      'metric-112': 'B003U9W3B2',
+      'wear-in': 'B08486RF98',
     },
 
     /**
@@ -72,7 +79,7 @@
       const id = String(setId || '').trim();
       const byId = {
         'inch-81': 'Mitutoyo 81 piece rectangular gage block set',
-        'inch-36': 'Mitutoyo 36 piece rectangular gage block set',
+        'inch-36': 'HFS 36 PC inch gauge block set',
         'inch-28': 'Mitutoyo 28 piece rectangular gage block set',
         'metric-112': 'Mitutoyo 112 piece metric gage block set',
         'metric-88': 'Mitutoyo 88 piece metric gage block set',
@@ -92,6 +99,12 @@
         return 'Mitutoyo metric wear gage block 1mm carbide';
       }
       return 'Mitutoyo 0.050 wear gage block set';
+    },
+
+    wearShopUrl: function (unitLabel) {
+      const asin = unitLabel === 'mm' ? '' : (AFFILIATE.asins && AFFILIATE.asins['wear-in']) || '';
+      const product = AFFILIATE.amazonProductUrl(asin);
+      return product || AFFILIATE.amazonSearchUrl(AFFILIATE.wearBlocksQuery(unitLabel));
     },
 
     accessoriesQuery: function () {
