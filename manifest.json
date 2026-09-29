@@ -1,0 +1,19 @@
+{
+  "name": "Gage Block Calculator",
+  "short_name": "Gage Blocks",
+  "description": "Find exact gage block combinations for inch and metric sets",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#e9ecef",
+  "theme_color": "#0d6efd",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='24' fill='%230d6efd'/%3E%3Crect x='24' y='56' width='80' height='16' rx='3' fill='%23fff'/%3E%3Crect x='40' y='40' width='48' height='16' rx='3' fill='%23cfe2ff'/%3E%3Crect x='52' y='72' width='24' height='16' rx='3' fill='%23cfe2ff'/%3E%3C/svg%3E",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

@@ -1,541 +1,319 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Free gage block calculator for 81-piece imperial set. Find exact combinations with no stack size limit and auto-verification.">
-    <meta name="theme-color" content="#007bff">
-    <title>Gage Block Calculator</title>
-    <link rel="manifest" href="/Gageblockcalc/manifest.json">
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #e9ecef;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            overflow-x: hidden;
-        }
-        .container {
-            width: 90vw;
-            max-width: 600px;
-            min-height: 100%;
-            background: #fff;
-            padding: 2vw 4vw;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-        }
-        h1 {
-            font-size: calc(1.3rem + 1vw);
-            text-align: center;
-            margin: 0 0 2vw 0;
-            color: #333;
-        }
-        .input-section {
-            margin-bottom: 2vw;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1vw;
-        }
-        input[type="number"] {
-            flex: 1;
-            padding: 1.2vw;
-            font-size: calc(0.9rem + 0.5vw);
-            border: 1px solid #ced4da;
-            border-radius: 6px;
-            box-sizing: border-box;
-        }
-        select.block-count {
-            width: 60px;
-            padding: 0.5vw;
-            margin-left: 1vw;
-            font-size: calc(0.8rem + 0.4vw);
-            border: 1px solid #ced4da;
-            border-radius: 6px;
-        }
-        .button {
-            padding: 1vw 1.5vw;
-            font-size: calc(0.8rem + 0.5vw);
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            background-color: #007bff;
-            color: white;
-            transition: background-color 0.2s;
-            touch-action: manipulation;
-        }
-        .button:hover {
-            background-color: #0056b3;
-        }
-        .button-secondary {
-            background-color: #6c757d;
-        }
-        .button-secondary:hover {
-            background-color: #5a6268;
-        }
-        .collapsible-header {
-            background-color: #f1f3f5;
-            padding: 1vw;
-            cursor: pointer;
-            border-radius: 6px;
-            margin-bottom: 1vw;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .block-selection {
-            max-height: 40vh;
-            overflow-y: auto;
-            padding: 1vw;
-            border: 1px solid #ced4da;
-            border-radius: 6px;
-            display: none;
-        }
-        .block-selection.open {
-            display: block;
-        }
-        .block-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1vw;
-        }
-        .block-item input[type="checkbox"] {
-            margin-right: 1vw;
-            transform: scale(1.5);
-        }
-        .block-item label {
-            font-size: calc(0.8rem + 0.4vw);
-            color: #333;
-            flex: 1;
-        }
-        .results {
-            margin-top: 2vw;
-            flex-grow: 1;
-        }
-        .combination {
-            background: #f8f9fa;
-            padding: 1.2vw;
-            margin-bottom: 1vw;
-            border-radius: 6px;
-            border-left: 4px solid #28a745;
-        }
-        .error {
-            color: #dc3545;
-            text-align: center;
-            font-size: calc(0.8rem + 0.4vw);
-            margin-bottom: 1vw;
-        }
-        .loading {
-            color: #007bff;
-            text-align: center;
-            font-size: calc(0.8rem + 0.4vw);
-            margin-bottom: 1vw;
-        }
-        .footer {
-            margin-top: 2vw;
-            font-size: calc(0.7rem + 0.3vw);
-            color: #6c757d;
-            text-align: center;
-        }
-        @media (max-width: 600px) {
-            .container {
-                padding: 3vw;
-            }
-            h1 {
-                font-size: calc(1.1rem + 1vw);
-            }
-            input[type="number"], .button {
-                padding: 2vw;
-                font-size: calc(0.8rem + 0.5vw);
-            }
-            select.block-count {
-                width: 50px;
-                padding: 1vw;
-            }
-            .block-item label {
-                font-size: calc(0.7rem + 0.4vw);
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Gage block calculator for inch 81/36-piece and metric 112-piece sets. Classic digit-by-digit stacks with verification.">
+  <meta name="theme-color" content="#0d6efd">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Gage Block Calculator</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='24' fill='%230d6efd'/%3E%3Crect x='24' y='56' width='80' height='16' rx='3' fill='%23fff'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --bg: #e9ecef;
+      --card: #ffffff;
+      --text: #212529;
+      --muted: #6c757d;
+      --border: #ced4da;
+      --primary: #0d6efd;
+      --primary-hover: #0b5ed7;
+      --secondary: #6c757d;
+      --secondary-hover: #5c636a;
+      --success: #198754;
+      --danger: #dc3545;
+      --soft: #f8f9fa;
+      --radius: 12px;
+      --tap: 44px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      padding: 12px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 560px;
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      padding: 20px 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.45rem;
+      text-align: center;
+      letter-spacing: -0.02em;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .row > * { flex: 1 1 140px; }
+
+    label.field-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    input[type="number"],
+    select.set-select {
+      width: 100%;
+      min-height: var(--tap);
+      padding: 10px 12px;
+      font-size: 1.05rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    input[type="number"]:focus,
+    select.set-select:focus,
+    .block-count:focus {
+      outline: 2px solid rgba(13,110,253,0.35);
+      border-color: var(--primary);
+    }
+
+    .set-note {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin: -4px 0 0;
+      line-height: 1.35;
+    }
+
+    .wear-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: var(--tap);
+      padding: 4px 2px;
+      user-select: none;
+    }
+
+    .wear-row input {
+      width: 22px;
+      height: 22px;
+      accent-color: var(--primary);
+    }
+
+    .wear-row span {
+      font-size: 0.98rem;
+    }
+
+    .collapsible-header {
+      background: var(--soft);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      min-height: var(--tap);
+      padding: 10px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-weight: 600;
+      touch-action: manipulation;
+    }
+
+    .collapsible-header:hover { background: #eef1f4; }
+
+    .block-selection {
+      display: none;
+      max-height: 42vh;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .block-selection.open { display: block; }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+      position: sticky;
+      top: 0;
+      background: #fff;
+      padding-bottom: 8px;
+      z-index: 1;
+    }
+
+    .button {
+      min-height: 40px;
+      padding: 8px 14px;
+      font-size: 0.95rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: var(--primary);
+      color: #fff;
+      touch-action: manipulation;
+    }
+
+    .button:hover { background: var(--primary-hover); }
+    .button-secondary { background: var(--secondary); }
+    .button-secondary:hover { background: var(--secondary-hover); }
+
+    .block-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 40px;
+      padding: 4px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .block-item:last-child { border-bottom: none; }
+
+    .block-item input[type="checkbox"] {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+      accent-color: var(--primary);
+    }
+
+    .block-item label {
+      flex: 1;
+      font-size: 0.95rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    select.block-count {
+      width: 64px;
+      min-height: 36px;
+      font-size: 0.95rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px;
+    }
+
+    .results { min-height: 80px; }
+
+    .hint, .loading, .error, .meta {
+      text-align: center;
+      padding: 12px 8px;
+      font-size: 0.95rem;
+    }
+
+    .hint, .meta { color: var(--muted); }
+    .loading { color: var(--primary); font-weight: 600; }
+    .error { color: var(--danger); font-weight: 600; }
+
+    .combination {
+      background: var(--soft);
+      border-radius: 8px;
+      border-left: 4px solid var(--success);
+      padding: 12px 14px;
+      margin-bottom: 10px;
+    }
+
+    .combo-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+    }
+
+    .badge {
+      background: #e7f1ff;
+      color: var(--primary);
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .verify.ok { color: var(--success); font-weight: 700; }
+    .verify.bad { color: var(--danger); font-weight: 700; }
+
+    .combo-body {
+      font-size: 1rem;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+      padding-top: 4px;
+    }
+
+    @media (max-width: 420px) {
+      body { padding: 0; }
+      .container {
+        border-radius: 0;
+        min-height: 100vh;
+        box-shadow: none;
+      }
+      h1 { font-size: 1.25rem; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Gage Block Calculator</h1>
-        <div class="input-section">
-            <input type="number" id="target" placeholder="Target dimension (inches)" step="0.0001" min="0" aria-label="Target dimension in inches">
-        </div>
-        <div class="collapsible-header" id="blockHeader">
-            <span>Select Available Blocks</span>
-            <span>▼</span>
-        </div>
-        <div class="block-selection" id="blockSelection">
-            <!-- Block checkboxes and count dropdowns populated by JavaScript -->
-        </div>
-        <div class="results" id="results"></div>
-        <div class="footer">Made by Nicholas Duncan 2025</div>
+  <div class="container">
+    <h1>Gage Block Calculator</h1>
+
+    <div>
+      <label class="field-label" for="setSelect">Block set</label>
+      <select id="setSelect" class="set-select" aria-label="Gage block set"></select>
+      <p class="set-note" id="setNote"></p>
     </div>
 
-    <script>
-        // Register Service Worker
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/Gageblockcalc/sw.js')
-                    .then(reg => console.log('Service Worker registered:', reg))
-                    .catch(err => console.error('Service Worker registration failed:', err));
-            });
-        }
+    <div>
+      <label class="field-label" for="target">Target</label>
+      <input type="number" id="target" inputmode="decimal" min="0" step="0.0001"
+        placeholder="Target dimension" aria-label="Target dimension">
+    </div>
 
-        // 81-piece imperial gage block set (in inches)
-        const blockSet = [
-            0.1001, 0.1002, 0.1003, 0.1004, 0.1005, 0.1006, 0.1007, 0.1008, 0.1009,
-            0.101, 0.102, 0.103, 0.104, 0.105, 0.106, 0.107, 0.108, 0.109,
-            0.110, 0.111, 0.112, 0.113, 0.114, 0.115, 0.116, 0.117, 0.118, 0.119,
-            0.120, 0.121, 0.122, 0.123, 0.124, 0.125, 0.126, 0.127, 0.128, 0.129,
-            0.130, 0.131, 0.132, 0.133, 0.134, 0.135, 0.136, 0.137, 0.138, 0.139,
-            0.140, 0.141, 0.142, 0.143, 0.144, 0.145, 0.146, 0.147, 0.148, 0.149,
-            0.050, 0.100, 0.150, 0.200, 0.250, 0.300, 0.350, 0.400, 0.450, 0.500,
-            0.550, 0.600, 0.650, 0.700, 0.750, 0.800, 0.850, 0.900, 0.950,
-            1.000, 2.000, 3.000, 4.000
-        ];
+    <label class="wear-row" for="wearToggle">
+      <input type="checkbox" id="wearToggle">
+      <span id="wearLabelText">Include wear / protection blocks</span>
+    </label>
 
-        // Initialize block availability (default: 1 per block)
-        let blockAvailability = {};
-        let blockChecked = {};
-        blockSet.forEach(block => {
-            blockAvailability[block] = 1;
-            blockChecked[block] = true;
-        });
+    <div class="collapsible-header" id="blockHeader" role="button" tabindex="0"
+      aria-controls="blockSelection" aria-expanded="false">
+      <span>Available blocks</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="block-selection" id="blockSelection"></div>
 
-        // Load saved settings from localStorage
-        function loadSavedSettings() {
-            try {
-                const savedAvailability = localStorage.getItem('blockAvailability');
-                const savedChecked = localStorage.getItem('blockChecked');
-                if (savedAvailability) {
-                    blockAvailability = JSON.parse(savedAvailability);
-                    blockSet.forEach(block => {
-                        if (!(block in blockAvailability)) {
-                            blockAvailability[block] = 1;
-                        }
-                    });
-                }
-                if (savedChecked) {
-                    blockChecked = JSON.parse(savedChecked);
-                    blockSet.forEach(block => {
-                        if (!(block in blockChecked)) {
-                            blockChecked[block] = true;
-                        }
-                    });
-                }
-                console.log('Loaded saved settings from localStorage');
-            } catch (e) {
-                console.error('Error loading settings:', e);
-            }
-        }
+    <div class="results" id="results" aria-live="polite"></div>
 
-        // Save settings to localStorage
-        function saveSettings() {
-            try {
-                localStorage.setItem('blockAvailability', JSON.stringify(blockAvailability));
-                localStorage.setItem('blockChecked', JSON.stringify(blockChecked));
-                console.log('Settings saved to localStorage');
-            } catch (e) {
-                console.error('Error saving settings:', e);
-            }
-        }
+    <div class="footer">Made by Nicholas Duncan 2025</div>
+  </div>
 
-        // Populate block selection asynchronously
-        const blockSelection = document.getElementById('blockSelection');
-        function populateBlocks() {
-            try {
-                loadSavedSettings();
-                blockSelection.innerHTML = `
-                    <div class="input-section">
-                        <button class="button" id="selectAllBtn">Select All</button>
-                        <button class="button button-secondary" id="deselectAllBtn">Deselect All</button>
-                    </div>
-                `;
-                blockSet.forEach(block => {
-                    const div = document.createElement('div');
-                    div.className = 'block-item';
-                    div.innerHTML = `
-                        <input type="checkbox" id="block-${block}" value="${block}" ${blockChecked[block] ? 'checked' : ''} aria-label="Block size ${block} inches">
-                        <label for="block-${block}">${block} inches</label>
-                        <select class="block-count" id="count-${block}" ${blockChecked[block] ? '' : 'disabled'} aria-label="Number of ${block} inch blocks available">
-                            <option value="1" ${blockAvailability[block] === 1 ? 'selected' : ''}>1</option>
-                            <option value="2" ${blockAvailability[block] === 2 ? 'selected' : ''}>2</option>
-                            <option value="3" ${blockAvailability[block] === 3 ? 'selected' : ''}>3</option>
-                            <option value="4" ${blockAvailability[block] === 4 ? 'selected' : ''}>4</option>
-                            <option value="5" ${blockAvailability[block] === 5 ? 'selected' : ''}>5</option>
-                        </select>
-                    `;
-                    blockSelection.appendChild(div);
-                });
-                console.log('Blocks populated successfully');
-
-                // Attach event listeners for buttons
-                const selectAllBtn = document.getElementById('selectAllBtn');
-                const deselectAllBtn = document.getElementById('deselectAllBtn');
-
-                selectAllBtn.addEventListener('click', () => {
-                    try {
-                        blockSet.forEach(block => {
-                            const checkbox = document.getElementById(`block-${block}`);
-                            const countSelect = document.getElementById(`count-${block}`);
-                            checkbox.checked = true;
-                            countSelect.value = 5;
-                            countSelect.disabled = false;
-                            blockAvailability[block] = 5;
-                            blockChecked[block] = true;
-                        });
-                        saveSettings();
-                        updateAvailableBlocks();
-                        const target = parseFloat(targetInput.value) || 0;
-                        updateResults(target);
-                        console.log('Select All clicked');
-                    } catch (e) {
-                        console.error('Select all error:', e);
-                        document.getElementById('results').innerHTML = '<div class="error">Error selecting blocks. Please try again.</div>';
-                    }
-                });
-
-                deselectAllBtn.addEventListener('click', () => {
-                    try {
-                        blockSet.forEach(block => {
-                            const checkbox = document.getElementById(`block-${block}`);
-                            const countSelect = document.getElementById(`count-${block}`);
-                            checkbox.checked = false;
-                            countSelect.value = 1;
-                            countSelect.disabled = true;
-                            blockAvailability[block] = 0;
-                            blockChecked[block] = false;
-                        });
-                        saveSettings();
-                        updateAvailableBlocks();
-                        const target = parseFloat(targetInput.value) || 0;
-                        updateResults(target);
-                        console.log('Deselect All clicked');
-                    } catch (e) {
-                        console.error('Deselect all error:', e);
-                        document.getElementById('results').innerHTML = '<div class="error">Error deselecting blocks. Please try again.</div>';
-                    }
-                });
-
-                // Attach event listeners for count dropdowns
-                blockSet.forEach(block => {
-                    const countSelect = document.getElementById(`count-${block}`);
-                    countSelect.addEventListener('change', () => {
-                        try {
-                            const value = parseInt(countSelect.value);
-                            blockAvailability[block] = value;
-                            const checkbox = document.getElementById(`block-${block}`);
-                            checkbox.checked = value > 0;
-                            blockChecked[block] = checkbox.checked;
-                            countSelect.disabled = !checkbox.checked;
-                            saveSettings();
-                            updateAvailableBlocks();
-                            const target = parseFloat(targetInput.value) || 0;
-                            updateResults(target);
-                            console.log(`Count updated for block ${block}: ${value}`);
-                        } catch (e) {
-                            console.error('Count select error:', e);
-                            document.getElementById('results').innerHTML = '<div class="error">Error updating block count. Please try again.</div>';
-                        }
-                    });
-                });
-            } catch (e) {
-                console.error('Error populating blocks:', e);
-                document.getElementById('results').innerHTML = '<div class="error">Error loading block selection. Please refresh.</div>';
-            }
-        }
-        setTimeout(populateBlocks, 0);
-
-        // Update available blocks based on checkboxes and counts
-        let availableBlocks = [];
-        function updateAvailableBlocks() {
-            availableBlocks = [];
-            blockSet.forEach(block => {
-                const checkbox = document.getElementById(`block-${block}`);
-                const count = blockAvailability[block] || 0;
-                if (checkbox && checkbox.checked && count > 0) {
-                    for (let i = 0; i < count; i++) {
-                        availableBlocks.push(block);
-                    }
-                }
-            });
-            console.log('Available blocks updated:', availableBlocks);
-        }
-
-        // Subset sum respecting block availability, requiring exact matches, no stack size limit
-        function findCombinations(target, blocks) {
-            const results = [];
-            let iterations = 0;
-            const maxIterations = 100000;
-
-            function subsetSum(blocks, target, partial = [], blockCounts = {}, partialSum = 0, index = 0) {
-                if (iterations > maxIterations) return;
-                iterations++;
-                const roundedSum = Math.round(partialSum * 10000) / 10000;
-                const roundedTarget = Math.round(target * 10000) / 10000;
-                if (roundedSum === roundedTarget && partial.length > 0) {
-                    results.push([...partial]);
-                    return;
-                }
-                if (roundedSum > roundedTarget || index >= blocks.length) return;
-
-                const block = blocks[index];
-                const count = blockCounts[block] || 0;
-                const maxCount = blockAvailability[block] || 0;
-                if (count < maxCount) {
-                    blockCounts[block] = count + 1;
-                    subsetSum(blocks, target, [...partial, block], blockCounts, partialSum + block, index);
-                    blockCounts[block] = count;
-                }
-                subsetSum(blocks, target, partial, blockCounts, partialSum, index + 1);
-            }
-
-            try {
-                const sortedBlocks = [...new Set(blocks)].sort((a, b) => b - a);
-                subsetSum(sortedBlocks, target, [], {}, 0, 0);
-                console.log(`Combinations found: ${results.length}, iterations: ${iterations}`);
-                return results.sort((a, b) => a.length - b.length || a.reduce((s, n) => s + n, 0) - b.reduce((s, n) => s + n, 0));
-            } catch (e) {
-                console.error('Calculation error:', e);
-                return [];
-            }
-        }
-
-        // Verify math
-        function verifyMath(combination, target) {
-            try {
-                const sum = combination.reduce((a, b) => a + Number(b), 0);
-                const roundedSum = Math.round(sum * 10000) / 10000;
-                const roundedTarget = Math.round(target * 10000) / 10000;
-                return roundedSum === roundedTarget ? '✓ Verified' : '✗ Error';
-            } catch (e) {
-                console.error('Verification error:', e);
-                return '✗ Error';
-            }
-        }
-
-        // Update results
-        function updateResults(target) {
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = '<div class="loading">Calculating...</div>';
-
-            setTimeout(() => {
-                try {
-                    resultsDiv.innerHTML = '';
-                    if (!target || target <= 0) {
-                        resultsDiv.innerHTML = '<div class="error">Please enter a dimension greater than 0 inches</div>';
-                        return;
-                    }
-
-                    updateAvailableBlocks();
-                    if (availableBlocks.length === 0) {
-                        resultsDiv.innerHTML = '<div class="error">No blocks available. Please select at least one block with availability.</div>';
-                        return;
-                    }
-
-                    const combinations = findCombinations(target, availableBlocks);
-                    if (combinations.length === 0) {
-                        resultsDiv.innerHTML = '<div class="error">No exact combinations found. Try selecting more blocks or increasing availability.</div>';
-                        return;
-                    }
-
-                    if (combinations.length < 5) {
-                        resultsDiv.innerHTML = '<div class="error">Only ' + combinations.length + ' exact combination(s) found. Try selecting more blocks or increasing availability.</div>';
-                    }
-
-                    combinations.forEach((combo, index) => {
-                        const sum = combo.reduce((a, b) => a + Number(b), 0).toFixed(4);
-                        const verification = verifyMath(combo, target);
-                        const div = document.createElement('div');
-                        div.className = 'combination';
-                        div.innerHTML = `
-                            <strong>Combination ${index + 1}:</strong> ${combo.join(' + ')} = ${sum} inches (${verification})
-                        `;
-                        resultsDiv.appendChild(div);
-                    });
-                } catch (e) {
-                    resultsDiv.innerHTML = '<div class="error">Error calculating combinations. Please try again.</div>';
-                    console.error('Update error:', e);
-                }
-            }, 0);
-        }
-
-        // Debounce function
-        function debounce(func, wait) {
-            let timeout;
-            return function (...args) {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => func.apply(this, args), wait);
-            };
-        }
-
-        // Collapsible block selection
-        const blockHeader = document.getElementById('blockHeader');
-        blockHeader.addEventListener('click', () => {
-            try {
-                blockSelection.classList.toggle('open');
-                blockHeader.querySelector('span:last-child').textContent = blockSelection.classList.contains('open') ? '▲' : '▼';
-                console.log('Collapsible toggled');
-            } catch (e) {
-                console.error('Collapsible toggle error:', e);
-            }
-        });
-
-        // Handle input and checkbox changes
-        const targetInput = document.getElementById('target');
-        const debouncedUpdate = debounce((target) => {
-            updateResults(target);
-        }, 500);
-        targetInput.addEventListener('input', () => {
-            try {
-                const target = parseFloat(targetInput.value);
-                debouncedUpdate(target);
-                console.log('Input updated:', target);
-            } catch (e) {
-                console.error('Input error:', e);
-                document.getElementById('results').innerHTML = '<div class="error">Invalid input. Please try again.</div>';
-            }
-        });
-
-        blockSelection.addEventListener('change', (e) => {
-            try {
-                if (e.target.type === 'checkbox') {
-                    const block = parseFloat(e.target.value);
-                    const countSelect = document.getElementById(`count-${block}`);
-                    countSelect.disabled = !e.target.checked;
-                    blockChecked[block] = e.target.checked;
-                    if (!e.target.checked) {
-                        countSelect.value = 1;
-                        blockAvailability[block] = 0;
-                    } else if (blockAvailability[block] === 0) {
-                        countSelect.value = 1;
-                        blockAvailability[block] = 1;
-                    }
-                    saveSettings();
-                    updateAvailableBlocks();
-                    const target = parseFloat(targetInput.value) || 0;
-                    updateResults(target);
-                    console.log(`Checkbox changed for block ${block}: ${e.target.checked}`);
-                }
-            } catch (e) {
-                console.error('Checkbox change error:', e);
-                document.getElementById('results').innerHTML = '<div class="error">Error updating blocks. Please try again.</div>';
-            }
-        });
-
-        // Log successful load
-        console.log('Page loaded successfully');
-    </script>
+  <script src="algorithm.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
