@@ -5,14 +5,10 @@ Affiliate UI is live (Recommended gear panel + Amazon disclosure). Calculator st
 ## This week’s actions
 
 ### 1. Amazon Associates
-1. Sign up: https://affiliate-program.amazon.com/
-2. After approval, copy your tracking ID (e.g. `gageblockcalc-20`).
-3. Set it in `affiliate-config.js`:
-   ```js
-   amazonTag: 'gageblockcalc-20',  // was ''
-   ```
-4. Redeploy / bump SW cache so clients pick up the new file.
-5. Until `amazonTag` is set, Amazon search links still open without `tag=` (no commission).
+- **Live:** `amazonTag: 'gageblockcalc-20'` in `affiliate-config.js`.
+- Inch-81 uses ASIN `B002SG7QRY` when available; other sets use tuned Mitutoyo search queries.
+- After any config change: bump `sw.js` CACHE and redeploy so PWAs refresh.
+- Sign-up reference: https://affiliate-program.amazon.com/
 
 ### 2. Precision Engineering Supply partner
 - Partner page: https://precisionengineeringsupply.com/pages/partner-with-us

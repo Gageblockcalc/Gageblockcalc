@@ -3,6 +3,14 @@
 Compared to the live site at https://gageblockcalc.com (single-file imperial 81-piece app).
 
 
+## 2026-09-28 — Affiliate conversion + buyer FAQ
+
+- Stronger Amazon search queries (Mitutoyo + piece count); ASIN deep link for inch-81 (`B002SG7QRY`) with search fallback.
+- Clearer shop CTAs (“on Amazon →”); button-style affiliate links; post-result “Need this set?” nudge.
+- FAQ section + FAQPage JSON-LD (what set to buy, wear blocks, stone, free calculator).
+- Dealer link hides if `dealerUrl` empty; disclosure echoed in panel note.
+- SW cache `gageblockcalc-v8`.
+
 ## 2026-09-28 — Affiliate monetization UI
 - Compact **Need blocks?** panel after results (Amazon search for selected set, wear blocks, wringing stone; optional Precision Engineering Supply dealer link).
 - `affiliate-config.js`: empty `amazonTag` until Associates ID is set; links work without tag.

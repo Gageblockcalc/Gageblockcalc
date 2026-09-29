@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Free gage block calculator: enter a target size and get the shortest stack for inch 81/36/28-piece and metric 112/88-piece sets. Wear blocks, shop ticket, and offline PWA.">
-  <meta name="keywords" content="gage block calculator, gauge block calculator, gage block stack, slip gauge calculator, inch gage blocks, metric gage blocks">
+  <meta name="description" content="Free gage block calculator: enter a target size and get the shortest stack for inch 81/36/28-piece and metric 112/88-piece sets. Wear blocks, shop ticket, offline PWA — plus links to buy Mitutoyo-style sets.">
+  <meta name="keywords" content="gage block calculator, gauge block calculator, gage block stack, slip gauge calculator, inch gage blocks, metric gage blocks, buy gage block set, Mitutoyo gage blocks, wear blocks, gage block stone">
   <meta name="theme-color" content="#0d6efd">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -32,6 +32,46 @@
     "operatingSystem": "Any",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
     "author": { "@type": "Person", "name": "Nicholas Duncan" }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What gage block set should I buy?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "An 81-piece inch rectangular set (Mitutoyo or Starrett style) covers most shop work in 0.0001\" steps. A 36-piece set is a lighter kit for coarser targets. Metric shops usually start with a 112-piece or 88-piece set. Use this free calculator with your set size, then shop a matching set if you need one."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are wear or protection blocks?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Wear blocks are sacrificial end blocks (commonly 2×0.050\" inch or 2×1 mm metric) wrung on the outside of a stack so working faces take the contact wear instead of your precision set. Enable the wear toggle here so the stack total includes them."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need a gage block stone?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A serrated gage block stone removes light nicks and burrs so blocks wring again. It does not replace damaged blocks. Keep the stone clean; grit on the stone can lap and change size."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this gage block calculator free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The core stack calculator stays free and ungated. Optional Amazon product links may earn a commission as an Amazon Associate."
+        }
+      }
+    ]
   }
   </script>
   <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
@@ -324,6 +364,33 @@
     .howto p { margin: 0 0 8px; color: var(--muted); }
     .howto p:last-child { margin-bottom: 0; }
 
+    .howto details {
+      margin: 0 0 8px;
+      padding: 8px 10px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .howto details:last-child { margin-bottom: 0; }
+
+    .howto summary {
+      cursor: pointer;
+      font-weight: 600;
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+      list-style: none;
+    }
+
+    .howto summary::-webkit-details-marker { display: none; }
+
+    .howto details p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
     .footer {
       text-align: center;
       color: var(--muted);
@@ -450,12 +517,35 @@
       text-decoration: none;
       font-weight: 600;
       line-height: 1.35;
-      min-height: 36px;
-      display: inline-flex;
+      min-height: 40px;
+      display: flex;
       align-items: center;
+      padding: 8px 12px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
     }
 
-    .affiliate-links a:hover { text-decoration: underline; color: var(--primary-hover); }
+    .affiliate-links a:hover {
+      text-decoration: none;
+      color: var(--primary-hover);
+      border-color: var(--primary);
+      background: #f0f6ff;
+    }
+
+    .result-shop-cta {
+      text-align: center;
+      margin: 4px 0 8px;
+      font-size: 0.92rem;
+    }
+
+    .result-shop-cta a {
+      color: var(--primary);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .result-shop-cta a:hover { text-decoration: underline; color: var(--primary-hover); }
 
     .affiliate-note {
       margin: 8px 0 0;
@@ -484,7 +574,8 @@
       .collapsible-header,
       .block-selection,
       .wear-row,
-      .affiliate-panel {
+      .affiliate-panel,
+      .result-shop-cta {
         display: none !important;
       }
 
@@ -581,13 +672,13 @@
 
     <div class="results" id="results" aria-live="polite"></div>
 
-    <aside class="affiliate-panel no-print" id="affiliatePanel" aria-label="Recommended gear">
-      <h2>Need blocks?</h2>
+    <aside class="affiliate-panel no-print" id="affiliatePanel" aria-label="Shop gage blocks">
+      <h2 id="affiliatePanelTitle">Shop gage blocks for this set</h2>
       <ul class="affiliate-links" id="affiliateLinks">
-        <li><a id="affSetLink" href="#" target="_blank" rel="noopener sponsored">Buy gage block set</a></li>
-        <li><a id="affWearLink" href="#" target="_blank" rel="noopener sponsored">Buy wear / protection blocks</a></li>
-        <li><a id="affAccessoriesLink" href="#" target="_blank" rel="noopener sponsored">Accessories (wringing stone)</a></li>
-        <li><a id="affDealerLink" href="#" target="_blank" rel="noopener">Shop Precision Engineering Supply</a></li>
+        <li><a id="affSetLink" href="#" target="_blank" rel="noopener sponsored">Buy gage block set on Amazon →</a></li>
+        <li><a id="affWearLink" href="#" target="_blank" rel="noopener sponsored">Buy wear / protection blocks on Amazon →</a></li>
+        <li><a id="affAccessoriesLink" href="#" target="_blank" rel="noopener sponsored">Buy a gage block stone on Amazon →</a></li>
+        <li><a id="affDealerLink" href="#" target="_blank" rel="noopener">Shop Precision Engineering Supply →</a></li>
       </ul>
       <p class="affiliate-note" id="affiliateNote"></p>
     </aside>
@@ -617,9 +708,29 @@
       <p>Works offline as an installable app. Built for toolrooms, QC, and hobby CNC.</p>
     </section>
 
+    <section class="howto no-print" id="faq" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">Gage block FAQ</h2>
+      <details>
+        <summary>What gage block set should I buy?</summary>
+        <p>An <strong>81-piece inch</strong> rectangular set (Mitutoyo / Starrett style) covers most shop work in 0.0001&quot; steps. A <strong>36-piece</strong> kit is lighter for coarser targets; <strong>28-piece</strong> thin sets fill tiny steps. Metric shops usually start with <strong>112</strong> or <strong>88</strong> pieces. Pick your set above, build stacks here for free, then use the shop links if you need to buy one.</p>
+      </details>
+      <details>
+        <summary>What are wear / protection blocks?</summary>
+        <p>Sacrificial end blocks (commonly <strong>2×0.050&quot;</strong> or <strong>2×1&nbsp;mm</strong>) wrung on the outside of a stack so contact wear hits them instead of your precision set. Turn on the wear toggle so the calculator includes them in the total.</p>
+      </details>
+      <details>
+        <summary>Do I need a gage block stone?</summary>
+        <p>A serrated gage block stone knocks down light nicks and burrs so blocks wring again. Keep it clean — grit on the stone can lap and change size. It does not replace badly damaged blocks.</p>
+      </details>
+      <details>
+        <summary>Is this calculator free?</summary>
+        <p>Yes. The core stack builder stays free and ungated. Optional Amazon links may earn a commission (Amazon Associates).</p>
+      </details>
+    </section>
+
     <div class="footer">
       <span class="disclosure">As an Amazon Associate I earn from qualifying purchases.</span>
-      Made by Nicholas Duncan 2025
+      Made by Nicholas Duncan 2026
     </div>
   </div>
 

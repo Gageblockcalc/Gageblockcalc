@@ -334,7 +334,7 @@
       line +
       '</dd>' +
       '</dl>' +
-      '<p class="ticket-footer">Made by Nicholas Duncan 2025</p>' +
+      '<p class="ticket-footer">Made by Nicholas Duncan 2026</p>' +
       '</div>';
     document.body.classList.add('printing-ticket');
     const cleanup = () => {
@@ -348,11 +348,20 @@
   }
 
 
+  function setShopHref() {
+    const A = globalThis.GageBlockAffiliate;
+    if (!A) return '#';
+    const setDef = currentSet();
+    if (typeof A.setShopUrl === 'function') {
+      return A.setShopUrl(setDef.id || state.setId, setDef.name);
+    }
+    return A.amazonSearchUrl(A.gageBlockSetQuery(setDef.name, setDef.id || state.setId));
+  }
+
   function updateAffiliatePanel() {
     const A = globalThis.GageBlockAffiliate;
     if (!A) return;
     const setDef = currentSet();
-    const setQ = A.gageBlockSetQuery(setDef.name);
     const wearQ = A.wearBlocksQuery(setDef.unitLabel);
     const accQ = A.accessoriesQuery();
 
@@ -361,28 +370,43 @@
     const accLink = $('#affAccessoriesLink');
     const dealerLink = $('#affDealerLink');
     const note = $('#affiliateNote');
+    const panelTitle = $('#affiliatePanelTitle');
 
+    if (panelTitle) {
+      panelTitle.textContent = 'Shop gage blocks for this set';
+    }
     if (setLink) {
-      setLink.href = A.amazonSearchUrl(setQ);
-      setLink.textContent = 'Buy ' + setDef.name + ' gage block set';
+      setLink.href = setShopHref();
+      setLink.textContent = 'Buy ' + setDef.name + ' set on Amazon →';
     }
     if (wearLink) {
       wearLink.href = A.amazonSearchUrl(wearQ);
-      wearLink.textContent = 'Buy wear / protection blocks';
+      wearLink.textContent =
+        setDef.unitLabel === 'mm'
+          ? 'Buy 1 mm wear / protection blocks on Amazon →'
+          : 'Buy 0.050" wear / protection blocks on Amazon →';
     }
     if (accLink) {
       accLink.href = A.amazonSearchUrl(accQ);
-      accLink.textContent = 'Accessories (wringing stone)';
+      accLink.textContent = 'Buy a gage block stone (wringing) on Amazon →';
     }
     if (dealerLink) {
-      dealerLink.href = A.dealerUrl || 'https://precisionengineeringsupply.com/';
-      dealerLink.textContent = 'Shop ' + (A.dealerLabel || 'Precision Engineering Supply');
-      dealerLink.rel = 'noopener';
+      const dealerUrl = (A.dealerUrl || '').trim();
+      if (!dealerUrl) {
+        dealerLink.hidden = true;
+        dealerLink.removeAttribute('href');
+      } else {
+        dealerLink.hidden = false;
+        dealerLink.href = dealerUrl;
+        dealerLink.textContent =
+          'Shop ' + (A.dealerLabel || 'Precision Engineering Supply') + ' →';
+        dealerLink.rel = 'noopener';
+      }
     }
     if (note) {
       const tag = (A.amazonTag || '').trim();
       note.textContent = tag
-        ? 'Amazon links may earn a commission. Calculator stays free.'
+        ? 'As an Amazon Associate I earn from qualifying purchases. Calculator stays free.'
         : 'Amazon search links (Associates tag not set yet). Calculator stays free.';
     }
   }
@@ -509,6 +533,19 @@
           div.appendChild(actions);
           frag.appendChild(div);
         });
+
+        const A = globalThis.GageBlockAffiliate;
+        if (A && stacks.length) {
+          const cta = document.createElement('p');
+          cta.className = 'result-shop-cta no-print';
+          const a = document.createElement('a');
+          a.href = setShopHref();
+          a.target = '_blank';
+          a.rel = 'noopener sponsored';
+          a.textContent = 'Need this set? Buy ' + setDef.name + ' on Amazon →';
+          cta.appendChild(a);
+          frag.appendChild(cta);
+        }
 
         results.innerHTML = '';
         results.appendChild(frag);
