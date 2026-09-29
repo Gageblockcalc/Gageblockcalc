@@ -2,6 +2,15 @@
 
 Compared to the live site at https://gageblockcalc.com (single-file imperial 81-piece app).
 
+
+## 2026-09-28 — Product polish
+- **Copy stack** on each combination (clipboard line with ✓).
+- **Share** via `navigator.share` when available, else copy; includes target + stack.
+- **Print ticket** shop view: target, set name, date/time, block list + stack; `@media print` hides install bars/chrome.
+- Primary (fewest-block) result highlighted with Primary badge and Copy / Share / Print.
+- **Inch 28-piece** thin set (Starrett RC 28 / Mitutoyo): `.02005`, `.0201–.0209`, `.021–.029`, `.010–.090` (0.00001" units).
+- **Metric 88-piece** (Mitutoyo 516-style): `1.0005`, `1.001–1.009`, `1.01–1.49`, `0.5–9.5`, `10–100×10`.
+
 ## Algorithm
 - Replaced brute-force subset-sum (100k iteration cap) with the classic **digit-by-digit / minimum-block** method used for gage block stacks.
 - Scores candidates by trailing-zero remainder and the Starrett “leave 0 or 5” heuristic; shallow backtrack if the greedy pick fails (e.g. missing blocks).

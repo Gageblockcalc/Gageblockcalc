@@ -36,12 +36,34 @@ function buildSets() {
   const inch36Unique = [...new Set(inch36.map((x) => +x.toFixed(4)))];
 
   // Mitutoyo Series 516 metric 112-piece (1 mm base)
+  // Composition: 1.0005; 1.001–1.009 ×0.001 (9); 1.01–1.49 ×0.01 (49);
+  //              0.5–24.5 ×0.5 (49); 25, 50, 75, 100 (4) → 112
   const metric112 = [1.0005];
   for (let i = 1; i <= 9; i++) metric112.push(+(1 + i * 0.001).toFixed(3));
   for (let i = 1; i <= 49; i++) metric112.push(+(1 + i * 0.01).toFixed(2));
   for (let i = 1; i <= 49; i++) metric112.push(+(i * 0.5).toFixed(1));
   metric112.push(25, 50, 75, 100);
   const metric112Unique = [...new Set(metric112.map((x) => +x.toFixed(4)))];
+
+  // Starrett / Mitutoyo common inch 28-piece thin set (RC 28 / Series 516)
+  // Composition: 0.02005 (1); 0.0201–0.0209 ×0.0001 (9); 0.021–0.029 ×0.001 (9);
+  //              0.010–0.090 ×0.010 (9) → 28
+  // Measuring range ~0.020–0.240"; needs 0.00001" working units for .02005
+  const inch28 = [0.02005];
+  for (let i = 1; i <= 9; i++) inch28.push(+(0.02 + i * 0.0001).toFixed(4));
+  for (let i = 1; i <= 9; i++) inch28.push(+(0.02 + i * 0.001).toFixed(3));
+  for (let i = 1; i <= 9; i++) inch28.push(+(i * 0.01).toFixed(2));
+  const inch28Unique = [...new Set(inch28.map((x) => +x.toFixed(5)))];
+
+  // Mitutoyo Series 516 metric 88-piece (1 mm base)
+  // Composition: 1.0005 (1); 1.001–1.009 ×0.001 (9); 1.01–1.49 ×0.01 (49);
+  //              0.5–9.5 ×0.5 (19); 10–100 ×10 (10) → 88
+  const metric88 = [1.0005];
+  for (let i = 1; i <= 9; i++) metric88.push(+(1 + i * 0.001).toFixed(3));
+  for (let i = 1; i <= 49; i++) metric88.push(+(1 + i * 0.01).toFixed(2));
+  for (let i = 1; i <= 19; i++) metric88.push(+(i * 0.5).toFixed(1));
+  for (let i = 1; i <= 10; i++) metric88.push(i * 10);
+  const metric88Unique = [...new Set(metric88.map((x) => +x.toFixed(4)))];
 
   return {
     'inch-81': {
@@ -68,6 +90,18 @@ function buildSets() {
       wearSize: 0.05,
       verifyTol: 0.0001,
     },
+    'inch-28': {
+      id: 'inch-28',
+      name: 'Inch 28-piece',
+      note: 'Starrett/Mitutoyo thin set: .02005, .0201–.0209, .021–.029, .010–.090 (range ~.020–.240")',
+      unitLabel: 'in',
+      unitName: 'inches',
+      decimals: 5,
+      unitScale: 100000,
+      sizes: inch28Unique,
+      wearSize: 0.05,
+      verifyTol: 0.00005,
+    },
     'metric-112': {
       id: 'metric-112',
       name: 'Metric 112-piece',
@@ -77,6 +111,18 @@ function buildSets() {
       decimals: 4,
       unitScale: 10000,
       sizes: metric112Unique,
+      wearSize: 1.0,
+      verifyTol: 0.001,
+    },
+    'metric-88': {
+      id: 'metric-88',
+      name: 'Metric 88-piece',
+      note: 'Mitutoyo-style 1 mm base: 1.0005, 1.001–1.009, 1.01–1.49, 0.5–9.5, 10–100×10',
+      unitLabel: 'mm',
+      unitName: 'mm',
+      decimals: 4,
+      unitScale: 10000,
+      sizes: metric88Unique,
       wearSize: 1.0,
       verifyTol: 0.001,
     },
@@ -98,7 +144,13 @@ function defaultAvailability(setDef) {
 }
 
 function keyOf(size) {
-  return String(+Number(size).toFixed(4));
+  const n = Number(size);
+  // Preserve half-tenths / half-microns that need 5 decimals
+  if (Math.abs(n * 100000 - Math.round(n * 100000)) < 1e-6 &&
+      Math.abs(n * 10000 - Math.round(n * 10000)) > 1e-6) {
+    return String(+n.toFixed(5));
+  }
+  return String(+n.toFixed(4));
 }
 
 function applyWearAvailability(avail, setDef, useWear) {
@@ -383,10 +435,17 @@ function findStacks(target, setDef, avail, useWear = false) {
 
 function formatSize(size, setDef) {
   const n = Number(size);
+  const dec = setDef.decimals || 4;
   if (setDef.unitLabel === 'mm') {
     if (Math.abs(n - 1.0005) < 1e-9) return '1.0005';
-    let s = n.toFixed(4).replace(/\.?0+$/, '');
+    let s = n.toFixed(dec).replace(/\.?0+$/, '');
     return s;
+  }
+  // Inch thin-set half-tenth
+  if (Math.abs(n - 0.02005) < 1e-12) return '0.02005';
+  if (dec >= 5) {
+    const fixed5 = n.toFixed(5);
+    if (/\.\d{4}[1-9]$/.test(fixed5)) return fixed5;
   }
   const fixed = n.toFixed(4);
   if (/\.\d{3}[1-9]$/.test(fixed)) return fixed;

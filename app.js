@@ -211,6 +211,142 @@
     };
   }
 
+  function stackLine(stack, target, setDef, ok) {
+    const unit = setDef.unitLabel === 'mm' ? 'mm' : 'in';
+    const parts = stack.map((s) => formatSize(s, setDef)).join(' + ');
+    const sum = stack.reduce((a, b) => a + Number(b), 0);
+    const sumStr = formatSize(sum, setDef);
+    const mark = ok ? ' ✓' : '';
+    return parts + ' = ' + sumStr + ' ' + unit + mark;
+  }
+
+  function shareText(stack, target, setDef, ok) {
+    const unit = setDef.unitLabel === 'mm' ? 'mm' : 'in';
+    const targetStr = formatSize(target, setDef);
+    return (
+      'Gage block stack — target ' +
+      targetStr +
+      ' ' +
+      unit +
+      ' (' +
+      setDef.name +
+      ')\n' +
+      stackLine(stack, target, setDef, ok)
+    );
+  }
+
+  function flashCopied(btn) {
+    const prev = btn.textContent;
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = prev;
+      btn.classList.remove('copied');
+      btn.disabled = false;
+    }, 1200);
+  }
+
+  async function copyText(text, btn) {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      if (btn) flashCopied(btn);
+    } catch (e) {
+      console.warn('Copy failed', e);
+      if (btn) {
+        btn.textContent = 'Failed';
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+        }, 1200);
+      }
+    }
+  }
+
+  async function shareStack(stack, target, setDef, ok, btn) {
+    const text = shareText(stack, target, setDef, ok);
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: 'Gage Block Stack', text: text });
+        return;
+      } catch (e) {
+        if (e && e.name === 'AbortError') return;
+      }
+    }
+    await copyText(text, btn);
+  }
+
+  function formatTicketDate(d) {
+    try {
+      return d.toLocaleString(undefined, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+      });
+    } catch (_) {
+      return d.toISOString();
+    }
+  }
+
+  function printTicket(stack, target, setDef, ok) {
+    const unit = setDef.unitLabel === 'mm' ? 'mm' : 'in';
+    const ticket = $('#printTicket');
+    if (!ticket) {
+      window.print();
+      return;
+    }
+    const line = stackLine(stack, target, setDef, ok);
+    const blocks = stack
+      .map((s) => '<li>' + formatSize(s, setDef) + ' ' + unit + '</li>')
+      .join('');
+    ticket.innerHTML =
+      '<div class="ticket-inner">' +
+      '<h2>Gage Block Ticket</h2>' +
+      '<dl>' +
+      '<dt>Target</dt><dd>' +
+      formatSize(target, setDef) +
+      ' ' +
+      unit +
+      '</dd>' +
+      '<dt>Set</dt><dd>' +
+      setDef.name +
+      '</dd>' +
+      '<dt>Date</dt><dd>' +
+      formatTicketDate(new Date()) +
+      '</dd>' +
+      '<dt>Blocks</dt><dd><ul class="ticket-blocks">' +
+      blocks +
+      '</ul></dd>' +
+      '<dt>Stack</dt><dd class="ticket-stack">' +
+      line +
+      '</dd>' +
+      '</dl>' +
+      '<p class="ticket-footer">Made by Nicholas Duncan 2025</p>' +
+      '</div>';
+    document.body.classList.add('printing-ticket');
+    const cleanup = () => {
+      document.body.classList.remove('printing-ticket');
+      window.removeEventListener('afterprint', cleanup);
+    };
+    window.addEventListener('afterprint', cleanup);
+    window.print();
+    // Fallback if afterprint never fires
+    setTimeout(cleanup, 2000);
+  }
+
   function renderResults(target) {
     const results = $('#results');
     const setDef = currentSet();
@@ -254,7 +390,8 @@
             : 'Fallback search · ') +
           stacks.length +
           ' combination' +
-          (stacks.length > 1 ? 's' : '');
+          (stacks.length > 1 ? 's' : '') +
+          ' · fewest blocks first';
         frag.appendChild(meta);
 
         stacks.forEach((stack, i) => {
@@ -262,13 +399,16 @@
           const ok = verifyStack(stack, target, setDef.verifyTol, setDef.unitScale);
           const parts = stack.map((s) => formatSize(s, setDef)).join(' + ');
           const sumStr = formatSize(sum, setDef);
+          const isPrimary = i === 0;
           const div = document.createElement('div');
-          div.className = 'combination';
-          div.innerHTML =
+          div.className = 'combination' + (isPrimary ? ' primary' : '');
+          div.dataset.index = String(i);
+
+          const head =
             '<div class="combo-head">' +
-            '<strong>#' +
-            (i + 1) +
-            '</strong>' +
+            (isPrimary
+              ? '<span class="badge primary-badge">Primary</span>'
+              : '<strong>#' + (i + 1) + '</strong>') +
             '<span class="badge">' +
             stack.length +
             ' block' +
@@ -278,7 +418,9 @@
             (ok ? 'ok' : 'bad') +
             '">' +
             (ok ? '✓ Verified' : '✗ Error') +
-            '</span></div>' +
+            '</span></div>';
+
+          const body =
             '<div class="combo-body">' +
             parts +
             ' = <strong>' +
@@ -286,6 +428,45 @@
             ' ' +
             unit +
             '</strong></div>';
+
+          const actions = document.createElement('div');
+          actions.className = 'combo-actions';
+
+          const copyBtn = document.createElement('button');
+          copyBtn.type = 'button';
+          copyBtn.className = 'button button-tiny';
+          copyBtn.textContent = 'Copy';
+          copyBtn.setAttribute('aria-label', 'Copy stack to clipboard');
+          copyBtn.addEventListener('click', () => {
+            copyText(stackLine(stack, target, setDef, ok), copyBtn);
+          });
+          actions.appendChild(copyBtn);
+
+          const shareBtn = document.createElement('button');
+          shareBtn.type = 'button';
+          shareBtn.className = 'button button-tiny button-secondary';
+          shareBtn.textContent = 'Share';
+          shareBtn.setAttribute(
+            'aria-label',
+            isPrimary ? 'Share primary stack' : 'Share stack'
+          );
+          shareBtn.addEventListener('click', () => {
+            shareStack(stack, target, setDef, ok, shareBtn);
+          });
+          actions.appendChild(shareBtn);
+
+          const printBtn = document.createElement('button');
+          printBtn.type = 'button';
+          printBtn.className = 'button button-tiny button-secondary';
+          printBtn.textContent = 'Print';
+          printBtn.setAttribute('aria-label', 'Print shop ticket');
+          printBtn.addEventListener('click', () => {
+            printTicket(stack, target, setDef, ok);
+          });
+          actions.appendChild(printBtn);
+
+          div.innerHTML = head + body;
+          div.appendChild(actions);
           frag.appendChild(div);
         });
 

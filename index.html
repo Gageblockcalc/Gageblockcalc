@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Gage block calculator for inch 81/36-piece and metric 112-piece sets. Classic digit-by-digit stacks with verification.">
+  <meta name="description" content="Gage block calculator for inch 81/36/28-piece and metric 112/88-piece sets. Classic digit-by-digit stacks with copy, share, and print ticket.">
   <meta name="theme-color" content="#0d6efd">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -329,6 +329,116 @@
     @media (display-mode: standalone) {
       .install-bar { display: none !important; }
     }
+
+    .combination.primary {
+      border-left-width: 5px;
+      border-left-color: var(--primary);
+      background: #f0f6ff;
+      box-shadow: 0 1px 4px rgba(13,110,253,0.12);
+    }
+
+    .badge.primary-badge {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .combo-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .button-tiny {
+      min-height: 34px;
+      padding: 5px 12px;
+      font-size: 0.85rem;
+    }
+
+    .button.copied {
+      background: var(--success);
+    }
+
+    .print-ticket {
+      display: none;
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        padding: 0;
+        display: block;
+      }
+
+      .install-bar,
+      .no-print,
+      .combo-actions,
+      .collapsible-header,
+      .block-selection,
+      .wear-row {
+        display: none !important;
+      }
+
+      body.printing-ticket .container {
+        display: none !important;
+      }
+
+      body.printing-ticket .print-ticket {
+        display: block !important;
+        width: 100%;
+        max-width: 480px;
+        margin: 0 auto;
+        padding: 24px;
+        color: #000;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      }
+
+      .ticket-inner h2 {
+        margin: 0 0 16px;
+        font-size: 1.35rem;
+        text-align: center;
+        border-bottom: 2px solid #000;
+        padding-bottom: 8px;
+      }
+
+      .ticket-inner dl {
+        margin: 0;
+      }
+
+      .ticket-inner dt {
+        font-weight: 700;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #444;
+        margin-top: 12px;
+      }
+
+      .ticket-inner dd {
+        margin: 2px 0 0;
+        font-size: 1.05rem;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .ticket-blocks {
+        margin: 4px 0 0;
+        padding-left: 1.2em;
+      }
+
+      .ticket-stack {
+        font-weight: 600;
+        word-break: break-word;
+      }
+
+      .ticket-footer {
+        margin-top: 24px;
+        text-align: center;
+        font-size: 0.8rem;
+        color: #555;
+        border-top: 1px solid #ccc;
+        padding-top: 10px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -374,6 +484,8 @@
 
     <div class="footer">Made by Nicholas Duncan 2025</div>
   </div>
+
+  <div class="print-ticket" id="printTicket" aria-hidden="true"></div>
 
   <script src="algorithm.js"></script>
   <script src="app.js"></script>
