@@ -3,14 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Gage block calculator for inch 81/36/28-piece and metric 112/88-piece sets. Classic digit-by-digit stacks with copy, share, and print ticket.">
+  <meta name="description" content="Free gage block calculator: enter a target size and get the shortest stack for inch 81/36/28-piece and metric 112/88-piece sets. Wear blocks, shop ticket, and offline PWA.">
+  <meta name="keywords" content="gage block calculator, gauge block calculator, gage block stack, slip gauge calculator, inch gage blocks, metric gage blocks">
   <meta name="theme-color" content="#0d6efd">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Gage Blocks">
-  <title>Gage Block Calculator</title>
+  <link rel="canonical" href="https://gageblockcalc.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://gageblockcalc.com/">
+  <meta property="og:title" content="Gage Block Calculator — Free Stack Builder">
+  <meta property="og:description" content="Build the shortest gage block stack for inch and metric sets. Free, fast, works offline.">
+  <meta property="og:image" content="https://gageblockcalc.com/icons/icon-512.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Gage Block Calculator — Free Stack Builder">
+  <meta name="twitter:description" content="Enter a target size; get the shortest gage block combination for common inch and metric sets.">
+  <title>Gage Block Calculator — Free Inch &amp; Metric Stack Builder</title>
   <link rel="manifest" href="/manifest.json">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Gage Block Calculator",
+    "url": "https://gageblockcalc.com/",
+    "description": "Free online calculator that builds the shortest gage block stack for a target dimension using common inch and metric sets.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "author": { "@type": "Person", "name": "Nicholas Duncan" }
+  }
+  </script>
   <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
   <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
   <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
@@ -267,6 +290,40 @@
       word-break: break-word;
     }
 
+    .tagline {
+      margin: -4px 0 4px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.35;
+    }
+
+    .howto {
+      margin-top: 4px;
+      padding: 14px 14px 12px;
+      background: var(--soft);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.92rem;
+      line-height: 1.45;
+      color: var(--text);
+    }
+
+    .howto h2 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+    }
+
+    .howto ol {
+      margin: 0 0 10px;
+      padding-left: 1.2rem;
+    }
+
+    .howto li { margin-bottom: 4px; }
+
+    .howto p { margin: 0 0 8px; color: var(--muted); }
+    .howto p:last-child { margin-bottom: 0; }
+
     .footer {
       text-align: center;
       color: var(--muted);
@@ -496,6 +553,7 @@
 <body>
   <div class="container">
     <h1>Gage Block Calculator</h1>
+    <p class="tagline">Free stack builder for inch and metric gage (gauge) block sets</p>
 
     <div>
       <label class="field-label" for="setSelect">Block set</label>
@@ -545,6 +603,19 @@
       <p>On iPhone/iPad: tap Share, then <strong>Add to Home Screen</strong>.</p>
       <button type="button" class="install-dismiss" id="iosTipDismiss" aria-label="Dismiss tip">×</button>
     </div>
+
+
+    <section class="howto no-print" id="how-to-build-a-gage-block-stack" aria-labelledby="howto-heading">
+      <h2 id="howto-heading">How to build a gage block stack</h2>
+      <ol>
+        <li>Choose your set (inch 81, 36, or 28; metric 112 or 88).</li>
+        <li>Enter the target dimension in the same unit as the set.</li>
+        <li>Optionally include wear / protection blocks so the working faces stay protected.</li>
+        <li>Read the primary (fewest-block) combination, then copy, share, or print a shop ticket.</li>
+      </ol>
+      <p>Gage blocks (also called gauge blocks or slip gauges) wring together into a precise length. This calculator uses the classic digit-by-digit method machinists learn in the shop: clear the rightmost digits first so you use as few blocks as possible.</p>
+      <p>Works offline as an installable app. Built for toolrooms, QC, and hobby CNC.</p>
+    </section>
 
     <div class="footer">
       <span class="disclosure">As an Amazon Associate I earn from qualifying purchases.</span>

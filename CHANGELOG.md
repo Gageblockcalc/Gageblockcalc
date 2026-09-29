@@ -56,3 +56,10 @@ Compared to the live site at https://gageblockcalc.com (single-file imperial 81-
 
 - Set `amazonTag` to `gageblockcalc-20` in `affiliate-config.js`.
 - Bump service worker cache to `gageblockcalc-v5`.
+
+## 2026-09-28 — SEO + Search Console prep
+
+- Stronger title/meta, canonical, Open Graph, JSON-LD WebApplication.
+- Tagline + “How to build a gage block stack” section for search intent.
+- Added `robots.txt`; refreshed `sitemap.xml`.
+- SW cache `gageblockcalc-v6`.
