@@ -51,3 +51,8 @@ Compared to the live site at https://gageblockcalc.com (single-file imperial 81-
 
 ## Credits
 - Footer unchanged: **Made by Nicholas Duncan 2025**
+
+## 2026-09-28 — Amazon Associates tag
+
+- Set `amazonTag` to `gageblockcalc-20` in `affiliate-config.js`.
+- Bump service worker cache to `gageblockcalc-v5`.

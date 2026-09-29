@@ -7,7 +7,7 @@
 (function (global) {
   const AFFILIATE = {
     /** Amazon Associates tracking ID — leave '' until Nick fills it */
-    amazonTag: '',
+    amazonTag: 'gageblockcalc-20',
 
     /**
      * Optional second dealer (non-Amazon). Label shown in UI.

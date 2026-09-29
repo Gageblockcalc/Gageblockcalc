@@ -6,10 +6,10 @@ Affiliate UI is live (Recommended gear panel + Amazon disclosure). Calculator st
 
 ### 1. Amazon Associates
 1. Sign up: https://affiliate-program.amazon.com/
-2. After approval, copy your tracking ID (e.g. `yoursite-20`).
+2. After approval, copy your tracking ID (e.g. `gageblockcalc-20`).
 3. Set it in `affiliate-config.js`:
    ```js
-   amazonTag: 'yoursite-20',  // was ''
+   amazonTag: 'gageblockcalc-20',  // was ''
    ```
 4. Redeploy / bump SW cache so clients pick up the new file.
 5. Until `amazonTag` is set, Amazon search links still open without `tag=` (no commission).
@@ -35,7 +35,7 @@ File: `affiliate-config.js` (loaded before `app.js`).
 
 ```js
 amazonTag: '',              // empty → Amazon search with no tag
-amazonTag: 'yoursite-20',   // after Associates approval → links include &tag=
+amazonTag: 'gageblockcalc-20',   // after Associates approval → links include &tag=
 ```
 
 Helper: `GageBlockAffiliate.amazonSearchUrl(keywords)` builds the URL.
