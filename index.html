@@ -363,6 +363,57 @@
       display: none;
     }
 
+
+    .affiliate-panel {
+      background: var(--soft);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 0.9rem;
+    }
+
+    .affiliate-panel h2 {
+      margin: 0 0 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .affiliate-links {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .affiliate-links a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      line-height: 1.35;
+      min-height: 36px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .affiliate-links a:hover { text-decoration: underline; color: var(--primary-hover); }
+
+    .affiliate-note {
+      margin: 8px 0 0;
+      font-size: 0.75rem;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .footer .disclosure {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.72rem;
+      line-height: 1.35;
+    }
+
     @media print {
       body {
         background: #fff;
@@ -375,7 +426,8 @@
       .combo-actions,
       .collapsible-header,
       .block-selection,
-      .wear-row {
+      .wear-row,
+      .affiliate-panel {
         display: none !important;
       }
 
@@ -471,6 +523,18 @@
 
     <div class="results" id="results" aria-live="polite"></div>
 
+    <aside class="affiliate-panel no-print" id="affiliatePanel" aria-label="Recommended gear">
+      <h2>Need blocks?</h2>
+      <ul class="affiliate-links" id="affiliateLinks">
+        <li><a id="affSetLink" href="#" target="_blank" rel="noopener sponsored">Buy gage block set</a></li>
+        <li><a id="affWearLink" href="#" target="_blank" rel="noopener sponsored">Buy wear / protection blocks</a></li>
+        <li><a id="affAccessoriesLink" href="#" target="_blank" rel="noopener sponsored">Accessories (wringing stone)</a></li>
+        <li><a id="affDealerLink" href="#" target="_blank" rel="noopener">Shop Precision Engineering Supply</a></li>
+      </ul>
+      <p class="affiliate-note" id="affiliateNote"></p>
+    </aside>
+
+
     <div class="install-bar" id="installPrompt" hidden>
       <p>Install this app for quick access offline.</p>
       <button type="button" class="button" id="installBtn">Install app</button>
@@ -482,12 +546,16 @@
       <button type="button" class="install-dismiss" id="iosTipDismiss" aria-label="Dismiss tip">×</button>
     </div>
 
-    <div class="footer">Made by Nicholas Duncan 2025</div>
+    <div class="footer">
+      <span class="disclosure">As an Amazon Associate I earn from qualifying purchases.</span>
+      Made by Nicholas Duncan 2025
+    </div>
   </div>
 
   <div class="print-ticket" id="printTicket" aria-hidden="true"></div>
 
   <script src="algorithm.js"></script>
+  <script src="affiliate-config.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

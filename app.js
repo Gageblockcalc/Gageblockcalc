@@ -347,6 +347,46 @@
     setTimeout(cleanup, 2000);
   }
 
+
+  function updateAffiliatePanel() {
+    const A = globalThis.GageBlockAffiliate;
+    if (!A) return;
+    const setDef = currentSet();
+    const setQ = A.gageBlockSetQuery(setDef.name);
+    const wearQ = A.wearBlocksQuery(setDef.unitLabel);
+    const accQ = A.accessoriesQuery();
+
+    const setLink = $('#affSetLink');
+    const wearLink = $('#affWearLink');
+    const accLink = $('#affAccessoriesLink');
+    const dealerLink = $('#affDealerLink');
+    const note = $('#affiliateNote');
+
+    if (setLink) {
+      setLink.href = A.amazonSearchUrl(setQ);
+      setLink.textContent = 'Buy ' + setDef.name + ' gage block set';
+    }
+    if (wearLink) {
+      wearLink.href = A.amazonSearchUrl(wearQ);
+      wearLink.textContent = 'Buy wear / protection blocks';
+    }
+    if (accLink) {
+      accLink.href = A.amazonSearchUrl(accQ);
+      accLink.textContent = 'Accessories (wringing stone)';
+    }
+    if (dealerLink) {
+      dealerLink.href = A.dealerUrl || 'https://precisionengineeringsupply.com/';
+      dealerLink.textContent = 'Shop ' + (A.dealerLabel || 'Precision Engineering Supply');
+      dealerLink.rel = 'noopener';
+    }
+    if (note) {
+      const tag = (A.amazonTag || '').trim();
+      note.textContent = tag
+        ? 'Amazon links may earn a commission. Calculator stays free.'
+        : 'Amazon search links (Associates tag not set yet). Calculator stays free.';
+    }
+  }
+
   function renderResults(target) {
     const results = $('#results');
     const setDef = currentSet();
@@ -501,6 +541,7 @@
     }
     updateUnitUI();
     populateBlocks();
+    updateAffiliatePanel();
     saveState();
     scheduleCalc();
   }
@@ -513,6 +554,7 @@
     populateSetSelect();
     updateUnitUI();
     populateBlocks();
+    updateAffiliatePanel();
     $('#wearToggle').checked = state.useWear;
 
     $('#setSelect').addEventListener('change', onSetChange);

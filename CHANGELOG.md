@@ -3,6 +3,13 @@
 Compared to the live site at https://gageblockcalc.com (single-file imperial 81-piece app).
 
 
+## 2026-09-28 — Affiliate monetization UI
+- Compact **Need blocks?** panel after results (Amazon search for selected set, wear blocks, wringing stone; optional Precision Engineering Supply dealer link).
+- `affiliate-config.js`: empty `amazonTag` until Associates ID is set; links work without tag.
+- Footer Amazon Associates disclosure; calculator remains ungated.
+- See `MONETIZATION.md` for signup / partner / Pro pricing notes.
+- Service worker cache bumped to `gageblockcalc-v4`.
+
 ## 2026-09-28 — Product polish
 - **Copy stack** on each combination (clipboard line with ✓).
 - **Share** via `navigator.share` when available, else copy; includes target + stack.

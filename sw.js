@@ -1,9 +1,10 @@
 /* Gage Block Calculator — service worker (app shell offline) */
-const CACHE = 'gageblockcalc-v3';
+const CACHE = 'gageblockcalc-v4';
 const PRECACHE = [
   '/',
   '/index.html',
   '/app.js',
+  '/affiliate-config.js',
   '/algorithm.js',
   '/manifest.json',
   '/icons/icon-192.png',
