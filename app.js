@@ -433,7 +433,7 @@
         dealerLink.hidden = false;
         dealerLink.href = dealerUrl;
         dealerLink.textContent =
-          'Shop ' + (A.dealerLabel || 'Precision Engineering Supply') + ' →';
+          'Shop ' + (A.dealerLabel || 'Measurement Supply') + ' →';
         dealerLink.rel = 'noopener';
       }
     }

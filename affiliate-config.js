@@ -11,10 +11,10 @@
 
     /**
      * Optional second dealer (non-Amazon). Label shown in UI.
-     * Homepage until a partner / affiliate URL is confirmed.
+     * Direct catalog link (not an affiliate / tracking URL).
      */
-    dealerLabel: 'Precision Engineering Supply',
-    dealerUrl: 'https://precisionengineeringsupply.com/',
+    dealerLabel: 'Measurement Supply',
+    dealerUrl: 'https://measurementsupply.com/product-catalog/gage-blocks',
 
     /**
      * Optional product ASINs (Amazon product pages convert better than search).

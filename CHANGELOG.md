@@ -1,3 +1,8 @@
+## 2026-10-03 — Measurement Supply dealer link
+
+- Dealer button now points at Measurement Supply's gage-block catalog (not an affiliate tracking URL).
+- Service worker cache bumped to `gageblockcalc-v12`.
+
 ## 2026-10-03 — Responsive stacks, least-used tiebreak
 
 - Stopped the main-thread freeze: the success path no longer runs an unbounded combination search one block deeper than the classic stack (that walk was tens to hundreds of millions of nodes). Fallback search, used only when the classic method fails, is an exact-length search with a hard node cap.
