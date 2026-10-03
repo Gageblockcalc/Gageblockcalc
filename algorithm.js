@@ -310,22 +310,152 @@ function verifyStack(stack, target, tol, scale = null) {
   return Math.abs(sum - target) < tol / 2 + 1e-12 || Math.abs(sum - target) < 1e-9;
 }
 
-/**
- * Short alternative search — iterative deepening, limited pool.
- * Used when classic fails (missing blocks) or to list a few alternatives.
- */
-function searchShortStacks(target, setDef, avail, { maxBlocks = 6, maxResults = 8, exclude = [] } = {}) {
-  const scale = setDef.unitScale;
-  const targetUnits = toUnits(target, scale);
-  const tolUnits = 0; // exact match in working units
 
-  // Unique sizes with counts (prefer larger first)
-  const items = [];
+function availabilityItems(setDef, avail) {
+  const scale = setDef.unitScale;
+  const byU = new Map();
   for (const s of setDef.sizes) {
     const c = avail[keyOf(s)] || 0;
-    if (c > 0) items.push({ u: toUnits(s, scale), c });
+    if (c <= 0) continue;
+    const u = toUnits(s, scale);
+    byU.set(u, (byU.get(u) || 0) + c);
   }
-  items.sort((a, b) => b.u - a.u);
+  return [...byU.entries()].map(([u, c]) => ({ u, c }));
+}
+
+function buildUsageMap(usage, scale) {
+  const map = new Map();
+  if (!usage) return map;
+  const entries = usage instanceof Map ? usage.entries() : Object.entries(usage);
+  for (const [k, v] of entries) {
+    const n = Number(k);
+    const c = Number(v) || 0;
+    if (!Number.isFinite(n) || c <= 0) continue;
+    const u = toUnits(n, scale);
+    map.set(u, (map.get(u) || 0) + c);
+  }
+  return map;
+}
+
+function stackUsageUnits(units, usageMap) {
+  let total = 0;
+  for (const u of units) total += usageMap.get(u) || 0;
+  return total;
+}
+
+function stackUsage(stack, usageMap, scale) {
+  let total = 0;
+  for (const s of stack) total += usageMap.get(toUnits(s, scale)) || 0;
+  return total;
+}
+
+function sortStackDesc(stack) {
+  return [...stack].map(Number).sort((a, b) => b - a);
+}
+
+/**
+ * Same-length replacement with a strictly lower cumulative usage.
+ * Fewest blocks stays put: this never adds or removes a block.
+ * Node-capped so a worn set cannot freeze the page. Usage is
+ * non-negative, so a zero-usage stack cannot be improved and returns
+ * immediately.
+ */
+function preferLeastUsed(stack, target, setDef, avail, useWear, usageMap) {
+  const scale = setDef.unitScale;
+  if (stackUsage(stack, usageMap, scale) <= 0) return null;
+
+  let targetUnits = toUnits(target, scale);
+  let length = stack.length;
+  let searchAvail = avail;
+  let wearSize = null;
+
+  if (useWear && setDef.wearSize != null && stack.length >= 2) {
+    const wu = toUnits(setDef.wearSize, scale);
+    let removed = 0;
+    const inner = [];
+    for (const s of stack) {
+      if (removed < 2 && toUnits(s, scale) === wu) {
+        removed++;
+        continue;
+      }
+      inner.push(s);
+    }
+    if (removed === 2 && length > 2) {
+      const wk = keyOf(setDef.wearSize);
+      searchAvail = { ...avail, [wk]: Math.max(0, (avail[wk] || 0) - 2) };
+      targetUnits -= 2 * wu;
+      length -= 2;
+      wearSize = setDef.wearSize;
+      stack = inner;
+    }
+  }
+
+  if (length <= 0 || targetUnits < 0) return null;
+  const seedUnits = stack.map((s) => toUnits(s, scale));
+  let bestUsage = stackUsageUnits(seedUnits, usageMap);
+  if (bestUsage <= 0) return null;
+
+  const items = availabilityItems(setDef, searchAvail);
+  items.sort((a, b) => {
+    const d = (usageMap.get(a.u) || 0) - (usageMap.get(b.u) || 0);
+    if (d) return d;
+    return b.u - a.u;
+  });
+
+  let bestUnits = null;
+  let nodes = 0;
+  const maxNodes = 80000;
+  let stop = false;
+  const path = [];
+
+  function rec(start, rem, left, usage) {
+    if (stop) return;
+    if (++nodes > maxNodes) {
+      stop = true;
+      return;
+    }
+    if (usage >= bestUsage) return;
+    if (left === 0) {
+      if (rem === 0) {
+        bestUsage = usage;
+        bestUnits = path.slice();
+        if (bestUsage <= 0) stop = true;
+      }
+      return;
+    }
+    if (rem <= 0 || items.length - start < 1) return;
+    for (let i = start; i < items.length; i++) {
+      const it = items[i];
+      const add = usageMap.get(it.u) || 0;
+      const maxK = Math.min(it.c, left);
+      for (let k = 1; k <= maxK; k++) {
+        const need = it.u * k;
+        if (need > rem) break;
+        const nextUsage = usage + add * k;
+        if (nextUsage >= bestUsage) {
+          if (add > 0) break;
+          continue;
+        }
+        for (let t = 0; t < k; t++) path.push(it.u);
+        rec(i + 1, rem - need, left - k, nextUsage);
+        path.length -= k;
+        if (stop) return;
+      }
+    }
+  }
+
+  rec(0, targetUnits, length, 0);
+  if (!bestUnits) return null;
+  const inner = bestUnits.map((u) => fromUnits(u, scale));
+  if (wearSize != null) return [wearSize, ...inner, wearSize];
+  return inner;
+}
+
+function searchShortStacks(target, setDef, avail, { maxBlocks = 6, maxResults = 8, exclude = [], maxNodes = 80000 } = {}) {
+  const scale = setDef.unitScale;
+  const targetUnits = toUnits(target, scale);
+
+  const items = availabilityItems(setDef, avail).sort((a, b) => b.u - a.u);
 
   const excludeKeys = new Set(
     exclude.map((stack) =>
@@ -338,98 +468,108 @@ function searchShortStacks(target, setDef, avail, { maxBlocks = 6, maxResults = 
 
   const results = [];
   const seen = new Set();
+  let nodes = 0;
+  let stop = false;
+  const path = [];
 
-  function dfsClean(idx, rem, path, maxDepth, remainingCounts) {
-    if (results.length >= maxResults) return;
-    if (Math.abs(rem) <= tolUnits && path.length > 0) {
-      const key = [...path].sort((a, b) => b - a).join(',');
-      if (!seen.has(key) && !excludeKeys.has(key)) {
-        seen.add(key);
-        results.push(path.map((u) => fromUnits(u, scale)));
+  // Exact-length combinations (no "skip" recursion). The old DFS walked
+  // every skip-decision and could hit 1e8+ nodes on a 4–5 block metric
+  // target, which froze the main thread. Iterative deepening still
+  // prefers fewer blocks; the node cap guarantees a way out.
+  function rec(start, rem, left) {
+    if (stop || results.length >= maxResults) return;
+    if (++nodes > maxNodes) {
+      stop = true;
+      return;
+    }
+    if (left === 0) {
+      if (rem === 0 && path.length > 0) {
+        const key = [...path].sort((a, b) => b - a).join(',');
+        if (!seen.has(key) && !excludeKeys.has(key)) {
+          seen.add(key);
+          results.push(path.map((u) => fromUnits(u, scale)));
+        }
       }
       return;
     }
-    if (path.length >= maxDepth || rem <= 0 || idx >= items.length) return;
-
-    const { u } = items[idx];
-    const maxTake = remainingCounts[idx];
-
-    // Option: take 0
-    dfsClean(idx + 1, rem, path, maxDepth, remainingCounts);
-
-    // Option: take 1..maxTake
-    for (let n = 1; n <= maxTake; n++) {
-      const need = u * n;
-      if (need > rem + tolUnits) break;
-      for (let k = 0; k < n; k++) path.push(u);
-      remainingCounts[idx] -= n;
-      dfsClean(idx + 1, rem - need, path, maxDepth, remainingCounts);
-      remainingCounts[idx] += n;
-      for (let k = 0; k < n; k++) path.pop();
-      if (results.length >= maxResults) return;
+    if (rem <= 0) return;
+    for (let i = start; i < items.length; i++) {
+      const it = items[i];
+      const maxK = Math.min(it.c, left);
+      for (let k = 1; k <= maxK; k++) {
+        const need = it.u * k;
+        if (need > rem) break;
+        for (let t = 0; t < k; t++) path.push(it.u);
+        rec(i + 1, rem - need, left - k);
+        path.length -= k;
+        if (stop || results.length >= maxResults) return;
+      }
     }
   }
 
-  const countsArr = items.map((it) => it.c);
-  // Iterative deepening by block count keeps this fast
-  for (let depth = 1; depth <= maxBlocks && results.length < maxResults; depth++) {
-    dfsClean(0, targetUnits, [], depth, countsArr.slice());
+  for (let depth = 1; depth <= maxBlocks && results.length < maxResults && !stop; depth++) {
+    rec(0, targetUnits, depth);
   }
 
   results.sort((a, b) => a.length - b.length);
   return results.slice(0, maxResults);
 }
 
-function findStacks(target, setDef, avail, useWear = false) {
+function findStacks(target, setDef, avail, useWear = false, usage = null) {
   const tol = setDef.verifyTol;
   const scale = setDef.unitScale;
+  const usageMap = buildUsageMap(usage, scale);
   const stacks = [];
+  let method = 'none';
   const classic = classicStack(target, setDef, avail, useWear);
 
   if (classic && verifyStack(classic, target, tol, scale)) {
     stacks.push(classic);
+    method = 'classic';
   }
 
   if (stacks.length === 0 && useWear) {
     const classicNoWear = classicStack(target, setDef, avail, false);
     if (classicNoWear && verifyStack(classicNoWear, target, tol, scale)) {
       stacks.push(classicNoWear);
+      method = 'classic';
     }
   }
 
   if (stacks.length === 0) {
-    const alts = searchShortStacks(target, setDef, avail, { maxBlocks: 6, maxResults: 5 });
+    // Fallback only. Capped so a missing-block target cannot freeze the UI.
+    const alts = searchShortStacks(target, setDef, avail, { maxBlocks: 6, maxResults: 4, maxNodes: 80000 });
     for (const a of alts) {
       if (verifyStack(a, target, tol, scale)) stacks.push(a);
     }
+    if (stacks.length) method = 'search';
   } else {
-    // A couple of alternatives only — keep search cheap
-    const alts = searchShortStacks(target, setDef, avail, {
-      maxBlocks: Math.min(5, (stacks[0].length || 4) + 1),
-      maxResults: 3,
-      exclude: stacks,
-    });
-    for (const a of alts) {
-      if (verifyStack(a, target, tol, scale)) stacks.push(a);
+    // Do not run the unbounded alternative search on the success path.
+    // That search (one block deeper than the classic stack) was the freeze.
+    // Least-used is only a tiebreak among stacks with the same block count.
+    const better = preferLeastUsed(stacks[0], target, setDef, avail, useWear, usageMap);
+    if (better && verifyStack(better, target, tol, scale) && better.length === stacks[0].length) {
+      stacks[0] = better;
     }
   }
 
   const uniq = [];
   const keys = new Set();
   for (const s of stacks) {
-    const k = [...s]
-      .map((x) => +Number(x).toFixed(4))
-      .sort((a, b) => b - a)
-      .join(',');
+    const ordered = sortStackDesc(s);
+    const k = ordered.map((x) => toUnits(x, scale)).join(',');
     if (!keys.has(k)) {
       keys.add(k);
-      uniq.push(s);
+      uniq.push(ordered);
     }
   }
-  uniq.sort((a, b) => a.length - b.length);
+  uniq.sort((a, b) => {
+    if (a.length !== b.length) return a.length - b.length;
+    return stackUsage(a, usageMap, scale) - stackUsage(b, usageMap, scale);
+  });
   return {
     stacks: uniq,
-    method: classic && verifyStack(classic, target, tol, scale) ? 'classic' : stacks.length ? 'search' : 'none',
+    method: uniq.length ? method : 'none',
   };
 }
 

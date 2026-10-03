@@ -19,12 +19,13 @@
     /**
      * Optional product ASINs (Amazon product pages convert better than search).
      * Leave empty or remove an ASIN if a listing goes away — search is the fallback.
-     * Verified listings (re-check stock periodically):
-     *   inch-36: B0C4GDDX4W (HFS 36 PC inch set, NIST-traceable, ASME B89.1.9-2023)
+     * Verified listings (product pages re-checked 2026-10-03):
+     *   inch-36: B0C4GDDX4W (HFS 36 PC inch gage block set, NIST-traceable)
      *   metric-112: B003U9W3B2 (Mitutoyo 516-938-26 Grade 0, 112 pc)
-     *   wear-in: B08486RF98 (Mitutoyo 0.050" steel square block, ASME Grade 0)
-     *   No exact verified Amazon listings found for the calculator's 28-piece inch or
-     *   88-piece metric configurations; those continue to use search fallback.
+     *   wear-in: B08486RF98 (Mitutoyo 0.050" square steel gage block, ASME Grade 0)
+     *   inch-81 ASIN B002SG7QRY was a 404 and must not be restored.
+     *   No verified replacement ASIN for inch-81, inch-28, metric-88, or metric wear;
+     *   those buttons stay on a tagged Amazon search.
      */
     asins: {
       // Deep-link only to listings verified against their Amazon product pages.

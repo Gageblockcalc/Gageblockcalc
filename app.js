@@ -44,6 +44,38 @@
     }
   }
 
+  function readSaved() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    } catch (_) {
+      return {};
+    }
+  }
+
+  function usageForCurrentSet() {
+    const saved = readSaved();
+    const bucket = saved.usage && saved.usage[state.setId];
+    return bucket && typeof bucket === 'object' ? bucket : {};
+  }
+
+  function recordStackUsage(stack) {
+    try {
+      const saved = readSaved();
+      if (!saved.usage || typeof saved.usage !== 'object') saved.usage = {};
+      if (!saved.usage[state.setId] || typeof saved.usage[state.setId] !== 'object') {
+        saved.usage[state.setId] = {};
+      }
+      const bucket = saved.usage[state.setId];
+      for (const s of stack) {
+        const k = keyOf(s);
+        bucket[k] = (Number(bucket[k]) || 0) + 1;
+      }
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+    } catch (e) {
+      console.warn('Could not save block usage', e);
+    }
+  }
+
   function saveState() {
     try {
       let saved = {};
@@ -435,7 +467,7 @@
           return;
         }
 
-        const found = findStacks(target, setDef, avail, state.useWear);
+        const found = findStacks(target, setDef, avail, state.useWear, usageForCurrentSet());
         const stacks = found.stacks;
         const method = found.method;
 
@@ -457,7 +489,7 @@
           stacks.length +
           ' combination' +
           (stacks.length > 1 ? 's' : '') +
-          ' · fewest blocks first';
+          ' · fewest blocks, then least-used';
         frag.appendChild(meta);
 
         stacks.forEach((stack, i) => {
@@ -551,6 +583,7 @@
 
         results.innerHTML = '';
         results.appendChild(frag);
+        recordStackUsage(stacks[0]);
       } catch (e) {
         console.error(e);
         results.innerHTML =

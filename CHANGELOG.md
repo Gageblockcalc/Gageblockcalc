@@ -1,3 +1,11 @@
+## 2026-10-03 — Responsive stacks, least-used tiebreak
+
+- Stopped the main-thread freeze: the success path no longer runs an unbounded combination search one block deeper than the classic stack (that walk was tens to hundreds of millions of nodes). Fallback search, used only when the classic method fails, is an exact-length search with a hard node cap.
+- Chosen stack is ordered largest block to smallest.
+- When several stacks use the same number of blocks, the one with the lowest total per-block usage wins. Fewer blocks still wins even if those blocks have been used more. Usage counts live in localStorage and go up when a stack is shown.
+- Service worker cache bumped to `gageblockcalc-v11`.
+- Re-checked Amazon product pages: inch-36 `B0C4GDDX4W`, metric-112 `B003U9W3B2`, and 0.050" wear `B08486RF98` stay direct links. Inch-81 ASIN `B002SG7QRY` stays removed (search fallback).
+
 ## 2026-09-29 — Remove broken Amazon deep link
 
 - Removed the unavailable inch-81 ASIN mapping so the calculator uses its tagged Amazon search fallback.
