@@ -77,7 +77,7 @@
   function show(d) {
     if (!d || typeof d.total !== 'number' || d.total < 1) return;
     let txt = d.total.toLocaleString() + (d.total === 1 ? ' visit' : ' visits');
-    if (typeof d.live === 'number' && d.live > 0) txt += ' · ' + d.live.toLocaleString() + ' online now';
+    if (typeof d.live === 'number' && d.live > 0) txt += ' · 🟢 ' + d.live.toLocaleString() + ' online now';
     out.textContent = txt;
   }
 
