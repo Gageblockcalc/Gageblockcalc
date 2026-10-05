@@ -665,7 +665,12 @@
     if (!skipCalc) scheduleCalc();
   }
 
-  /** Optional deep link: /?target=1.2345&set=inch-81 prefills the calculator (no params = unchanged). */
+  /**
+   * Optional deep link (no params = unchanged first view):
+   *   /?target=1.2345              prefill the target in the visitor's current set
+   *   /?target=25.4&unit=mm        switch to a metric set only if the current set is inch (and vice versa)
+   *   /?target=1.2345&set=inch-36  pick an exact set
+   */
   function applyLinkParams() {
     let q;
     try {
@@ -673,7 +678,11 @@
     } catch (_) {
       return;
     }
-    const setId = q.get('set');
+    let setId = q.get('set');
+    const unit = q.get('unit');
+    if (!(setId && SETS[setId]) && (unit === 'in' || unit === 'mm') && currentSet().unitLabel !== unit) {
+      setId = unit === 'mm' ? 'metric-112' : 'inch-81';
+    }
     if (setId && SETS[setId] && setId !== state.setId) {
       $('#setSelect').value = setId;
       onSetChange(null, true);
