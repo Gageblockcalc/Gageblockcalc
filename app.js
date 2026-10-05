@@ -563,6 +563,23 @@
           });
           actions.appendChild(printBtn);
 
+          const Hub = globalThis.GageBlockHub;
+          if (Hub && Hub.enabled) {
+            const save = document.createElement('a');
+            save.className = 'hub-save no-print';
+            save.href = Hub.saveStackUrl({
+              set: setDef.id || state.setId,
+              unit,
+              target: formatSize(target, setDef),
+              blocks: stack.map((s) => formatSize(s, setDef)),
+            });
+            save.target = '_blank';
+            save.rel = 'noopener';
+            save.textContent = 'Save to Hub';
+            save.setAttribute('aria-label', 'Save this stack to your Machinist Hub profile');
+            actions.appendChild(save);
+          }
+
           div.innerHTML = head + body;
           div.appendChild(actions);
           frag.appendChild(div);
@@ -581,6 +598,36 @@
           frag.appendChild(cta);
         }
 
+        const Hub = globalThis.GageBlockHub;
+        if (Hub && Hub.enabled && stacks.length) {
+          const unitWord = unit === 'mm' ? ' mm' : '"';
+          const first = stacks[0].map((s) => formatSize(s, setDef)).join(' + ');
+          const question =
+            'I am building a ' + formatSize(target, setDef) + unitWord + ' gage block stack with my ' +
+            setDef.name + ' set: ' + first + '. Any tips for wringing it and checking the stack?';
+          const hubLine = document.createElement('p');
+          hubLine.className = 'hub-cta no-print';
+          hubLine.appendChild(document.createTextNode('Questions about this stack? '));
+          const ask = document.createElement('a');
+          ask.href = Hub.askUrl(question);
+          ask.target = '_blank';
+          ask.rel = 'noopener';
+          ask.textContent = 'Ask the AI Machinist';
+          hubLine.appendChild(ask);
+          const sep = document.createElement('span');
+          sep.className = 'sep';
+          sep.setAttribute('aria-hidden', 'true');
+          sep.textContent = '·';
+          hubLine.appendChild(sep);
+          const home = document.createElement('a');
+          home.href = Hub.hubUrl('/');
+          home.target = '_blank';
+          home.rel = 'noopener';
+          home.textContent = 'Machinist Hub';
+          hubLine.appendChild(home);
+          frag.appendChild(hubLine);
+        }
+
         results.innerHTML = '';
         results.appendChild(frag);
         recordStackUsage(stacks[0]);
@@ -596,7 +643,7 @@
     renderResults(parseFloat($('#target').value));
   }, 280);
 
-  function onSetChange() {
+  function onSetChange(_e, skipCalc) {
     saveState();
     state.setId = $('#setSelect').value;
     try {
@@ -615,7 +662,26 @@
     populateBlocks();
     updateAffiliatePanel();
     saveState();
-    scheduleCalc();
+    if (!skipCalc) scheduleCalc();
+  }
+
+  /** Optional deep link: /?target=1.2345&set=inch-81 prefills the calculator (no params = unchanged). */
+  function applyLinkParams() {
+    let q;
+    try {
+      q = new URLSearchParams(location.search);
+    } catch (_) {
+      return;
+    }
+    const setId = q.get('set');
+    if (setId && SETS[setId] && setId !== state.setId) {
+      $('#setSelect').value = setId;
+      onSetChange(null, true);
+    }
+    const t = (q.get('target') || '').trim();
+    if (/^(\d{1,4}(\.\d{1,6})?|\.\d{1,6})$/.test(t) && parseFloat(t) > 0) {
+      $('#target').value = t;
+    }
   }
 
   function init() {
@@ -686,6 +752,7 @@
     }
 
     setupInstallUX();
+    applyLinkParams();
 
     const initial = parseFloat($('#target').value);
     if (initial > 0) renderResults(initial);

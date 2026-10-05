@@ -1,10 +1,12 @@
 /* Gage Block Calculator — service worker (app shell offline) */
-const CACHE = 'gageblockcalc-v12';
+const CACHE = 'gageblockcalc-v13';
 const PRECACHE = [
   '/',
   '/index.html',
   '/app.js',
   '/affiliate-config.js',
+  '/hub-config.js',
+  '/hub.js',
   '/algorithm.js',
   '/manifest.json',
   '/icons/icon-192.png',

@@ -1,3 +1,13 @@
+## 2026-10-05 — Machinist Hub links + visitor counter (branch `hub-integration`)
+
+- Nothing above the fold changed (desktop 1280 and mobile 390 screenshots are pixel-identical to the live site). No popups, no banners, no login, no Firebase.
+- After a stack is computed: a small **Save to Hub** link next to each stack (hub `save_stack` hand-off) and a one-line "Questions about this stack? **Ask the AI Machinist** · **Machinist Hub**" under the results. The AI link opens the hub with the question typed in, not sent.
+- Footer: Ask the AI Machinist · Machinist Hub · Guides, an optional **Buy Me a Coffee** button (hidden while `bmcUrl` is empty), and a visitor counter ("N visits · N online now").
+- Visitor counter: one tiny `text/plain` POST to the gageblockcalc-chat worker after the page has loaded and gone idle (no CORS preflight). Its line height is reserved, so nothing shifts. Failures are silent.
+- New `hub-config.js` holds the hub URL as one constant (`hubUrl`; uses the Pages URL until app.gageblockcalc.com DNS is live), the counter endpoint, and `bmcUrl`. New `hub.js` (~4 KB) holds the hand-off helpers and footer extras.
+- Optional deep link: `/?target=1.2345&set=inch-81` prefills the calculator. Without params the page is unchanged.
+- Service worker cache bumped to `gageblockcalc-v13`. `hub-config.js` and `hub.js` are precached.
+
 ## 2026-10-03 — Measurement Supply dealer link
 
 - Dealer button now points at Measurement Supply's gage-block catalog (not an affiliate tracking URL).

@@ -554,6 +554,81 @@
       line-height: 1.35;
     }
 
+    /* Machinist Hub hand-offs: small, below the results and in the footer only */
+    .hub-cta {
+      text-align: center;
+      margin: 0 0 8px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .hub-cta a,
+    .hub-footer a {
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .hub-cta a:hover,
+    .hub-footer a:hover { text-decoration: underline; color: var(--primary-hover); }
+
+    .hub-cta .sep,
+    .hub-footer .sep { margin: 0 6px; }
+
+    .combo-actions .hub-save {
+      align-self: center;
+      margin-left: auto;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--primary);
+      text-decoration: none;
+      padding: 6px 2px;
+    }
+
+    .combo-actions .hub-save:hover { text-decoration: underline; color: var(--primary-hover); }
+
+    .hub-footer {
+      margin: 0 0 6px;
+      font-size: 0.8rem;
+      line-height: 1.6;
+    }
+
+    .footer-extras {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 4px 10px;
+      min-height: 1.4em; /* reserved so the late-loading counter never shifts the page */
+      margin-bottom: 4px;
+    }
+
+    .visit-counter {
+      display: inline-block;
+      min-height: 1.4em;
+      line-height: 1.4em;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .bmc-btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .bmc-btn[hidden] { display: none; }
+    .bmc-btn:hover { border-color: var(--primary); color: var(--primary); }
+
     .footer .disclosure {
       display: block;
       margin-bottom: 4px;
@@ -729,6 +804,13 @@
     </section>
 
     <div class="footer">
+      <nav class="hub-footer no-print" id="hubFooterLinks" aria-label="Machinist Hub">
+        <a data-hub-path="/#chat" rel="noopener">Ask the AI Machinist</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/" rel="noopener" title="Machinist community, saved stacks and guides">Machinist Hub</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/guides/" rel="noopener">Guides</a>
+      </nav>
+      <div class="footer-extras no-print">
+        <a class="bmc-btn" id="bmcBtn" target="_blank" rel="noopener" hidden>☕ Buy me a coffee</a>
+        <span class="visit-counter" id="visitCounter" aria-live="off"></span>
+      </div>
       <span class="disclosure">As an Amazon Associate I earn from qualifying purchases.</span>
       Made by Nicholas Duncan 2026
     </div>
@@ -738,6 +820,8 @@
 
   <script src="algorithm.js"></script>
   <script src="affiliate-config.js"></script>
+  <script src="hub-config.js"></script>
+  <script src="hub.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
