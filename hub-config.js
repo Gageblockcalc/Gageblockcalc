@@ -15,6 +15,6 @@
     counterUrl: 'https://gageblockcalc-chat.tekjeep.workers.dev',
 
     /** Buy Me a Coffee page (https://buymeacoffee.com/... or https://coff.ee/...). Hidden while empty. */
-    bmcUrl: '',
+    bmcUrl: 'https://buymeacoffee.com/tekjeep',
   };
 })(typeof globalThis !== 'undefined' ? globalThis : window);
