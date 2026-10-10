@@ -6,10 +6,10 @@
   global.GageBlockHubConfig = {
     /**
      * Machinist Hub base URL (no trailing slash). The ONE place the hub address lives.
-     * Final address: 'https://app.gageblockcalc.com'. Using the Cloudflare Pages URL until
-     * the app.gageblockcalc.com DNS record is live; then change this one line.
+     * Hub lives at askmachinist.com (Nick's domain, 2026-10-10).
+     * Change this one line if the hub ever moves.
      */
-    hubUrl: 'https://gageblockcalc-hub.pages.dev',
+    hubUrl: 'https://askmachinist.com',
 
     /** Visitor counter endpoint (gageblockcalc-chat worker). Empty string = no counter. */
     counterUrl: 'https://gageblockcalc-chat.tekjeep.workers.dev',
