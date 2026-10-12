@@ -515,62 +515,169 @@ function searchShortStacks(target, setDef, avail, { maxBlocks = 6, maxResults = 
   return results.slice(0, maxResults);
 }
 
+/**
+ * Exact, bounded stack search over the blocks still enabled.
+ * Works in integer units (divided by their common factor). A small DP gives
+ * the true minimum block count for every remainder, and per-block
+ * reachability bitsets prune any branch that cannot finish, so excluded
+ * blocks can never hide a stack the remaining blocks can make. Depth-first
+ * enumeration then lists the fewest-block stacks (and one block more if
+ * there are few). Node and time budgets keep it from freezing the page.
+ */
+function gcdInt(a, b) {
+  while (b) [a, b] = [b, a % b];
+  return a;
+}
+function digitSearchUnits(targetUnits, items, { collect = 40, want = 5, maxNodes = 150000, maxMs = 80, maxT = 4000000 } = {}) {
+  const live = items.filter((it) => it.c > 0 && it.u > 0 && it.u <= targetUnits).sort((a, b) => b.u - a.u);
+  if (targetUnits <= 0 || !live.length) return [];
+  let g = targetUnits;
+  for (const it of live) g = gcdInt(g, it.u);
+  const T = targetUnits / g;
+  if (T > maxT) return [];
+  const us = live.map((it) => it.u / g);
+  const cnt = live.map((it) => it.c);
+  const n = us.length;
+  const W = (T >>> 5) + 1;
+
+  // reach[i]: sums 0..T makeable from blocks i..n-1
+  const reach = new Array(n + 1);
+  reach[n] = new Uint32Array(W);
+  reach[n][0] = 1;
+  for (let i = n - 1; i >= 0; i--) {
+    const r = reach[i + 1].slice();
+    for (let k = 0; k < cnt[i]; k++) {
+      const src = r.slice();
+      const ws = us[i] >>> 5, bs = us[i] & 31;
+      for (let w = W - 1; w >= ws; w--) {
+        let v = src[w - ws] << bs;
+        if (bs && w - ws - 1 >= 0) v |= src[w - ws - 1] >>> (32 - bs);
+        r[w] |= v;
+      }
+    }
+    reach[i] = r;
+  }
+  const has = (bits, s) => (bits[s >>> 5] >>> (s & 31)) & 1;
+  if (!has(reach[0], T)) return [];
+
+  // within[k]: sums makeable with at most k blocks (a block may repeat here,
+  // so it is a cheap lower bound on the block count, never too strict)
+  const shiftOr = (dst, src, u) => {
+    const ws = u >>> 5, bs = u & 31;
+    for (let w = W - 1; w >= ws; w--) {
+      let v = src[w - ws] << bs;
+      if (bs && w - ws - 1 >= 0) v |= src[w - ws - 1] >>> (32 - bs);
+      dst[w] |= v;
+    }
+  };
+  const distinct = [...new Set(us)];
+  const within = [new Uint32Array(W)];
+  within[0][0] = 1;
+  while (!has(within[within.length - 1], T)) {
+    if (within.length > 40) return [];
+    const prev = within[within.length - 1];
+    const next = prev.slice();
+    for (const u of distinct) shiftOr(next, prev, u);
+    within.push(next);
+  }
+  const minLen = within.length - 1;
+  const grow = (k) => {
+    while (within.length <= k) {
+      const prev = within[within.length - 1];
+      const next = prev.slice();
+      for (const u of distinct) shiftOr(next, prev, u);
+      within.push(next);
+    }
+  };
+  const okLeft = (r, left) => left >= within.length || has(within[left], r);
+
+  const results = [];
+  const path = [];
+  let nodes = 0;
+  let stop = false;
+  const t0 = Date.now();
+  function rec(i, rem, left) {
+    if (rem === 0) {
+      if (left === 0) {
+        results.push(path.map((u) => u * g));
+        if (results.length >= collect) stop = true;
+      }
+      return;
+    }
+    if (++nodes > maxNodes || ((nodes & 1023) === 0 && Date.now() - t0 > maxMs)) {
+      stop = true;
+      return;
+    }
+    for (let j = i; j < n && !stop; j++) {
+      const u = us[j];
+      if (u > rem) continue;
+      let r = rem;
+      for (let k = 1; k <= cnt[j] && k <= left; k++) {
+        r -= u;
+        if (r < 0) break;
+        if (!okLeft(r, left - k) || !has(reach[j + 1], r)) continue;
+        for (let t = 0; t < k; t++) path.push(u);
+        rec(j + 1, r, left - k);
+        path.length -= k;
+        if (stop) break;
+      }
+    }
+  }
+  let firstLen = 0;
+  for (let L = minLen; L <= minLen + 24 && !stop; L++) {
+    if (firstLen && (L > firstLen + 1 || results.length >= want)) break;
+    grow(L);
+    rec(0, T, L);
+    if (results.length && !firstLen) firstLen = L;
+  }
+  if (!results.length) {
+    // Budget ran out: reachability alone guarantees this walk never dead-ends.
+    const walk = [];
+    let rem = T;
+    for (let j = 0; j < n && rem > 0; j++) {
+      for (let k = 0; k < cnt[j] && us[j] <= rem && has(reach[j + 1], rem - us[j]); k++) {
+        rem -= us[j];
+        walk.push(us[j] * g);
+        if (!has(reach[j + 1], rem)) break;
+      }
+    }
+    if (rem === 0) results.push(walk);
+  }
+  return results;
+}
+
 function findStacks(target, setDef, avail, useWear = false, usage = null) {
-  const tol = setDef.verifyTol;
   const scale = setDef.unitScale;
   const usageMap = buildUsageMap(usage, scale);
-  const stacks = [];
-  let method = 'none';
-  const classic = classicStack(target, setDef, avail, useWear);
-
-  if (classic && verifyStack(classic, target, tol, scale)) {
-    stacks.push(classic);
-    method = 'classic';
-  }
-
-  if (stacks.length === 0 && useWear) {
-    const classicNoWear = classicStack(target, setDef, avail, false);
-    if (classicNoWear && verifyStack(classicNoWear, target, tol, scale)) {
-      stacks.push(classicNoWear);
-      method = 'classic';
+  const targetUnits = toUnits(target, scale);
+  const MAX_SHOWN = 5;
+  let raw = [];
+  if (targetUnits > 0) {
+    if (useWear && setDef.wearSize != null) {
+      const wu = toUnits(setDef.wearSize, scale);
+      const wk = keyOf(setDef.wearSize);
+      if ((avail[wk] || 0) >= 2 && targetUnits > 2 * wu) {
+        const inner = digitSearchUnits(targetUnits - 2 * wu, availabilityItems(setDef, { ...avail, [wk]: avail[wk] - 2 }).sort((a, b) => b.u - a.u));
+        raw = inner.map((s) => [wu, ...s, wu]);
+      }
+    }
+    if (!raw.length) {
+      raw = digitSearchUnits(targetUnits, availabilityItems(setDef, avail).sort((a, b) => b.u - a.u));
     }
   }
-
-  if (stacks.length === 0) {
-    // Fallback only. Capped so a missing-block target cannot freeze the UI.
-    const alts = searchShortStacks(target, setDef, avail, { maxBlocks: 6, maxResults: 4, maxNodes: 80000 });
-    for (const a of alts) {
-      if (verifyStack(a, target, tol, scale)) stacks.push(a);
-    }
-    if (stacks.length) method = 'search';
-  } else {
-    // Do not run the unbounded alternative search on the success path.
-    // That search (one block deeper than the classic stack) was the freeze.
-    // Least-used is only a tiebreak among stacks with the same block count.
-    const better = preferLeastUsed(stacks[0], target, setDef, avail, useWear, usageMap);
-    if (better && verifyStack(better, target, tol, scale) && better.length === stacks[0].length) {
-      stacks[0] = better;
-    }
-  }
-
-  const uniq = [];
   const keys = new Set();
-  for (const s of stacks) {
-    const ordered = sortStackDesc(s);
-    const k = ordered.map((x) => toUnits(x, scale)).join(',');
-    if (!keys.has(k)) {
-      keys.add(k);
-      uniq.push(ordered);
-    }
-  }
-  uniq.sort((a, b) => {
-    if (a.length !== b.length) return a.length - b.length;
-    return stackUsage(a, usageMap, scale) - stackUsage(b, usageMap, scale);
+  const uniq = [];
+  raw.forEach((s, idx) => {
+    if (s.reduce((a, b) => a + b, 0) !== targetUnits) return;
+    const ordered = [...s].sort((a, b) => b - a);
+    const k = ordered.join(',');
+    if (keys.has(k)) return;
+    keys.add(k);
+    uniq.push({ s: ordered, idx, use: stackUsageUnits(ordered, usageMap) });
   });
-  return {
-    stacks: uniq,
-    method: uniq.length ? method : 'none',
-  };
+  uniq.sort((a, b) => a.s.length - b.s.length || a.use - b.use || a.idx - b.idx);
+  const stacks = uniq.slice(0, MAX_SHOWN).map((x) => x.s.map((u) => fromUnits(u, scale)));
+  return { stacks, method: stacks.length ? 'classic' : 'none' };
 }
 
 function formatSize(size, setDef) {
@@ -607,6 +714,7 @@ global.GageBlockAlgo = {
   fromUnits,
   digitCandidates,
   searchShortStacks,
+  digitSearchUnits,
   trailingZeros,
   roundUnits,
 };
