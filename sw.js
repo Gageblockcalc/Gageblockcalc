@@ -1,100 +1,47 @@
-/* Gage Block Calculator — service worker (app shell offline) */
-const CACHE = 'gageblockcalc-v19';
-const PRECACHE = [
-  '/',
-  '/index.html',
-  '/app.js',
-  '/affiliate-config.js',
-  '/hub-config.js',
-  '/hub.js',
-  '/algorithm.js',
-  '/manifest.json',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
-  '/icons/icon-192-maskable.png',
-  '/icons/icon-512-maskable.png',
-  '/icons/apple-touch-icon.png',
-  '/icons/favicon-32.png'
-];
+/* nick-sites-hub shared offline SW — network-first HTML, cache-first static; never cache API/hub */
+const CACHE = 'nick-pwa-v1';
+const HUB_RE = /nick-sites-hub\.tekjeep\.workers\.dev|\/api\/|railway\.app|firebaseio\.com|googleapis\.com|cloudflareinsights/i;
 
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE)
-      .then((cache) => cache.addAll(PRECACHE))
-      .then(() => self.skipWaiting())
-  );
+self.addEventListener('install', (e) => {
+  self.skipWaiting();
+});
+self.addEventListener('activate', (e) => {
+  e.waitUntil((async () => {
+    const keys = await caches.keys();
+    await Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)));
+    await self.clients.claim();
+  })());
 });
 
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys()
-      .then((keys) =>
-        Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
-      )
-      .then(() => self.clients.claim())
-  );
-});
-
-function isNavigation(req) {
-  return req.mode === 'navigate' ||
-    (req.headers.get('accept') || '').includes('text/html');
-}
-
-function isSameOrigin(url) {
-  return url.origin === self.location.origin;
-}
-
-self.addEventListener('fetch', (event) => {
-  const req = event.request;
+self.addEventListener('fetch', (e) => {
+  const req = e.request;
   if (req.method !== 'GET') return;
-
   const url = new URL(req.url);
-  if (!isSameOrigin(url)) return;
-
-  // HTML: network-first, fall back to cache (stale-while-revalidate-ish)
-  if (isNavigation(req) || url.pathname === '/' || url.pathname.endsWith('.html')) {
-    event.respondWith(
-      fetch(req)
-        .then((res) => {
-          if (res && res.ok) {
-            const copy = res.clone();
-            caches.open(CACHE).then((c) => {
-              c.put('/index.html', copy.clone());
-              c.put(req, copy);
-            });
-          }
-          return res;
-        })
-        .catch(() =>
-          caches.match(req).then((cached) =>
-            cached || caches.match('/index.html')
-          )
-        )
-    );
+  if (HUB_RE.test(url.href) || url.pathname.startsWith('/api') || url.search.includes('site=')) return;
+  if ((req.headers.get('accept') || '').includes('text/html') || req.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname.endsWith('/')) {
+    e.respondWith((async () => {
+      try {
+        const fresh = await fetch(req);
+        const copy = fresh.clone();
+        const cache = await caches.open(CACHE);
+        cache.put(req, copy).catch(() => {});
+        return fresh;
+      } catch (err) {
+        const cached = await caches.match(req);
+        return cached || caches.match('/') || Response.error();
+      }
+    })());
     return;
   }
-
-  // Static assets: cache-first
-  event.respondWith(
-    caches.match(req).then((cached) => {
-      if (cached) {
-        // Soft update in background
-        fetch(req)
-          .then((res) => {
-            if (res && res.ok) {
-              caches.open(CACHE).then((c) => c.put(req, res));
-            }
-          })
-          .catch(() => {});
-        return cached;
-      }
-      return fetch(req).then((res) => {
-        if (res && res.ok) {
-          const copy = res.clone();
-          caches.open(CACHE).then((c) => c.put(req, copy));
-        }
-        return res;
-      });
-    })
-  );
+  // static assets: cache-first
+  if (/\.(?:js|css|png|jpg|jpeg|webp|gif|svg|ico|woff2?|ttf|webp|json|webmanifest)$/i.test(url.pathname) || url.pathname === '/manifest.webmanifest' || url.pathname === '/manifest.json') {
+    e.respondWith((async () => {
+      const cached = await caches.match(req);
+      if (cached) return cached;
+      const fresh = await fetch(req);
+      const cache = await caches.open(CACHE);
+      cache.put(req, fresh.clone()).catch(() => {});
+      return fresh;
+    })());
+  }
 });
