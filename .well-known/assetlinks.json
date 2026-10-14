@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.gageblockcalc.app",
+      "sha256_cert_fingerprints": [
+        "2508080E5E8FA1C19876A40949177C493E0F271194AB18ACB9ED4CD68965267E"
+      ]
+    }
+  }
+]
