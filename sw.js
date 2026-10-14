@@ -1,8 +1,8 @@
-/* nick-sites-hub shared offline SW — network-first HTML, cache-first static; never cache API/hub */
-const CACHE = 'nick-pwa-v1';
-const HUB_RE = /nick-sites-hub\.tekjeep\.workers\.dev|\/api\/|railway\.app|firebaseio\.com|googleapis\.com|cloudflareinsights/i;
-
+const CACHE = 'nick-pwa-v2';
+const PRE = ['/', '/offline.html', '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png'];
+const HUB_RE = /nick-sites-hub\.tekjeep\.workers\.dev|\/api\/|railway\.app|firebaseio\.com|googleapis\.com|cloudflareinsights|buymeacoffee/i;
 self.addEventListener('install', (e) => {
+  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(PRE.map((u) => new Request(u, { cache: 'reload' }))).catch(() => {})));
   self.skipWaiting();
 });
 self.addEventListener('activate', (e) => {
@@ -12,36 +12,35 @@ self.addEventListener('activate', (e) => {
     await self.clients.claim();
   })());
 });
-
 self.addEventListener('fetch', (e) => {
   const req = e.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
-  if (HUB_RE.test(url.href) || url.pathname.startsWith('/api') || url.search.includes('site=')) return;
-  if ((req.headers.get('accept') || '').includes('text/html') || req.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname.endsWith('/')) {
+  if (HUB_RE.test(url.href) || url.pathname.startsWith('/api') || url.pathname.startsWith('/v1/')) return;
+  const isNav = req.mode === 'navigate' || (req.headers.get('accept') || '').includes('text/html');
+  if (isNav) {
     e.respondWith((async () => {
       try {
         const fresh = await fetch(req);
-        const copy = fresh.clone();
         const cache = await caches.open(CACHE);
-        cache.put(req, copy).catch(() => {});
+        cache.put(req, fresh.clone()).catch(() => {});
         return fresh;
-      } catch (err) {
-        const cached = await caches.match(req);
-        return cached || caches.match('/') || Response.error();
+      } catch {
+        return (await caches.match(req)) || (await caches.match('/offline.html')) || Response.error();
       }
     })());
     return;
   }
-  // static assets: cache-first
-  if (/\.(?:js|css|png|jpg|jpeg|webp|gif|svg|ico|woff2?|ttf|webp|json|webmanifest)$/i.test(url.pathname) || url.pathname === '/manifest.webmanifest' || url.pathname === '/manifest.json') {
+  if (/\.(?:js|css|png|jpg|jpeg|webp|gif|svg|ico|woff2?|ttf|json|webmanifest)$/i.test(url.pathname)) {
     e.respondWith((async () => {
       const cached = await caches.match(req);
       if (cached) return cached;
-      const fresh = await fetch(req);
-      const cache = await caches.open(CACHE);
-      cache.put(req, fresh.clone()).catch(() => {});
-      return fresh;
+      try {
+        const fresh = await fetch(req);
+        const cache = await caches.open(CACHE);
+        cache.put(req, fresh.clone()).catch(() => {});
+        return fresh;
+      } catch { return cached || Response.error(); }
     })());
   }
 });
