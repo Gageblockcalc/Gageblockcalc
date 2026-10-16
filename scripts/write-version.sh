@@ -1,6 +1,6 @@
 #!/bin/bash
 # Writes version.js for the footer label "v1.0.<n> · <commit> · <date>" (1.0 matches the Expo app's version).
-# Run right before committing a release: ./scripts/write-version.sh && git add version.js && git commit ...
+# Run right before committing a release: ./scripts/write-version.sh && git add version.js index.html sw.js && git commit ...
 # <n> = commits on this branch + 1 (the release commit), <commit> = the code commit being released.
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -16,4 +16,6 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 JS
 # Bump the service worker cache with every release so returning visitors drop old files.
 sed -i -E "s/^const CACHE = '[^']*';/const CACHE = 'gbc-$BASE.$N';/" sw.js
+# Server-render the label into index.html's static HTML (version.js may still refresh it).
+sed -i -E "s#(<span id=\"calcVersion\"[^>]*>)[^<]*(</span>)#\1v$BASE.$N · $SHA · $DATE\2#" index.html
 echo "version.js: v$BASE.$N · $SHA · $DATE"
