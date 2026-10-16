@@ -263,7 +263,19 @@
       ' (' +
       setDef.name +
       ')\n' +
-      stackLine(stack, target, setDef, ok)
+      stackLine(stack, target, setDef, ok) +
+      '\n' +
+      stackUrl(target, setDef)
+    );
+  }
+
+  // Deep link that reopens this target in the same set (see applyLinkParams).
+  function stackUrl(target, setDef) {
+    return (
+      'https://gageblockcalc.com/?target=' +
+      encodeURIComponent(formatSize(target, setDef)) +
+      '&set=' +
+      encodeURIComponent(setDef.id || state.setId)
     );
   }
 
@@ -310,7 +322,7 @@
     const text = shareText(stack, target, setDef, ok);
     if (navigator.share) {
       try {
-        await navigator.share({ title: 'Gage Block Stack', text: text });
+        await navigator.share({ title: 'Gage Block Stack', text: text, url: stackUrl(target, setDef) });
         return;
       } catch (e) {
         if (e && e.name === 'AbortError') return;
