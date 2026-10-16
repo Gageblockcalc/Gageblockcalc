@@ -457,6 +457,68 @@
     }
   }
 
+  // ---- Solver: Web Worker with main-thread fallback (math lives only in algorithm.js) ----
+  let solveSeq = 0;
+  let solverWorker = null;
+  let workerBroken = typeof Worker === 'undefined';
+  const pending = new Map();
+  let msgSeq = 0;
+
+  function solveMain(target, setDef, avail, useWear, usage) {
+    return findStacks(target, setDef, avail, useWear, usage);
+  }
+
+  function failWorker() {
+    workerBroken = true;
+    if (solverWorker) { try { solverWorker.terminate(); } catch (e) { /* ignore */ } }
+    solverWorker = null;
+    pending.forEach((p) => p.fallback());
+    pending.clear();
+  }
+
+  function getWorker() {
+    if (workerBroken) return null;
+    if (solverWorker) return solverWorker;
+    try {
+      solverWorker = new Worker('worker.js');
+      solverWorker.onmessage = (e) => {
+        const d = e.data || {};
+        const p = pending.get(d.id);
+        if (!p) return;
+        pending.delete(d.id);
+        if (d.ok) p.resolve({ stacks: d.stacks, method: d.method });
+        else p.fallback();
+      };
+      solverWorker.onerror = (e) => { if (e && e.preventDefault) e.preventDefault(); failWorker(); };
+      solverWorker.onmessageerror = failWorker;
+    } catch (e) {
+      workerBroken = true;
+      solverWorker = null;
+    }
+    return solverWorker;
+  }
+
+  function solveAsync(target, setDef, avail, useWear, usage) {
+    return new Promise((resolve) => {
+      const runMain = () => {
+        try { resolve(solveMain(target, setDef, avail, useWear, usage)); }
+        catch (e) { resolve({ error: e }); }
+      };
+      const w = getWorker();
+      const setId = Object.keys(SETS).find((k) => SETS[k] === setDef);
+      if (!w || !setId) { runMain(); return; }
+      const id = ++msgSeq;
+      pending.set(id, { resolve, fallback: runMain });
+      try {
+        w.postMessage({ id, setId, target, avail, useWear, usage: usage || null });
+      } catch (e) {
+        pending.delete(id);
+        failWorker();
+        runMain();
+      }
+    });
+  }
+
   function renderResults(target) {
     const results = $('#results');
     const setDef = currentSet();
@@ -469,17 +531,24 @@
 
     results.innerHTML = '<div class="loading" role="status">Calculating…</div>';
 
+    const reqId = ++solveSeq;
     setTimeout(() => {
-      try {
-        const avail = effectiveAvailability();
-        const any = Object.keys(avail).some((k) => avail[k] > 0);
-        if (!any) {
-          results.innerHTML =
-            '<div class="error">No blocks available. Select at least one block.</div>';
-          return;
-        }
+      const avail = effectiveAvailability();
+      const any = Object.keys(avail).some((k) => avail[k] > 0);
+      if (!any) {
+        results.innerHTML =
+          '<div class="error">No blocks available. Select at least one block.</div>';
+        return;
+      }
+      solveAsync(target, setDef, avail, state.useWear, usageForCurrentSet()).then((found) => {
+        if (reqId !== solveSeq) return; // a newer request superseded this one
+        drawFound(found);
+      });
+    }, 0);
 
-        const found = findStacks(target, setDef, avail, state.useWear, usageForCurrentSet());
+    function drawFound(found) {
+      try {
+        if (found && found.error) throw found.error;
         const stacks = found.stacks;
         const method = found.method;
 
@@ -648,7 +717,7 @@
         results.innerHTML =
           '<div class="error">Calculation error. Please try again.</div>';
       }
-    }, 0);
+    }
   }
 
   const scheduleCalc = debounce(() => {
