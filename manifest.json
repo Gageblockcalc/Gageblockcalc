@@ -1,6 +1,6 @@
 {
-  "name": "Gage Block Calculator",
-  "short_name": "Gage Blocks",
+  "name": "GageBlockCalc",
+  "short_name": "GageBlockCalc",
   "description": "Find exact gage block combinations for inch and metric sets",
   "start_url": "/",
   "scope": "/",

@@ -1,6 +1,6 @@
 {
   "name": "GageBlockCalc",
-  "short_name": "Gage Blocks",
+  "short_name": "GageBlockCalc",
   "description": "Free gage block stack calculator for inch and metric sets.",
   "start_url": "/",
   "scope": "/",
