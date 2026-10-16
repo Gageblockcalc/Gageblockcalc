@@ -287,6 +287,7 @@
     }
 
     .results { min-height: 80px; }
+    .seasonal-pun { margin: 6px 0 0; font-size: 0.8rem; color: var(--muted); text-align: center; overflow-wrap: anywhere; }
 
     .hint, .loading, .error, .meta {
       text-align: center;
@@ -754,6 +755,7 @@
     <div class="block-selection" id="blockSelection"></div>
 
     <div class="results" id="results" aria-live="polite"></div>
+    <p class="seasonal-pun no-print" data-seasonal-pun hidden></p>
 
     <aside class="affiliate-panel no-print" id="affiliatePanel" aria-label="Shop gage blocks">
       <h2 id="affiliatePanelTitle">Shop gage blocks for this set</h2>
@@ -833,6 +835,7 @@
   <script src="affiliate-config.js"></script>
   <script src="hub-config.js"></script>
   <script src="hub.js"></script>
+  <script src="seasonal.js" defer></script>
   <script src="version.js" defer></script>
   <script src="app.js"></script>
   <script src="https://nick-sites-hub.tekjeep.workers.dev/embed.js" data-site="gageblockcalc" defer></script>
