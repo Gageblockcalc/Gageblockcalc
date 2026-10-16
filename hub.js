@@ -74,6 +74,14 @@
     isNew = true;
   }
 
+  // Resilience: last good count cached in localStorage; 10-min backoff after 429/5xx/network error.
+  const CACHE_KEY = 'gageblockcalc-counter-cache';
+  const DOWN_KEY = 'gageblockcalc-counter-down-until';
+  function lsGet(k) { try { return localStorage.getItem(k); } catch (_) { return null; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (_) {} }
+  function isDown() { return Number(lsGet(DOWN_KEY) || 0) > Date.now(); }
+  function markDown() { lsSet(DOWN_KEY, String(Date.now() + 600000)); }
+
   function show(d) {
     if (!d || typeof d.total !== 'number' || d.total < 1) return;
     let txt = d.total.toLocaleString() + (d.total === 1 ? ' visit' : ' visits');
@@ -83,14 +91,26 @@
 
   let beats = 0;
   function ping() {
+    if (isDown()) return;
     const body = JSON.stringify({ site: 'calc', sid: sid, new: isNew });
     isNew = false;
     // text/plain keeps this a "simple" CORS request (no preflight round trip)
-    fetch(COUNTER + '/visit', { method: 'POST', body: body, credentials: 'omit', headers: { 'Content-Type': 'text/plain' } })
-      .then((r) => (r.ok ? r.json() : null))
-      .then(show)
-      .catch(() => {});
+    try {
+      fetch(COUNTER + '/visit', { method: 'POST', body: body, credentials: 'omit', headers: { 'Content-Type': 'text/plain' } })
+        .then((r) => {
+          if (r.status === 429 || r.status >= 500) { markDown(); return null; }
+          return r.ok ? r.json().catch(() => null) : null;
+        })
+        .then((d) => {
+          if (!d || typeof d.total !== 'number' || d.total < 1) return;
+          lsSet(CACHE_KEY, JSON.stringify({ total: d.total, at: Date.now() }));
+          show(d);
+        })
+        .catch(() => { markDown(); });
+    } catch (_) { markDown(); }
   }
+
+  try { const c = JSON.parse(lsGet(CACHE_KEY) || 'null'); if (c) show({ total: c.total }); } catch (_) {}
 
   function start() {
     ping();
