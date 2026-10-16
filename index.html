@@ -633,6 +633,8 @@
     .bmc-btn[hidden] { display: none; }
     .bmc-btn:hover { filter: brightness(0.95); border-color: #d4b800; color: #000; }
 
+    .calc-version { margin-top: 0.4rem; font-size: 11px; color: #adb5bd; }
+    .calc-version a { color: inherit; }
     .footer .disclosure {
       display: block;
       margin-bottom: 4px;
@@ -819,6 +821,7 @@
       <nav class="hub-footer no-print" aria-label="Site feedback" style="margin-top:0.5rem"><a href="#feedback" onclick="event.preventDefault();window.NickHub&&window.NickHub.openFeedback();return false;">Feedback</a> · <a href="#chat" onclick="event.preventDefault();window.NickHub&&window.NickHub.openChat();return false;">Chat</a></nav>
       <nav class="hub-footer no-print" aria-label="More tools by Nicholas Duncan" style="margin-top:0.5rem" id="nick-hub-also"></nav>
       Made by Nicholas Duncan 2026 · <a href="https://buymeacoffee.com/tekjeep" target="_blank" rel="noopener">☕ Buy me a coffee</a>
+      <div class="calc-version no-print"><span id="calcVersion" class="notranslate" translate="no"></span></div>
     </div>
   </div>
 
@@ -828,6 +831,7 @@
   <script src="affiliate-config.js"></script>
   <script src="hub-config.js"></script>
   <script src="hub.js"></script>
+  <script src="version.js" defer></script>
   <script src="app.js"></script>
   <script src="https://nick-sites-hub.tekjeep.workers.dev/embed.js" data-site="gageblockcalc" defer></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(function(){})}</script>

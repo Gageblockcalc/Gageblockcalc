@@ -1,4 +1,4 @@
-const CACHE = 'nick-pwa-v2';
+const CACHE = 'gbc-1.0.50';
 const PRE = ['/', '/offline.html', '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png'];
 const HUB_RE = /nick-sites-hub\.tekjeep\.workers\.dev|\/api\/|railway\.app|firebaseio\.com|googleapis\.com|cloudflareinsights|buymeacoffee/i;
 self.addEventListener('install', (e) => {
@@ -32,15 +32,16 @@ self.addEventListener('fetch', (e) => {
     return;
   }
   if (/\.(?:js|css|png|jpg|jpeg|webp|gif|svg|ico|woff2?|ttf|json|webmanifest)$/i.test(url.pathname)) {
+    // Stale-while-revalidate: instant from cache, refreshed in the background so fixes reach returning visitors.
     e.respondWith((async () => {
-      const cached = await caches.match(req);
-      if (cached) return cached;
-      try {
-        const fresh = await fetch(req);
-        const cache = await caches.open(CACHE);
-        cache.put(req, fresh.clone()).catch(() => {});
+      const cache = await caches.open(CACHE);
+      const cached = await cache.match(req);
+      const network = fetch(req).then((fresh) => {
+        if (fresh.ok) cache.put(req, fresh.clone()).catch(() => {});
         return fresh;
-      } catch { return cached || Response.error(); }
+      });
+      if (cached) { e.waitUntil(network.catch(() => {})); return cached; }
+      try { return await network; } catch { return Response.error(); }
     })());
   }
 });
