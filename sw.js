@@ -1,4 +1,4 @@
-const CACHE = 'gbc-1.0.71';
+const CACHE = 'gbc-1.0.73';
 const PRE = ['/', '/offline.html', '/worker.js', '/algorithm.js', '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png'];
 const HUB_RE = /nick-sites-hub\.tekjeep\.workers\.dev|\/api\/|railway\.app|firebaseio\.com|googleapis\.com|cloudflareinsights|buymeacoffee/i;
 self.addEventListener('install', (e) => {
