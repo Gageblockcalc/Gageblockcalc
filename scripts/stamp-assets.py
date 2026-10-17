@@ -10,9 +10,11 @@ def sub(path, pattern, repl):
 # HTML: local <script src> and <link href> to js/css/manifest (skip http(s) and //)
 for h in glob.glob('*.html'):
     sub(h, r'((?:src|href)=")(?!https?:|//|#|mailto:)([^"?]+\.(?:js|css|webmanifest|json))' + V + '"', r'\g<1>\g<2>?v=' + v + '"')
-# Service worker registration (both places must use the same URL)
+# Service worker registration stays at the plain '/sw.js': the shared hub embed also registers '/sw.js',
+# and two different script URLs would make the registration flip-flop on every page load.
+# sw.js itself changes every release (CACHE name), and page assets are ?v-stamped, so the page is fresh either way.
 for f in ('app.js', 'boot.js'):
-    sub(f, r"register\('/sw\.js" + V + "'", "register('/sw.js?v=" + v + "'")
+    sub(f, r"register\('/sw\.js" + V + "'", "register('/sw.js'")
 # Web Worker URL and its importScripts
 sub('app.js', r"new Worker\('worker\.js" + V + "'\\)", "new Worker('worker.js?v=" + v + "')")
 sub('worker.js', r"importScripts\('algorithm\.js" + V + "'\\)", "importScripts('algorithm.js?v=" + v + "')")
