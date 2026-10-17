@@ -480,7 +480,7 @@
     if (workerBroken) return null;
     if (solverWorker) return solverWorker;
     try {
-      solverWorker = new Worker('worker.js');
+      solverWorker = new Worker('worker.js?v=1.0.78');
       solverWorker.onmessage = (e) => {
         const d = e.data || {};
         const p = pending.get(d.id);
@@ -836,7 +836,7 @@
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker
-          .register('/sw.js', { scope: '/' })
+          .register('/sw.js?v=1.0.78', { scope: '/' })
           .catch(function () {});
       });
     }

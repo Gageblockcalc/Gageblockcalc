@@ -16,5 +16,5 @@
     s.onerror = function () { s.remove(); };
     document.body.appendChild(s);
   } catch (e) {}
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(function () {});
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js?v=1.0.78').catch(function () {});
 })();
