@@ -717,7 +717,6 @@
             });
           });
           actions.appendChild(qcBtn);
-          actions.after(qcForm);
 
           const Hub = globalThis.GageBlockHub;
           if (Hub && Hub.enabled) {
@@ -738,6 +737,7 @@
 
           div.innerHTML = head + body;
           div.appendChild(actions);
+          div.appendChild(qcForm);
           frag.appendChild(div);
         });
 
