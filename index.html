@@ -499,6 +499,35 @@
       display: none;
     }
 
+    .qc-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      align-items: flex-end;
+      margin: 8px 0 4px;
+      font-size: 0.85rem;
+    }
+
+    .qc-form[hidden] {
+      display: none;
+    }
+
+    .qc-form label {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .qc-form input,
+    .qc-form select {
+      font: inherit;
+      padding: 6px 8px;
+      min-height: 36px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      max-width: 100%;
+    }
+
 
     .affiliate-panel {
       background: var(--soft);
@@ -720,6 +749,17 @@
         font-weight: 600;
         word-break: break-word;
       }
+
+      .qc-inner { max-width: 640px; }
+      .qc-grid { display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; }
+      .qc-grid dt { margin-top: 0; align-self: end; }
+      .qc-grid dd { margin: 0; }
+      .qc-blank { display: inline-block; min-width: 140px; border-bottom: 1px solid #000; height: 1.1em; vertical-align: bottom; }
+      .qc-table { width: 100%; border-collapse: collapse; margin: 16px 0 8px; font-variant-numeric: tabular-nums; }
+      .qc-table th, .qc-table td { border: 1px solid #000; padding: 4px 8px; text-align: left; }
+      .qc-table td.qc-chk { width: 70px; }
+      .qc-table tr { break-inside: avoid; }
+      .qc-temp, .qc-sign { font-size: 0.9rem; margin: 10px 0; }
 
       .ticket-footer {
         margin-top: 24px;

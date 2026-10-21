@@ -392,6 +392,54 @@
   }
 
 
+  function escHtml(v) {
+    return String(v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+
+  // Printable QC record. Uses the print CSS and window.print only (no libraries).
+  function printQc(stack, target, setDef, ok, opts) {
+    const ticket = $('#printTicket');
+    if (!ticket) { window.print(); return; }
+    const unit = setDef.unitLabel === 'mm' ? 'mm' : 'in';
+    const o = opts || {};
+    const blank = '<span class="qc-blank"></span>';
+    const V = window.CALC_VERSION || {};
+    const site = location.origin + location.pathname.replace(/index\.html$/, '');
+    const wear = state.useWear
+      ? 'Included (' + (unit === 'mm' ? '2 × 1 mm' : '2 × 0.050"') + ' wear blocks at the stack ends)'
+      : 'Not used';
+    const rows = stack
+      .map((s, i) => '<tr><td>' + (i + 1) + '</td><td>' + formatSize(s, setDef) + ' ' + unit + '</td><td class="qc-chk"></td></tr>')
+      .join('');
+    ticket.innerHTML =
+      '<div class="ticket-inner qc-inner">' +
+      '<h2>Gage Block Stack QC Record</h2>' +
+      '<dl class="qc-grid">' +
+      '<dt>Target</dt><dd>' + formatSize(target, setDef) + ' ' + unit + '</dd>' +
+      '<dt>Set</dt><dd>' + escHtml(setDef.name) + '</dd>' +
+      '<dt>Grade</dt><dd>' + (o.grade ? escHtml(o.grade) : blank) + '</dd>' +
+      '<dt>Wear blocks</dt><dd>' + wear + '</dd>' +
+      '<dt>Date / time</dt><dd>' + formatTicketDate(new Date()) + '</dd>' +
+      '<dt>Operator</dt><dd>' + (o.operator ? escHtml(o.operator) : blank) + '</dd>' +
+      '</dl>' +
+      '<table class="qc-table"><thead><tr><th>#</th><th>Block</th><th>Wrung ✓</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+      '<p class="ticket-stack">' + stackLine(stack, target, setDef, ok) + '</p>' +
+      '<p class="qc-temp"><strong>Temperature:</strong> gage block sizes are defined at the 20 °C (68 °F) reference temperature (ISO 1). ' +
+      'Let blocks and part soak to the same temperature before measuring. Ambient: ' + blank + '</p>' +
+      '<p class="qc-sign">Measured size: ' + blank + ' &nbsp; Checked by: ' + blank + '</p>' +
+      '<p class="ticket-footer">' + escHtml(site) + ' · v' + escHtml(V.version || '') + (V.commit ? ' · ' + escHtml(V.commit) : '') + '</p>' +
+      '</div>';
+    document.body.classList.add('printing-ticket');
+    const cleanup = () => {
+      document.body.classList.remove('printing-ticket');
+      window.removeEventListener('afterprint', cleanup);
+    };
+    window.addEventListener('afterprint', cleanup);
+    window.print();
+    setTimeout(cleanup, 2000);
+  }
+
+
   function setShopHref() {
     const A = globalThis.GageBlockAffiliate;
     if (!A) return '#';
@@ -643,6 +691,33 @@
             printTicket(stack, target, setDef, ok);
           });
           actions.appendChild(printBtn);
+          const qcBtn = document.createElement('button');
+          qcBtn.type = 'button';
+          qcBtn.className = 'button button-tiny button-secondary';
+          qcBtn.textContent = 'QC record';
+          qcBtn.setAttribute('aria-expanded', 'false');
+          const qcForm = document.createElement('div');
+          qcForm.className = 'qc-form no-print';
+          qcForm.hidden = true;
+          qcForm.innerHTML =
+            '<label>Operator <input type="text" class="qc-op" maxlength="60" autocomplete="name"></label>' +
+            '<label>Grade <select class="qc-grade"><option value="">(write in)</option>' +
+            ['K', '00', '0', '1', '2', 'AS-1', 'AS-2'].map((g) => '<option>' + g + '</option>').join('') +
+            '</select></label>' +
+            '<button type="button" class="button button-tiny qc-print">Print QC record</button>';
+          qcBtn.addEventListener('click', () => {
+            qcForm.hidden = !qcForm.hidden;
+            qcBtn.setAttribute('aria-expanded', String(!qcForm.hidden));
+            if (!qcForm.hidden) qcForm.querySelector('.qc-op').focus();
+          });
+          qcForm.querySelector('.qc-print').addEventListener('click', () => {
+            printQc(stack, target, setDef, ok, {
+              operator: qcForm.querySelector('.qc-op').value.trim(),
+              grade: qcForm.querySelector('.qc-grade').value,
+            });
+          });
+          actions.appendChild(qcBtn);
+          actions.after(qcForm);
 
           const Hub = globalThis.GageBlockHub;
           if (Hub && Hub.enabled) {
