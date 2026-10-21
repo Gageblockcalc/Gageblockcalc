@@ -480,7 +480,7 @@
     if (workerBroken) return null;
     if (solverWorker) return solverWorker;
     try {
-      solverWorker = new Worker('worker.js?v=1.0.80');
+      solverWorker = new Worker('worker.js?v=1.0.82');
       solverWorker.onmessage = (e) => {
         const d = e.data || {};
         const p = pending.get(d.id);
