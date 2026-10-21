@@ -1,5 +1,5 @@
 /* Gage Block Calculator — solver Web Worker. Runs findStacks off the main thread. */
-importScripts('algorithm.js?v=1.0.84');
+importScripts('algorithm.js?v=1.0.86');
 var A = self.GageBlockAlgo;
 var SETS = A.buildSets();
 self.onmessage = function (e) {
