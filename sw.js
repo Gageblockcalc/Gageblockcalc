@@ -1,5 +1,5 @@
-const CACHE = 'gbc-1.0.86';
-const PRE = ['/', '/offline.html', '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png', '/algorithm.js?v=1.0.86', '/affiliate-config.js?v=1.0.86', '/hub-config.js?v=1.0.86', '/hub.js?v=1.0.86', '/seasonal.js?v=1.0.86', '/version.js?v=1.0.86', '/app.js?v=1.0.86', '/boot.js?v=1.0.86', '/worker.js?v=1.0.86'];
+const CACHE = 'gbc-1.0.88';
+const PRE = ['/', '/offline.html', '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png', '/algorithm.js?v=1.0.88', '/affiliate-config.js?v=1.0.88', '/hub-config.js?v=1.0.88', '/hub.js?v=1.0.88', '/seasonal.js?v=1.0.88', '/version.js?v=1.0.88', '/app.js?v=1.0.88', '/boot.js?v=1.0.88', '/worker.js?v=1.0.88'];
 const HUB_RE = /nick-sites-hub\.tekjeep\.workers\.dev|\/api\/|railway\.app|firebaseio\.com|googleapis\.com|cloudflareinsights|buymeacoffee/i;
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(PRE.map((u) => new Request(u, { cache: 'reload' }))).catch(() => {})));
