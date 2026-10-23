@@ -567,6 +567,38 @@
     });
   }
 
+  // Collapsed, deterministic explanation of the primary stack (text only; never changes a result).
+  function buildExplain(e, setDef, unit, stackCount) {
+    const d = document.createElement('details');
+    d.className = 'explain no-print';
+    const sm = document.createElement('summary');
+    sm.textContent = 'Explain this stack';
+    d.appendChild(sm);
+    const para = (strong, text) => {
+      const p = document.createElement('p');
+      const b = document.createElement('strong');
+      b.textContent = strong + ' ';
+      p.appendChild(b);
+      p.appendChild(document.createTextNode(text));
+      return p;
+    };
+    d.appendChild(para('Why these blocks.', 'The ' + setDef.name + ' set builds ' + e.total + ' from ' + e.count + ' block' + (e.count === 1 ? '' : 's') + '. ' + e.how));
+    const ol = document.createElement('ol');
+    e.steps.forEach((s) => {
+      const li = document.createElement('li');
+      const b = document.createElement('strong');
+      b.textContent = s.label;
+      li.appendChild(b);
+      li.appendChild(document.createTextNode(': stack height ' + s.height + ', ' + s.note));
+      ol.appendChild(li);
+    });
+    d.appendChild(ol);
+    d.appendChild(para('Why ' + e.count + ' block' + (e.count === 1 ? '' : 's') + '.', e.why + (stackCount > 1 ? ' Other combinations are listed above for when a block is missing or worn.' : '')));
+    d.appendChild(para('Wring order.', 'Build it from the thickest block down: ' + e.wring.join(', then ') + '. Wring each thinner block onto the stack with a light slide-and-press, do not force thin blocks, and use clean, dry blocks.'));
+    d.appendChild(para('Temperature.', e.temp + ' Let the stack and the part reach the same temperature before measuring.'));
+    return d;
+  }
+
   function renderResults(target) {
     const results = $('#results');
     const setDef = currentSet();
@@ -741,6 +773,15 @@
           frag.appendChild(div);
         });
 
+        const X = globalThis.GageBlockExplain;
+        if (X && stacks.length) {
+          try {
+            frag.appendChild(buildExplain(X.explainStack(stacks[0], target, setDef, method, formatSize), setDef, unit, stacks.length));
+          } catch (err) {
+            console.warn('explain skipped', err);
+          }
+        }
+
         const A = globalThis.GageBlockAffiliate;
         if (A && stacks.length) {
           const cta = document.createElement('p');
@@ -768,7 +809,7 @@
           ask.href = Hub.askUrl(question);
           ask.target = '_blank';
           ask.rel = 'noopener';
-          ask.textContent = 'Ask the AI Machinist';
+          ask.textContent = 'Ask a machinist';
           hubLine.appendChild(ask);
           const sep = document.createElement('span');
           sep.className = 'sep';

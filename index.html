@@ -596,6 +596,20 @@
     }
 
     /* Machinist Hub hand-offs: small, below the results and in the footer only */
+    .explain {
+      background: var(--soft);
+      border-radius: 8px;
+      border-left: 4px solid var(--primary);
+      padding: 8px 14px;
+      margin: 0 0 10px;
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+    .explain summary { cursor: pointer; font-weight: 700; color: var(--primary); padding: 4px 0; }
+    .explain p { margin: 8px 0; }
+    .explain ol { margin: 8px 0; padding-left: 22px; }
+    .explain li { margin: 4px 0; }
+
     .hub-cta {
       text-align: center;
       margin: 0 0 8px;
@@ -864,7 +878,7 @@
 
     <div class="footer">
       <nav class="hub-footer no-print" id="hubFooterLinks" aria-label="Machinist Hub">
-        <a data-hub-path="/#chat" rel="noopener">Ask the AI Machinist</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/" rel="noopener" title="Machinist community, saved stacks and guides">Machinist Hub</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/guides/" rel="noopener">Guides</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/tools/sine-bar-calculator" rel="noopener">Sine bar calculator</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/gage-block-stacks/" href="https://askmachinist.com/gage-block-stacks/" rel="noopener" title="Worked gage block stacks, set contents and charts">Gage block stacks</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/guides/metric-gage-block-stacks" rel="noopener">Metric stacks guide</a>
+        <a data-hub-path="/#chat" rel="noopener">Ask a machinist</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/" rel="noopener" title="Machinist community, saved stacks and guides">Machinist Hub</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/guides/" rel="noopener">Guides</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/tools/sine-bar-calculator" rel="noopener">Sine bar calculator</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/gage-block-stacks/" href="https://askmachinist.com/gage-block-stacks/" rel="noopener" title="Worked gage block stacks, set contents and charts">Gage block stacks</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/guides/metric-gage-block-stacks" rel="noopener">Metric stacks guide</a>
       </nav>
       <div class="footer-extras no-print">
         <a class="bmc-btn" id="bmcBtn" href="https://buymeacoffee.com/tekjeep" target="_blank" rel="noopener">☕ Buy me a coffee</a>
@@ -888,6 +902,7 @@
   <script src="hub.js?v=1.0.95"></script>
   <script src="seasonal.js?v=1.0.95" defer></script>
   <script src="version.js?v=1.0.95" defer></script>
+  <script src="explain.js?v=1.0.95"></script>
   <script src="app.js?v=1.0.95"></script>
   <script src="boot.js?v=1.0.95" defer></script>
 <script src="https://nick-apk-test.pages.dev/get-app.js" data-app="gageblockcalc" defer></script>

@@ -1,3 +1,9 @@
+## 2026-10-23 — Explain this stack (branch `smart-explain`, NOT deployed)
+
+- New collapsed **Explain this stack** panel under the results (closed by default, hidden when printing). Plain templated text computed only from the stack the solver already returned: why those blocks (finest first, with what is left to build and its decimal place), why that many blocks, wring order (thickest first) and the steel temperature note (11.5e-6 per deg C). No network, no model, no solver change; results are byte-identical to v1.0.95 (checked on 5 sets).
+- New `explain.js` (pure functions, ~3 KB) and `test/explain.test.js`.
+- Wording: "Ask the AI Machinist" is now "Ask a machinist" (results line and footer).
+
 ## 2026-10-05 — Machinist Hub links + visitor counter (branch `hub-integration`)
 
 - Nothing above the fold changed (desktop 1280 and mobile 390 screenshots are pixel-identical to the live site). No popups, no banners, no login, no Firebase.

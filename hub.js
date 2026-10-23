@@ -29,7 +29,7 @@
     return HUB + '/?' + q.toString() + '#profile';
   }
 
-  /** Opens the AI Machinist with the question typed in (not sent). */
+  /** Opens the Ask a Machinist helper with the question typed in (not sent). */
   function askUrl(question) {
     if (!HUB) return '';
     if (!question) return HUB + '/#chat';
