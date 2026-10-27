@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0c1222"/>
+  <rect x="0" y="0" width="1200" height="6" fill="#0d6efd"/>
+  <rect x="56" y="48" width="430" height="490" rx="28" fill="#101827" stroke="#1e293b" stroke-width="2"/>
+  <defs>
+    <linearGradient id="ogSteel" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6d7f95"/>
+      <stop offset="0.05" stop-color="#f8fafc"/>
+      <stop offset="0.18" stop-color="#e7edf3"/>
+      <stop offset="0.7" stop-color="#d0dae4"/>
+      <stop offset="0.94" stop-color="#b4c0ce"/>
+      <stop offset="1" stop-color="#526378"/>
+    </linearGradient>
+    <linearGradient id="ogLip" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <g fill="url(#ogSteel)">
+    <rect x="146" y="118" width="250" height="46" rx="1"/>
+    <rect x="146" y="176" width="250" height="58" rx="1"/>
+    <rect x="146" y="246" width="250" height="78" rx="1"/>
+    <rect x="146" y="336" width="250" height="112" rx="1"/>
+  </g>
+  <g fill="url(#ogLip)">
+    <rect x="146" y="118" width="250" height="7"/>
+    <rect x="146" y="176" width="250" height="8"/>
+    <rect x="146" y="246" width="250" height="9"/>
+    <rect x="146" y="336" width="250" height="10"/>
+  </g>
+  <g fill="#1e293b" opacity="0.14">
+    <rect x="146" y="154" width="250" height="10"/>
+    <rect x="146" y="222" width="250" height="12"/>
+    <rect x="146" y="308" width="250" height="16"/>
+    <rect x="146" y="430" width="250" height="18"/>
+  </g>
+  <g fill="#1e293b" font-family="JetBrains Mono" font-weight="500" text-anchor="middle">
+    <text x="271" y="147" font-size="16">0.1000</text>
+    <text x="271" y="211" font-size="18">0.2500</text>
+    <text x="271" y="292" font-size="20">0.5000</text>
+    <text x="271" y="402" font-size="24">1.0000</text>
+  </g>
+  <rect x="128" y="464" width="286" height="14" rx="2" fill="#0d6efd"/>
+  <rect x="128" y="464" width="286" height="3" fill="#bfdbfe"/>
+  <text x="548" y="168" fill="#93c5fd" font-family="Inter" font-weight="600" font-size="18" letter-spacing="2.4">GAGE BLOCK STACK CALCULATOR</text>
+  <text x="548" y="252" fill="#f8fafc" font-family="Inter" font-weight="700" font-size="62" letter-spacing="-1.4">GageBlockCalc</text>
+  <rect x="548" y="278" width="92" height="6" rx="3" fill="#0d6efd"/>
+  <text x="548" y="348" fill="#e2e8f0" font-family="Inter" font-weight="500" font-size="32">Fewest-block stacks</text>
+  <text x="548" y="394" fill="#e2e8f0" font-family="Inter" font-weight="500" font-size="32">for inch &amp; metric sets.</text>
+  <g font-family="Inter" font-weight="600" font-size="20">
+    <rect x="548" y="436" width="92" height="46" rx="23" fill="#0d6efd"/>
+    <text x="594" y="466" fill="#ffffff" text-anchor="middle">Free</text>
+    <rect x="652" y="436" width="148" height="46" rx="23" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+    <text x="726" y="466" fill="#e2e8f0" text-anchor="middle">No login</text>
+    <rect x="812" y="436" width="196" height="46" rx="23" fill="#0f172a" stroke="#334155" stroke-width="2"/>
+    <text x="910" y="466" fill="#e2e8f0" text-anchor="middle">Inch &amp; metric</text>
+  </g>
+  <rect x="0" y="562" width="1200" height="68" fill="#080d18"/>
+  <rect x="0" y="562" width="1200" height="1" fill="#1e293b"/>
+  <text x="548" y="605" fill="#f8fafc" font-family="Inter" font-weight="600" font-size="26">gageblockcalc.com</text>
+</svg>
