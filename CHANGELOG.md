@@ -1,3 +1,10 @@
+## 2026-10-27 — Brand wordmark, icons, and search tags
+
+- Public wordmark is **GageBlockCalc** in the H1, with the stack mark beside it. The subtitle is the free inch and metric gage block stack calculator (fewest blocks, no login).
+- Document title, Open Graph, and Twitter titles match. Added `twitter:image` and image alt text. Meta description names fewest-block stacks, inch/metric set sizes, and no login.
+- New SVG favicon (gage-block stack) and regenerated PNG icons: 32, apple-touch 180, 192, 512, and maskable 192/512. Social image is 1200×630 with the wordmark, tagline, and gageblockcalc.com. Install screenshots show the same wordmark.
+- Solver and block math are unchanged. Hub links, the Christmas gift guide, and the Buy Me a Coffee link stay.
+
 ## 2026-10-23 — Explain this stack (branch `smart-explain`, NOT deployed)
 
 - New collapsed **Explain this stack** panel under the results (closed by default, hidden when printing). Plain templated text computed only from the stack the solver already returned: why those blocks (finest first, with what is left to build and its decimal place), why that many blocks, wring order (thickest first) and the steel temperature note (11.5e-6 per deg C). No network, no model, no solver change; results are byte-identical to v1.0.95 (checked on 5 sets).
