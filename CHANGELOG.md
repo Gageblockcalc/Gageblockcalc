@@ -1,3 +1,10 @@
+## 2026-10-28 — On-page SEO and hub guide links (v1.0.102)
+
+- Richer meta, Open Graph, and Twitter descriptions name the free inch (imperial) and metric gage block stack calculator, including an 81-piece set, fewest blocks, and no login. Title stays the GageBlockCalc wordmark.
+- FAQ on the page and FAQPage JSON-LD now cover choosing a set, wear blocks, fewest blocks, inch vs metric, free with no login, and a gage block stone. Answers match the calculator: one set at a time, wear toggle, primary fewest-block stack.
+- Footer related guides link to the live AskMachinist pages for building a stack, wringing, choosing a set, and the machinist Christmas gift guide. The Machinist Hub link stays. Jeep Guides and SnapMatch sit in the More from Nick tools row.
+- Sitemap lastmod is 2026-10-28. The sitemap still lists the calculator home. `privacy.html` stays a redirect to the hub policy and is not a separate public page. Solver and block math are unchanged.
+
 ## 2026-10-27 — Brand wordmark, icons, and search tags
 
 - Public wordmark is **GageBlockCalc** in the H1, with the stack mark beside it. The subtitle is the free inch and metric gage block stack calculator (fewest blocks, no login).
