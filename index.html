@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="manifest" href="/manifest.webmanifest?v=1.0.103">
+<link rel="manifest" href="/manifest.webmanifest?v=1.0.104">
 <meta name="theme-color" content="#0f172a">
   <meta charset="UTF-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://nick-apk-test.pages.dev 'sha256-R6kjt5FwTd5vAw94Q08NLDZsSaGTzg4NsdIfKtECSp0=' https://nick-hub-static.pages.dev https://nick-sites-hub.tekjeep.workers.dev https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com https://www.gstatic.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://nick-hub-static.pages.dev https://nick-sites-hub.tekjeep.workers.dev https://www.gstatic.com https://translate.googleapis.com https://translate-pa.googleapis.com; img-src 'self' data: blob: https://www.google.com https://nick-sites-hub.tekjeep.workers.dev https://www.gstatic.com https://fonts.gstatic.com https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com https://m.media-amazon.com https://images-na.ssl-images-amazon.com; font-src 'self' data: https://fonts.gstatic.com https://www.gstatic.com; connect-src 'self' https://nick-apk-test.pages.dev https://nick-hub-static.pages.dev https://nick-sites-hub.tekjeep.workers.dev wss://nick-sites-hub.tekjeep.workers.dev https://gageblockcalc-chat.tekjeep.workers.dev https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com https://cloudflareinsights.com; frame-src 'self' https://translate.google.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://www.amazon.com; upgrade-insecure-requests">
@@ -31,7 +31,7 @@
   <meta name="twitter:image" content="https://gageblockcalc.com/icons/og-image.png?v=2026-10-27">
   <meta name="twitter:image:alt" content="GageBlockCalc, a free inch and metric gage block stack calculator. Fewest blocks, no login.">
   <title>GageBlockCalc — Free Inch &amp; Metric Gage Block Stack Calculator</title>
-  <link rel="manifest" href="/manifest.json?v=1.0.103">
+  <link rel="manifest" href="/manifest.json?v=1.0.104">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -99,6 +99,22 @@
         "acceptedAnswer": {
           "@type": "Answer",
           "text": "A serrated gage block stone knocks down light nicks and burrs so blocks wring again. Keep it clean, because grit on the stone can lap and change size. It does not replace badly damaged blocks."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How often should gage blocks be calibrated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Many shops start at 12 months for a working set, 6 months when blocks are used every day, and longer for a master set that is rarely handled. Your quality system and any customer requirement set the real interval. The gage block calibration interval guide explains how to choose and adjust one."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I check a micrometer with gage blocks?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A zero check only shows that the anvils meet. Check several sizes across the range so the spindle stops at different thimble positions. On a 0 to 1 inch micrometer, common sizes are 0.105, 0.210, and 0.315 inch. Build each stack in this calculator, then follow the how to check a micrometer with gage blocks guide."
         }
       }
     ]
@@ -681,6 +697,9 @@
     #hubFooterLinks,
     #relatedGuides { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; }
 
+    #relatedGuides { row-gap: 0.15rem; align-items: center; }
+    #relatedGuides a { white-space: normal; }
+
     .hub-footer {
       margin: 0 0 6px;
       font-size: 0.8rem;
@@ -918,6 +937,14 @@
         <summary>Do I need a gage block stone?</summary>
         <p>A serrated gage block stone knocks down light nicks and burrs so blocks wring again. Keep it clean, because grit on the stone can lap and change size. It does not replace badly damaged blocks.</p>
       </details>
+      <details>
+        <summary>How often should gage blocks be calibrated?</summary>
+        <p>Many shops start at 12 months for a working set, 6 months when blocks are used every day, and longer for a master set that is rarely handled. Your quality system and any customer requirement set the real interval. The <a href="https://askmachinist.com/guides/gage-block-calibration-interval" rel="noopener">gage block calibration interval</a> guide explains how to choose and adjust one.</p>
+      </details>
+      <details>
+        <summary>How do I check a micrometer with gage blocks?</summary>
+        <p>A zero check only shows that the anvils meet. Check several sizes across the range so the spindle stops at different thimble positions. On a 0 to 1 inch micrometer, common sizes are 0.105, 0.210, and 0.315 inch. Build each stack in this calculator, then follow the <a href="https://askmachinist.com/guides/how-to-check-a-micrometer-with-gage-blocks" rel="noopener">how to check a micrometer with gage blocks</a> guide.</p>
+      </details>
     </section>
 
     <div class="footer">
@@ -926,7 +953,19 @@
         <a data-hub-path="/#chat" rel="noopener">Ask a machinist</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/" rel="noopener" title="Machinist community, saved stacks and guides">Machinist Hub</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/guides/" rel="noopener">Guides</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/tools/sine-bar-calculator" rel="noopener">Sine bar calculator</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/gage-block-stacks/" href="https://askmachinist.com/gage-block-stacks/" rel="noopener" title="Worked gage block stacks, set contents and charts">Gage block stacks</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/guides/metric-gage-block-stacks" rel="noopener">Metric stacks guide</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/guides/machinist-christmas-gift-guide" href="https://askmachinist.com/guides/machinist-christmas-gift-guide" rel="noopener" title="Gift ideas for machinists: measuring tools and shop gear">Christmas gift guide</a>
       </nav>
       <nav class="hub-footer no-print" id="relatedGuides" aria-label="Related guides">
-        Related guides: <a href="https://askmachinist.com/guides/how-to-build-a-gage-block-stack" rel="noopener">How to build a gage block stack</a><span class="sep" aria-hidden="true">·</span><a href="https://askmachinist.com/guides/how-to-wring-gage-blocks" rel="noopener">How to wring gage blocks</a><span class="sep" aria-hidden="true">·</span><a href="https://askmachinist.com/guides/how-to-choose-a-gage-block-set" rel="noopener">How to choose a gage block set</a><span class="sep" aria-hidden="true">·</span><a href="https://askmachinist.com/guides/machinist-christmas-gift-guide" rel="noopener">Machinist Christmas gift guide</a>
+        Related guides:
+        <a href="https://askmachinist.com/guides/how-to-build-a-gage-block-stack" rel="noopener">How to build a gage block stack</a><span class="sep" aria-hidden="true">·</span>
+        <a href="https://askmachinist.com/guides/how-to-wring-gage-blocks" rel="noopener">How to wring gage blocks</a><span class="sep" aria-hidden="true">·</span>
+        <a href="https://askmachinist.com/guides/how-to-choose-a-gage-block-set" rel="noopener">How to choose a gage block set</a><span class="sep" aria-hidden="true">·</span>
+        <a href="https://askmachinist.com/guides/carbide-vs-steel-gage-blocks" rel="noopener">Carbide vs steel gage blocks</a><span class="sep" aria-hidden="true">·</span>
+        <a href="https://askmachinist.com/guides/gage-block-calibration-interval" rel="noopener">Gage block calibration interval</a><span class="sep" aria-hidden="true">·</span>
+        <a href="https://askmachinist.com/guides/gage-block-accessories" rel="noopener">Gage block accessories</a><span class="sep" aria-hidden="true">·</span>
+        <a href="https://askmachinist.com/guides/how-to-check-a-micrometer-with-gage-blocks" rel="noopener">Check a micrometer with gage blocks</a><span class="sep" aria-hidden="true">·</span>
+        <a href="https://askmachinist.com/guides/how-to-check-calipers-with-gage-blocks" rel="noopener">Check calipers with gage blocks</a><span class="sep" aria-hidden="true">·</span>
+        <a href="https://askmachinist.com/guides/how-to-check-a-height-gage-with-gage-blocks" rel="noopener">Check a height gage with gage blocks</a><span class="sep" aria-hidden="true">·</span>
+        <a href="https://askmachinist.com/guides/flatness-and-parallelism-with-gage-blocks" rel="noopener">Flatness and parallelism with gage blocks</a><span class="sep" aria-hidden="true">·</span>
+        <a href="https://askmachinist.com/guides/how-to-check-squareness" rel="noopener">How to check squareness</a><span class="sep" aria-hidden="true">·</span>
+        <a href="https://askmachinist.com/guides/machinist-christmas-gift-guide" rel="noopener">Machinist Christmas gift guide</a>
       </nav>
       <div class="footer-extras no-print">
         <a class="bmc-btn" id="bmcBtn" href="https://buymeacoffee.com/tekjeep" target="_blank" rel="noopener">☕ Buy me a coffee</a>
@@ -938,21 +977,21 @@
       <p class="hub-footer no-print" style="margin-top:0.25rem"><a href="https://nick-apk-test.pages.dev/">All apps</a></p>
       <section aria-label="Get the app" class="no-print"><div id="get-app"></div></section>
       Made by Nicholas Duncan 2026
-      <div class="calc-version no-print"><span id="calcVersion" class="notranslate" translate="no">v1.0.103 · 66ebe47 · 2026-10-27</span></div>
+      <div class="calc-version no-print"><span id="calcVersion" class="notranslate" translate="no">v1.0.104 · f6f79eb · 2026-10-27</span></div>
     </div>
   </div>
 
   <div class="print-ticket" id="printTicket" aria-hidden="true"></div>
 
-  <script src="algorithm.js?v=1.0.103"></script>
-  <script src="affiliate-config.js?v=1.0.103"></script>
-  <script src="hub-config.js?v=1.0.103"></script>
-  <script src="hub.js?v=1.0.103"></script>
-  <script src="seasonal.js?v=1.0.103" defer></script>
-  <script src="version.js?v=1.0.103" defer></script>
-  <script src="explain.js?v=1.0.103"></script>
-  <script src="app.js?v=1.0.103"></script>
-  <script src="boot.js?v=1.0.103" defer></script>
+  <script src="algorithm.js?v=1.0.104"></script>
+  <script src="affiliate-config.js?v=1.0.104"></script>
+  <script src="hub-config.js?v=1.0.104"></script>
+  <script src="hub.js?v=1.0.104"></script>
+  <script src="seasonal.js?v=1.0.104" defer></script>
+  <script src="version.js?v=1.0.104" defer></script>
+  <script src="explain.js?v=1.0.104"></script>
+  <script src="app.js?v=1.0.104"></script>
+  <script src="boot.js?v=1.0.104" defer></script>
 <script src="https://nick-apk-test.pages.dev/get-app.js" data-app="gageblockcalc" defer></script>
 </body>
 </html>

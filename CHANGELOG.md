@@ -1,3 +1,10 @@
+## 2026-10-27 — Related gage block guides (v1.0.104)
+
+- Footer related guides now link the live AskMachinist pages for carbide vs steel, calibration interval, accessories, checking a micrometer, calipers, and a height gage, flatness and parallelism, and squareness. The existing build, wring, choose-a-set, and Christmas gift guide links stay. Twelve guides total.
+- FAQ and FAQPage JSON-LD add how often to calibrate gage blocks, and how to check a micrometer with gage blocks. Each answer points at the matching guide. Calculator answers are unchanged.
+- The More from Nick studio link still reads St. Pete Web Co and still points at https://stpetewebco.com/. Solver and block math are unchanged.
+- `write-version.sh` still counts one behind the shipped version (it would stamp 1.0.103 again). This ship is stamped 1.0.104 by hand, with the same cache-bust query strings and service-worker cache name.
+
 ## 2026-10-27 — St. Pete Web Co footer label (v1.0.103)
 
 - More from Nick studio link now reads St. Pete Web Co and still points at https://stpetewebco.com/. Other footer links are unchanged. Solver and block math are unchanged.
