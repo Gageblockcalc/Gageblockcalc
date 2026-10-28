@@ -1,3 +1,7 @@
+## 2026-10-27 — St. Pete Web Co footer label (v1.0.103)
+
+- More from Nick studio link now reads St. Pete Web Co and still points at https://stpetewebco.com/. Other footer links are unchanged. Solver and block math are unchanged.
+
 ## 2026-10-28 — On-page SEO and hub guide links (v1.0.102)
 
 - Richer meta, Open Graph, and Twitter descriptions name the free inch (imperial) and metric gage block stack calculator, including an 81-piece set, fewest blocks, and no login. Title stays the GageBlockCalc wordmark.
