@@ -841,6 +841,22 @@
         padding-top: 10px;
       }
     }
+    /* Desktop polish (additive) */
+    h1.wordmark{font-size:1.6rem}
+    .tagline{font-size:1rem}
+    .install-bar{font-size:.85rem;padding-top:6px;padding-bottom:6px;opacity:.85}
+    #get-app{opacity:.75;transform:scale(.92);transform-origin:center top}
+    @media (min-width: 900px){
+      .container{max-width:780px;padding:28px 32px 22px}
+      h1.wordmark{font-size:2rem}
+      h1.wordmark .mark{width:40px;height:40px;flex-basis:40px}
+      .container .tagline{font-size:1.08rem}
+      #relatedGuides,#hubFooterLinks{display:block !important;columns:3;column-gap:1.5rem;text-align:left}
+      .footer #relatedGuides a,.footer #hubFooterLinks a{display:block !important;break-inside:avoid;padding:2px 0}
+      #relatedGuides .sep,#hubFooterLinks .sep{display:none}
+      #nick-hub-also{text-align:left}
+      #nick-hub-also div{margin:.2rem 0}
+    }
   </style>
 </head>
 <body>
@@ -955,7 +971,7 @@
         <a data-hub-path="/#chat" rel="noopener">Ask a machinist</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/" rel="noopener" title="Machinist community, saved stacks and guides">Machinist Hub</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/guides/" rel="noopener">Guides</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/tools/sine-bar-calculator" rel="noopener">Sine bar calculator</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/gage-block-stacks/" href="https://askmachinist.com/gage-block-stacks/" rel="noopener" title="Worked gage block stacks, set contents and charts">Gage block stacks</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/guides/metric-gage-block-stacks" rel="noopener">Metric stacks guide</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/guides/machinist-christmas-gift-guide" href="https://askmachinist.com/guides/machinist-christmas-gift-guide" rel="noopener" title="Gift ideas for machinists: measuring tools and shop gear">Christmas gift guide</a>
       </nav>
       <nav class="hub-footer no-print" id="relatedGuides" aria-label="Related guides">
-        Related guides:
+        <b style="column-span:all;display:block">Related guides</b>
         <a href="https://askmachinist.com/guides/how-to-build-a-gage-block-stack" rel="noopener">How to build a gage block stack</a><span class="sep" aria-hidden="true">·</span>
         <a href="https://askmachinist.com/guides/how-to-wring-gage-blocks" rel="noopener">How to wring gage blocks</a><span class="sep" aria-hidden="true">·</span>
         <a href="https://askmachinist.com/guides/how-to-choose-a-gage-block-set" rel="noopener">How to choose a gage block set</a><span class="sep" aria-hidden="true">·</span>
