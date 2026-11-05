@@ -1,3 +1,9 @@
+## 2026-11-05 — Inch 36-piece calculator page (v1.0.118)
+
+- New SEO page `/calculators/inch-36-gage-block-stack.html` with formula, worked example (0.7505 in), FAQ, HowTo/FAQPage/Breadcrumb JSON-LD, and deep-link CTAs (`set=inch-36`).
+- Calculators index lists the 36-piece page, ItemList schema updated, and a Guides on AskMachinist cross-promo row points at choose/build/wring/metric guides.
+- Related-calculator nav on inch/metric/wear pages and sitemap include the new URL. Solver and block math unchanged.
+
 ## 2026-10-27 — Related gage block guides (v1.0.104)
 
 - Footer related guides now link the live AskMachinist pages for carbide vs steel, calibration interval, accessories, checking a micrometer, calipers, and a height gage, flatness and parallelism, and squareness. The existing build, wring, choose-a-set, and Christmas gift guide links stay. Twelve guides total.
