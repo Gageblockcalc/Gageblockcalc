@@ -1,3 +1,9 @@
+## 2026-11-06 — Inch 28-piece calculator page (v1.0.121)
+
+- New SEO page `/calculators/inch-28-gage-block-stack.html` with formula, worked example (0.12345 in, verified against `set=inch-28` solver), FAQ, HowTo/FAQPage/Breadcrumb JSON-LD, and deep-link CTAs (`set=inch-28`).
+- Also-by-Nick / AskMachinist cross-promo on the new page (hub + choose/build/wring guides). Calculators index lists the 28-piece page; ItemList schema, related-calculator nav on inch/metric/wear/36 pages, and sitemap include the new URL.
+- Solver and block math unchanged.
+
 ## 2026-11-05 — Inch 36-piece calculator page (v1.0.119)
 
 - New SEO page `/calculators/inch-36-gage-block-stack.html` with formula, worked example (0.7505 in), FAQ, HowTo/FAQPage/Breadcrumb JSON-LD, and deep-link CTAs (`set=inch-36`).
