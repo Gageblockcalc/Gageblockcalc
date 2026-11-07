@@ -1,3 +1,11 @@
+## 2026-11-07 — Calculator entry and privacy-safe measure hooks (v1.0.123)
+
+- The target field shows the set unit (`in` or `mm`). A link with `wear=1` or `wear=0` sets the wear toggle; a link without `wear` leaves the saved choice alone. The wear-block guide now opens 2.3456 in with wear blocks on.
+- Home, calculator index, and the inch guide link AskMachinist's published 1/4-20 UNC measurement over wires (0.26083 in) to the 0.0001 in stack at 0.2608 in. The UNC/UNF guide itself is on AskMachinist and is not in this repo.
+- The FAQ header wraps, so "Open calculator" stays on a 320px screen.
+- A verified stack can emit `calculator_success` with `unit`, `set_type`, and `block_count`. A tagged Amazon outbound click can emit `affiliate_click` with `domain`, `placement`, `merchant`, and `destination_category`. The target dimension and other shop input are not included. A click is an outbound click, not a commission or a purchase.
+- Those events are not transmitted. Cloudflare Web Analytics is already on the live site and does not accept custom events. The visit counter has no event route. Affiliate tag `gageblockcalc-20` is unchanged. The calculator stays free. Solver and block math are unchanged.
+
 ## 2026-11-06 — Inch 28-piece calculator page (v1.0.121)
 
 - New SEO page `/calculators/inch-28-gage-block-stack.html` with formula, worked example (0.12345 in, verified against `set=inch-28` solver), FAQ, HowTo/FAQPage/Breadcrumb JSON-LD, and deep-link CTAs (`set=inch-28`).
