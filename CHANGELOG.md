@@ -1,4 +1,4 @@
-## 2026-11-07 — Calculator entry and privacy-safe measure hooks (v1.0.122)
+## 2026-11-07 — Calculator entry and privacy-safe measure hooks (v1.0.123)
 
 - The target field shows the set unit (`in` or `mm`). A link with `wear=1` or `wear=0` sets the wear toggle; a link without `wear` leaves the saved choice alone. The wear-block guide now opens 2.3456 in with wear blocks on.
 - Home, calculator index, and the inch guide link AskMachinist's published 1/4-20 UNC measurement over wires (0.26083 in) to the 0.0001 in stack at 0.2608 in. The UNC/UNF guide itself is on AskMachinist and is not in this repo.
