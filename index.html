@@ -235,6 +235,31 @@
       line-height: 1.35;
     }
 
+    .target-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .target-row input { flex: 1; min-width: 0; }
+
+    .target-unit {
+      flex: 0 0 auto;
+      min-width: 2.4rem;
+      text-align: center;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .entry-hint {
+      margin: 6px 0 0;
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .entry-hint a { font-weight: 600; }
+
     .wear-row {
       display: flex;
       align-items: center;
@@ -872,8 +897,12 @@
 
     <div>
       <label class="field-label" for="target">Target</label>
-      <input type="number" id="target" inputmode="decimal" min="0" step="0.0001"
-        placeholder="Target dimension" aria-label="Target dimension">
+      <div class="target-row">
+        <input type="number" id="target" inputmode="decimal" min="0" step="0.0001"
+          placeholder="Target dimension" aria-label="Target dimension">
+        <span id="targetUnit" class="target-unit" aria-hidden="true">in</span>
+      </div>
+      <p class="entry-hint no-print" id="threadEntry">Checking a UNC/UNF thread over wires? AskMachinist's three-wire chart lists 0.26083 in for a basic 1/4-20 UNC measurement. This set steps by 0.0001 in, so <a href="/?target=0.2608&amp;set=inch-81">build 0.2608 in on the 81-piece set</a>. <a href="https://askmachinist.com/guides/unc-unf-thread-size-chart" rel="noopener">UNC/UNF chart</a> · <a href="https://askmachinist.com/tools/three-wire-thread-measurement" rel="noopener">three-wire calculator</a></p>
     </div>
 
     <label class="wear-row" for="wearToggle">
@@ -894,9 +923,9 @@
     <aside class="affiliate-panel no-print" id="affiliatePanel" aria-label="Shop gage blocks">
       <h2 id="affiliatePanelTitle">Shop gage blocks for this set</h2>
       <ul class="affiliate-links" id="affiliateLinks">
-        <li><a id="affSetLink" href="https://www.amazon.com/s?k=gage+block+set+81+piece&amp;tag=gageblockcalc-20" target="_blank" rel="noopener sponsored">Buy gage block set on Amazon →</a></li>
-        <li><a id="affWearLink" href="https://www.amazon.com/s?k=gage+block+wear+blocks&amp;tag=gageblockcalc-20" target="_blank" rel="noopener sponsored">Buy wear / protection blocks on Amazon →</a></li>
-        <li><a id="affAccessoriesLink" href="https://www.amazon.com/s?k=gage+block+deburring+stone&amp;tag=gageblockcalc-20" target="_blank" rel="noopener sponsored">Buy a gage block stone on Amazon →</a></li>
+        <li><a id="affSetLink" data-measure="affiliate" data-affiliate-placement="shop_panel" data-affiliate-category="gage_block_set" href="https://www.amazon.com/s?k=gage+block+set+81+piece&amp;tag=gageblockcalc-20" target="_blank" rel="noopener sponsored">Buy gage block set on Amazon →</a></li>
+        <li><a id="affWearLink" data-measure="affiliate" data-affiliate-placement="shop_panel" data-affiliate-category="wear_blocks" href="https://www.amazon.com/s?k=gage+block+wear+blocks&amp;tag=gageblockcalc-20" target="_blank" rel="noopener sponsored">Buy wear / protection blocks on Amazon →</a></li>
+        <li><a id="affAccessoriesLink" data-measure="affiliate" data-affiliate-placement="shop_panel" data-affiliate-category="accessories" href="https://www.amazon.com/s?k=gage+block+deburring+stone&amp;tag=gageblockcalc-20" target="_blank" rel="noopener sponsored">Buy a gage block stone on Amazon →</a></li>
         <li><a id="affDealerLink" href="https://measurementsupply.com/product-catalog/gage-blocks" target="_blank" rel="noopener">Shop Measurement Supply →</a></li>
         <li><a id="affGiftLink" href="https://askmachinist.com/guides/machinist-christmas-gift-guide" rel="noopener">🎁 Gift ideas for machinists (by budget) →</a></li>
       </ul>
@@ -1003,6 +1032,8 @@
 
   <script src="algorithm.js?v=1.0.121"></script>
   <script src="affiliate-config.js?v=1.0.121"></script>
+  <script src="entry.js?v=1.0.121"></script>
+  <script src="measure.js?v=1.0.121"></script>
   <script src="hub-config.js?v=1.0.121"></script>
   <script src="hub.js?v=1.0.121"></script>
   <script src="seasonal.js?v=1.0.121" defer></script>

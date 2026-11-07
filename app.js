@@ -140,6 +140,8 @@
     $('#target').placeholder = 'Target (' + setDef.unitName + ')';
     $('#target').setAttribute('aria-label', 'Target dimension in ' + setDef.unitName);
     $('#target').step = setDef.unitLabel === 'mm' ? '0.001' : '0.0001';
+    const unitEl = $('#targetUnit');
+    if (unitEl) unitEl.textContent = setDef.unitLabel === 'mm' ? 'mm' : 'in';
     $('#setNote').textContent = setDef.note;
     const wearLabel =
       setDef.unitLabel === 'mm' ? '2×1 mm wear blocks' : '2×0.050" wear blocks';
@@ -219,6 +221,7 @@
       });
       saveState();
       populateBlocks();
+      commitToken = true;
       scheduleCalc();
     });
 
@@ -230,17 +233,9 @@
       });
       saveState();
       populateBlocks();
+      commitToken = true;
       scheduleCalc();
     });
-  }
-
-  function debounce(fn, wait) {
-    let t;
-    return function () {
-      const args = arguments;
-      clearTimeout(t);
-      t = setTimeout(() => fn.apply(null, args), wait);
-    };
   }
 
   function stackLine(stack, target, setDef, ok) {
@@ -440,6 +435,13 @@
   }
 
 
+  function tagAffiliate(el, placement, category) {
+    if (!el) return;
+    el.setAttribute('data-measure', 'affiliate');
+    el.setAttribute('data-affiliate-placement', placement);
+    el.setAttribute('data-affiliate-category', category);
+  }
+
   function setShopHref() {
     const A = globalThis.GageBlockAffiliate;
     if (!A) return '#';
@@ -470,6 +472,7 @@
     if (setLink) {
       setLink.href = setShopHref();
       setLink.textContent = 'Buy ' + setDef.name + ' set on Amazon →';
+      tagAffiliate(setLink, 'shop_panel', 'gage_block_set');
     }
     if (wearLink) {
       wearLink.href = typeof A.wearShopUrl === 'function'
@@ -479,10 +482,12 @@
         setDef.unitLabel === 'mm'
           ? 'Buy 1 mm wear / protection blocks on Amazon →'
           : 'Buy 0.050" wear / protection blocks on Amazon →';
+      tagAffiliate(wearLink, 'shop_panel', 'wear_blocks');
     }
     if (accLink) {
       accLink.href = A.amazonSearchUrl(accQ);
       accLink.textContent = 'Buy a gage block stone (wringing) on Amazon →';
+      tagAffiliate(accLink, 'shop_panel', 'accessories');
     }
     if (dealerLink) {
       const dealerUrl = (A.dealerUrl || '').trim();
@@ -606,18 +611,22 @@
     if (!target || target <= 0 || Number.isNaN(target)) {
       results.innerHTML =
         '<div class="hint">Enter a target dimension in ' + setDef.unitName + '</div>';
+      if (commitToken) finishSolve(false);
       return;
     }
 
     results.innerHTML = '<div class="loading" role="status">Calculating…</div>';
 
     const reqId = ++solveSeq;
+    solving = true;
     setTimeout(() => {
       const avail = effectiveAvailability();
       const any = Object.keys(avail).some((k) => avail[k] > 0);
+      if (reqId !== solveSeq) return;
       if (!any) {
         results.innerHTML =
           '<div class="error">No blocks available. Select at least one block.</div>';
+        finishSolve(false);
         return;
       }
       solveAsync(target, setDef, avail, state.useWear, usageForCurrentSet()).then((found) => {
@@ -635,6 +644,7 @@
         if (!stacks.length) {
           results.innerHTML =
             '<div class="error">No exact combination found. Check missing blocks or try a different set.</div>';
+          finishSolve(false);
           return;
         }
 
@@ -790,6 +800,7 @@
           a.href = setShopHref();
           a.target = '_blank';
           a.rel = 'noopener sponsored';
+          tagAffiliate(a, 'result_cta', 'gage_block_set');
           a.textContent = 'Need this set? Buy ' + setDef.name + ' on Amazon →';
           cta.appendChild(a);
           frag.appendChild(cta);
@@ -828,17 +839,72 @@
         results.innerHTML = '';
         results.appendChild(frag);
         recordStackUsage(stacks[0]);
+        const primaryOk = verifyStack(stacks[0], target, setDef.verifyTol, setDef.unitScale);
+        lastDrawn = {
+          ok: !!primaryOk,
+          unit: unit,
+          set_type: setDef.id || state.setId,
+          block_count: stacks[0].length,
+          targetKey: String(target),
+        };
+        finishSolve(!!primaryOk);
       } catch (e) {
         console.error(e);
         results.innerHTML =
           '<div class="error">Calculation error. Please try again.</div>';
+        finishSolve(false);
       }
     }
   }
 
-  const scheduleCalc = debounce(() => {
-    renderResults(parseFloat($('#target').value));
-  }, 280);
+  let calcTimer = null;
+  let solving = false;
+  let commitToken = false;
+  let lastDrawn = null;
+  let lastSentKey = '';
+
+  function scheduleCalc() {
+    clearTimeout(calcTimer);
+    calcTimer = setTimeout(() => {
+      calcTimer = null;
+      renderResults(parseFloat($('#target').value));
+    }, 280);
+  }
+
+  // Commit a successful calculation (deep link, Enter/blur, set change, or wear change).
+  // The target stays in memory only long enough to avoid counting one stack twice.
+  // It is not passed to the event.
+  function flushMeasure() {
+    commitToken = false;
+    const M = globalThis.GageBlockMeasure;
+    if (!M || !lastDrawn || !lastDrawn.ok) return;
+    const key = lastDrawn.unit + '|' + lastDrawn.set_type + '|' + lastDrawn.block_count + '|' + lastDrawn.targetKey;
+    if (key === lastSentKey) return;
+    lastSentKey = key;
+    M.calculatorSuccess({
+      unit: lastDrawn.unit,
+      set_type: lastDrawn.set_type,
+      block_count: lastDrawn.block_count,
+    });
+  }
+
+  function requestMeasure() {
+    const v = parseFloat($('#target').value);
+    if (!(v > 0)) {
+      commitToken = false;
+      return;
+    }
+    commitToken = true;
+    if (calcTimer || solving) return;
+    flushMeasure();
+  }
+
+  function finishSolve(success) {
+    solving = false;
+    if (!commitToken) return;
+    if (success) flushMeasure();
+    else commitToken = false;
+  }
 
   function onSetChange(_e, skipCalc) {
     saveState();
@@ -859,7 +925,10 @@
     populateBlocks();
     updateAffiliatePanel();
     saveState();
-    if (!skipCalc) scheduleCalc();
+    if (!skipCalc) {
+      commitToken = true;
+      scheduleCalc();
+    }
   }
 
   /**
@@ -869,25 +938,25 @@
    *   /?target=1.2345&set=inch-36  pick an exact set
    */
   function applyLinkParams() {
-    let q;
-    try {
-      q = new URLSearchParams(location.search);
-    } catch (_) {
-      return;
-    }
-    let setId = q.get('set');
-    const unit = q.get('unit');
-    if (!(setId && SETS[setId]) && (unit === 'in' || unit === 'mm') && currentSet().unitLabel !== unit) {
-      setId = unit === 'mm' ? 'metric-112' : 'inch-81';
+    const parsed = globalThis.GageBlockEntry
+      ? GageBlockEntry.parseEntryQuery(location.search)
+      : null;
+    if (!parsed) return;
+    let setId = parsed.setId;
+    if (!setId && parsed.unit && currentSet().unitLabel !== parsed.unit) {
+      setId = parsed.unit === 'mm' ? 'metric-112' : 'inch-81';
     }
     if (setId && SETS[setId] && setId !== state.setId) {
       $('#setSelect').value = setId;
       onSetChange(null, true);
     }
-    const t = (q.get('target') || '').trim();
-    if (/^(\d{1,4}(\.\d{1,6})?|\.\d{1,6})$/.test(t) && parseFloat(t) > 0) {
-      $('#target').value = t;
+    if (typeof parsed.wear === 'boolean') {
+      state.useWear = parsed.wear;
+      const box = $('#wearToggle');
+      if (box) box.checked = parsed.wear;
+      saveState();
     }
+    if (parsed.target) $('#target').value = parsed.target;
   }
 
   function init() {
@@ -905,9 +974,11 @@
     $('#wearToggle').addEventListener('change', () => {
       state.useWear = $('#wearToggle').checked;
       saveState();
+      commitToken = true;
       scheduleCalc();
     });
     $('#target').addEventListener('input', scheduleCalc);
+    $('#target').addEventListener('change', requestMeasure);
 
     $('#blockHeader').addEventListener('click', () => {
       const panel = $('#blockSelection');
@@ -946,6 +1017,7 @@
         t.disabled = n <= 0;
       }
       saveState();
+      commitToken = true;
       scheduleCalc();
     });
 
@@ -961,7 +1033,10 @@
     applyLinkParams();
 
     const initial = parseFloat($('#target').value);
-    if (initial > 0) renderResults(initial);
+    if (initial > 0) {
+      commitToken = true;
+      renderResults(initial);
+    }
     else
       $('#results').innerHTML =
         '<div class="hint">Enter a target dimension in ' + currentSet().unitName + '</div>';
