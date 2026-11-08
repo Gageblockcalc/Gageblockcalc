@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="manifest" href="/manifest.webmanifest?v=1.0.121">
+<link rel="manifest" href="/manifest.webmanifest?v=1.0.125">
 <meta name="theme-color" content="#0f172a">
   <meta charset="UTF-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://nick-apk-test.pages.dev 'sha256-R6kjt5FwTd5vAw94Q08NLDZsSaGTzg4NsdIfKtECSp0=' https://nick-hub-static.pages.dev https://nick-sites-hub.tekjeep.workers.dev https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com https://www.gstatic.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://nick-hub-static.pages.dev https://nick-sites-hub.tekjeep.workers.dev https://www.gstatic.com https://translate.googleapis.com https://translate-pa.googleapis.com; img-src 'self' data: blob: https://www.google.com https://nick-sites-hub.tekjeep.workers.dev https://www.gstatic.com https://fonts.gstatic.com https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com https://m.media-amazon.com https://images-na.ssl-images-amazon.com; font-src 'self' data: https://fonts.gstatic.com https://www.gstatic.com; connect-src 'self' https://nick-apk-test.pages.dev https://nick-hub-static.pages.dev https://nick-sites-hub.tekjeep.workers.dev wss://nick-sites-hub.tekjeep.workers.dev https://gageblockcalc-chat.tekjeep.workers.dev https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com https://cloudflareinsights.com; frame-src 'self' https://translate.google.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://www.amazon.com; upgrade-insecure-requests">
@@ -31,7 +31,7 @@
   <meta name="twitter:image" content="https://gageblockcalc.com/icons/og-image.png?v=2026-10-27">
   <meta name="twitter:image:alt" content="GageBlockCalc, a free inch and metric gage block stack calculator. Fewest blocks, no login.">
   <title>GageBlockCalc — Free Inch &amp; Metric Gage Block Stack Calculator</title>
-  <link rel="manifest" href="/manifest.json?v=1.0.121">
+  <link rel="manifest" href="/manifest.json?v=1.0.125">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -234,6 +234,31 @@
       margin: -4px 0 0;
       line-height: 1.35;
     }
+
+    .target-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .target-row input { flex: 1; min-width: 0; }
+
+    .target-unit {
+      flex: 0 0 auto;
+      min-width: 2.4rem;
+      text-align: center;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .entry-hint {
+      margin: 6px 0 0;
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .entry-hint a { font-weight: 600; }
 
     .wear-row {
       display: flex;
@@ -872,8 +897,12 @@
 
     <div>
       <label class="field-label" for="target">Target</label>
-      <input type="number" id="target" inputmode="decimal" min="0" step="0.0001"
-        placeholder="Target dimension" aria-label="Target dimension">
+      <div class="target-row">
+        <input type="number" id="target" inputmode="decimal" min="0" step="0.0001"
+          placeholder="Target dimension" aria-label="Target dimension">
+        <span id="targetUnit" class="target-unit" aria-hidden="true">in</span>
+      </div>
+      <p class="entry-hint no-print" id="threadEntry">Checking a UNC/UNF thread over wires? AskMachinist's three-wire chart lists 0.26083 in for a basic 1/4-20 UNC measurement. This set steps by 0.0001 in, so <a href="/?target=0.2608&amp;set=inch-81">build 0.2608 in on the 81-piece set</a>. <a href="https://askmachinist.com/guides/unc-unf-thread-size-chart" rel="noopener">UNC/UNF chart</a> · <a href="https://askmachinist.com/tools/three-wire-thread-measurement" rel="noopener">three-wire calculator</a></p>
     </div>
 
     <label class="wear-row" for="wearToggle">
@@ -894,9 +923,9 @@
     <aside class="affiliate-panel no-print" id="affiliatePanel" aria-label="Shop gage blocks">
       <h2 id="affiliatePanelTitle">Shop gage blocks for this set</h2>
       <ul class="affiliate-links" id="affiliateLinks">
-        <li><a id="affSetLink" href="https://www.amazon.com/s?k=gage+block+set+81+piece&amp;tag=gageblockcalc-20" target="_blank" rel="noopener sponsored">Buy gage block set on Amazon →</a></li>
-        <li><a id="affWearLink" href="https://www.amazon.com/s?k=gage+block+wear+blocks&amp;tag=gageblockcalc-20" target="_blank" rel="noopener sponsored">Buy wear / protection blocks on Amazon →</a></li>
-        <li><a id="affAccessoriesLink" href="https://www.amazon.com/s?k=gage+block+deburring+stone&amp;tag=gageblockcalc-20" target="_blank" rel="noopener sponsored">Buy a gage block stone on Amazon →</a></li>
+        <li><a id="affSetLink" data-measure="affiliate" data-affiliate-placement="shop_panel" data-affiliate-category="gage_block_set" href="https://www.amazon.com/s?k=gage+block+set+81+piece&amp;tag=gageblockcalc-20" target="_blank" rel="noopener sponsored">Buy gage block set on Amazon →</a></li>
+        <li><a id="affWearLink" data-measure="affiliate" data-affiliate-placement="shop_panel" data-affiliate-category="wear_blocks" href="https://www.amazon.com/s?k=gage+block+wear+blocks&amp;tag=gageblockcalc-20" target="_blank" rel="noopener sponsored">Buy wear / protection blocks on Amazon →</a></li>
+        <li><a id="affAccessoriesLink" data-measure="affiliate" data-affiliate-placement="shop_panel" data-affiliate-category="accessories" href="https://www.amazon.com/s?k=gage+block+deburring+stone&amp;tag=gageblockcalc-20" target="_blank" rel="noopener sponsored">Buy a gage block stone on Amazon →</a></li>
         <li><a id="affDealerLink" href="https://measurementsupply.com/product-catalog/gage-blocks" target="_blank" rel="noopener">Shop Measurement Supply →</a></li>
         <li><a id="affGiftLink" href="https://askmachinist.com/guides/machinist-christmas-gift-guide" rel="noopener">🎁 Gift ideas for machinists (by budget) →</a></li>
       </ul>
@@ -991,25 +1020,27 @@
       </div>
       <span class="disclosure">As an Amazon Associate I earn from qualifying purchases.</span>
       <nav class="hub-footer no-print" aria-label="Site feedback" style="margin-top:0.5rem"><a href="#feedback" data-hub-open="feedback">Feedback</a> · <a href="#chat" data-hub-open="chat">Chat</a> · <a href="mailto:support@gageblockcalc.com">support@gageblockcalc.com</a></nav>
-      <nav class="hub-footer no-print" aria-label="More from Nick" style="margin-top:0.5rem" id="nick-hub-also" data-nick-also data-hub-ssr="1"><b>More from Nick</b><div>Games: <a href="https://free-halloween-games.pages.dev/" target="_blank" rel="noopener">Free Halloween Games</a> · <a href="https://oppsgo.com/" target="_blank" rel="noopener">Free Online Games</a> · <a href="https://dancecoach.pages.dev/" target="_blank" rel="noopener">Dance Coach</a></div><div>Tools: <a href="https://askmachinist.com/" target="_blank" rel="noopener">Ask a Machinist</a> · <a href="https://tekjeep.com/" target="_blank" rel="noopener">Jeep Guides</a> · <a href="https://getsnapmatch.com/" target="_blank" rel="noopener">SnapMatch</a> · <a href="https://avalancheplan.pages.dev/" target="_blank" rel="noopener">Debt Payoff Planner</a> · <a href="https://cradlecue.pages.dev/" target="_blank" rel="noopener">CradleCue Baby Tracker</a> · <a href="https://driver-assist.pages.dev/" target="_blank" rel="noopener">RideYield Driver Tool</a></div><div>Studio: <a href="https://stpetewebco.com/" target="_blank" rel="noopener">St. Pete Web Co</a></div></nav>
+      <nav class="hub-footer no-print" aria-label="More from Nick" style="margin-top:0.5rem" id="nick-hub-also" data-nick-also data-hub-ssr="1"><b>More from Nick</b><div>Games: <a href="https://oppsgo.com/" target="_blank" rel="noopener">Free Online Games</a> · <a href="https://dancecoach.pages.dev/" target="_blank" rel="noopener">Dance Coach</a></div><div>Tools: <a href="https://askmachinist.com/" target="_blank" rel="noopener">Ask a Machinist</a> · <a href="https://tekjeep.com/" target="_blank" rel="noopener">Jeep Guides</a> · <a href="https://getsnapmatch.com/" target="_blank" rel="noopener">SnapMatch</a> · <a href="https://avalancheplan.pages.dev/" target="_blank" rel="noopener">Debt Payoff Planner</a> · <a href="https://cradlecue.pages.dev/" target="_blank" rel="noopener">CradleCue Baby Tracker</a> · <a href="https://driver-assist.pages.dev/" target="_blank" rel="noopener">RideYield Driver Tool</a></div><div>Studio: <a href="https://stpetewebco.com/" target="_blank" rel="noopener">St. Pete Web Co</a></div></nav>
       <p class="hub-footer no-print" style="margin-top:0.25rem"><a href="https://nick-apk-test.pages.dev/">All apps</a></p>
       <section aria-label="Get the app" class="no-print"><div id="get-app"></div></section>
       Made by Nicholas Duncan 2026
-      <div class="calc-version no-print"><span id="calcVersion" class="notranslate" translate="no">v1.0.121 · 43272cc · 2026-11-06</span></div>
+      <div class="calc-version no-print"><span id="calcVersion" class="notranslate" translate="no">v1.0.125 · 6c8e749 · 2026-11-08</span></div>
     </div>
   </div>
 
   <div class="print-ticket" id="printTicket" aria-hidden="true"></div>
 
-  <script src="algorithm.js?v=1.0.121"></script>
-  <script src="affiliate-config.js?v=1.0.121"></script>
-  <script src="hub-config.js?v=1.0.121"></script>
-  <script src="hub.js?v=1.0.121"></script>
-  <script src="seasonal.js?v=1.0.121" defer></script>
-  <script src="version.js?v=1.0.121" defer></script>
-  <script src="explain.js?v=1.0.121"></script>
-  <script src="app.js?v=1.0.121"></script>
-  <script src="boot.js?v=1.0.121" defer></script>
+  <script src="algorithm.js?v=1.0.125"></script>
+  <script src="affiliate-config.js?v=1.0.125"></script>
+  <script src="entry.js?v=1.0.125"></script>
+  <script src="measure.js?v=1.0.125"></script>
+  <script src="hub-config.js?v=1.0.125"></script>
+  <script src="hub.js?v=1.0.125"></script>
+  <script src="seasonal.js?v=1.0.125" defer></script>
+  <script src="version.js?v=1.0.125" defer></script>
+  <script src="explain.js?v=1.0.125"></script>
+  <script src="app.js?v=1.0.125"></script>
+  <script src="boot.js?v=1.0.125" defer></script>
 <script src="https://nick-apk-test.pages.dev/get-app.js" data-app="gageblockcalc" defer></script>
 </body>
 </html>
