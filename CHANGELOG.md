@@ -1,3 +1,7 @@
+## 2026-11-08 — Evergreen More from Nick games link (v1.0.125)
+
+- The More from Nick games row no longer links Free Halloween Games. It links Free Online Games at https://oppsgo.com/. The other footer links are unchanged. Calculator entry, the 320px FAQ header, and the measure hooks from v1.0.123 stay.
+
 ## 2026-11-07 — Calculator entry and privacy-safe measure hooks (v1.0.123)
 
 - The target field shows the set unit (`in` or `mm`). A link with `wear=1` or `wear=0` sets the wear toggle; a link without `wear` leaves the saved choice alone. The wear-block guide now opens 2.3456 in with wear blocks on.
