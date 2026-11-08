@@ -1,5 +1,5 @@
-const CACHE = 'gbc-1.0.125';
-const PRE = ['/', '/offline.html', '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png', '/algorithm.js?v=1.0.125', '/affiliate-config.js?v=1.0.125', '/entry.js?v=1.0.125', '/measure.js?v=1.0.125', '/hub-config.js?v=1.0.125', '/hub.js?v=1.0.125', '/seasonal.js?v=1.0.125', '/version.js?v=1.0.125', '/explain.js?v=1.0.125', '/app.js?v=1.0.125', '/boot.js?v=1.0.125', '/worker.js?v=1.0.125'];
+const CACHE = 'gbc-1.0.126';
+const PRE = ['/', '/offline.html', '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png', '/algorithm.js?v=1.0.126', '/affiliate-config.js?v=1.0.126', '/entry.js?v=1.0.126', '/measure.js?v=1.0.126', '/hub-config.js?v=1.0.126', '/hub.js?v=1.0.126', '/seasonal.js?v=1.0.126', '/version.js?v=1.0.126', '/explain.js?v=1.0.126', '/app.js?v=1.0.126', '/boot.js?v=1.0.126', '/worker.js?v=1.0.126'];
 const HUB_RE = /nick-sites-hub\.tekjeep\.workers\.dev|\/api\/|railway\.app|firebaseio\.com|googleapis\.com|cloudflareinsights|buymeacoffee/i;
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(PRE.map((u) => new Request(u, { cache: 'reload' }))).catch(() => {})));
