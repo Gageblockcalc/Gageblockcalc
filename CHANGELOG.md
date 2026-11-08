@@ -1,3 +1,8 @@
+## 2026-11-08 — Free Christmas Games footer link (v1.0.126)
+
+- More from Nick games row links Free Christmas Games at https://oppsgo.com/christmas-games. Free Online Games, Dance Coach, the tools row, Machinist Hub, and St. Pete Web Co stay.
+- If the shared hub embed still paints Free Halloween Games (`free-halloween-games.pages.dev` or `oppsgo.com/halloween-games`), the home and FAQ boot scripts replace only that anchor. Solver and block math are unchanged.
+
 ## 2026-11-08 — Evergreen More from Nick games link (v1.0.125)
 
 - The More from Nick games row no longer links Free Halloween Games. It links Free Online Games at https://oppsgo.com/. The other footer links are unchanged. Calculator entry, the 320px FAQ header, and the measure hooks from v1.0.123 stay.
