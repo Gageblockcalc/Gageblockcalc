@@ -4,6 +4,7 @@
 - Share (and its copy fallback) keeps the wear state on the link as `wear=1` or `wear=0`. The wear-block guide, home FAQ, and FAQ page open 2.3456 in with wear already on. A second wear-guide button opens 41.125 mm on the 88-piece set with wear on.
 - New SEO page `/calculators/metric-88-gage-block-stack.html` with formula, worked example (41.125 mm = 30 + 9 + 1.12 + 1.005, verified against `set=metric-88`), 3-question FAQ, HowTo/FAQPage/Breadcrumb JSON-LD, and CTAs. Also-by-Nick links the AskMachinist hub plus choose, build, wring, and metric guides. No affiliate links on the new page.
 - Calculators index, ItemList, related nav, and sitemap include the new URL. The combined metric page stays. Solver math is unchanged. Free, no login, no new trackers.
+- Version stamp is 1.0.127, the next number after 1.0.126. `write-version.sh` would have jumped to 1.0.131 from the commit count, so the footer, cache name, and `?v=` strings are set by hand the same way 1.0.104 was.
 
 ## 2026-11-08 — Free Christmas Games footer link (v1.0.126)
 
