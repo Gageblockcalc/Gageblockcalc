@@ -1,7 +1,8 @@
 /**
  * Deep-link parsing for the calculator entry form.
  * Absent params leave the page as it is. Values that are not a set id,
- * in/mm, a plain dimension, or wear=0|1 are ignored.
+ * in/mm, a plain dimension, or wear=0|1|false|true are ignored.
+ * A link that omits wear does not change the saved toggle.
  */
 (function (root, factory) {
   const api = factory();
@@ -34,11 +35,22 @@
     if (/^(\d{1,4}(\.\d{1,6})?|\.\d{1,6})$/.test(target) && parseFloat(target) > 0) {
       out.target = target;
     }
-    const wear = (q.get('wear') || '').trim();
-    if (wear === '1') out.wear = true;
-    else if (wear === '0') out.wear = false;
+    const wear = (q.get('wear') || '').trim().toLowerCase();
+    if (wear === '1' || wear === 'true') out.wear = true;
+    else if (wear === '0' || wear === 'false') out.wear = false;
     return out;
   }
 
-  return { parseEntryQuery: parseEntryQuery };
+  // Canonical share query. wear=1 / wear=0 preserve the toggle; omit wear only when unknown.
+  function stackSearch(target, setId, wear) {
+    const parts = [
+      'target=' + encodeURIComponent(String(target)),
+      'set=' + encodeURIComponent(String(setId)),
+    ];
+    if (wear === true) parts.push('wear=1');
+    else if (wear === false) parts.push('wear=0');
+    return '?' + parts.join('&');
+  }
+
+  return { parseEntryQuery: parseEntryQuery, stackSearch: stackSearch };
 });

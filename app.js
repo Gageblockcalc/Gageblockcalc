@@ -264,14 +264,20 @@
     );
   }
 
-  // Deep link that reopens this target in the same set (see applyLinkParams).
+  // Deep link that reopens this target in the same set and wear state (see applyLinkParams).
   function stackUrl(target, setDef) {
-    return (
-      'https://gageblockcalc.com/?target=' +
-      encodeURIComponent(formatSize(target, setDef)) +
-      '&set=' +
-      encodeURIComponent(setDef.id || state.setId)
-    );
+    const search =
+      globalThis.GageBlockEntry && GageBlockEntry.stackSearch
+        ? GageBlockEntry.stackSearch(
+            formatSize(target, setDef),
+            setDef.id || state.setId,
+            state.useWear
+          )
+        : '?target=' +
+          encodeURIComponent(formatSize(target, setDef)) +
+          '&set=' +
+          encodeURIComponent(setDef.id || state.setId);
+    return 'https://gageblockcalc.com/' + search;
   }
 
   function flashCopied(btn) {
@@ -533,7 +539,7 @@
     if (workerBroken) return null;
     if (solverWorker) return solverWorker;
     try {
-      solverWorker = new Worker('worker.js?v=1.0.126');
+      solverWorker = new Worker('worker.js?v=1.0.127');
       solverWorker.onmessage = (e) => {
         const d = e.data || {};
         const p = pending.get(d.id);
@@ -936,6 +942,9 @@
    *   /?target=1.2345              prefill the target in the visitor's current set
    *   /?target=25.4&unit=mm        switch to a metric set only if the current set is inch (and vice versa)
    *   /?target=1.2345&set=inch-36  pick an exact set
+   *   &wear=1 or &wear=true        check wear / protection blocks and solve with them
+   *   &wear=0 or &wear=false       uncheck wear blocks
+   *   wear omitted                 leave the saved toggle alone
    */
   function applyLinkParams() {
     const parsed = globalThis.GageBlockEntry
