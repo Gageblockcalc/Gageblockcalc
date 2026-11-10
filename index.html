@@ -770,6 +770,37 @@
 
     .calc-version { margin-top: 0.4rem; font-size: 11px; color: #adb5bd; }
     .calc-version a { color: inherit; }
+    /* Phone footer: keep headings off the link row and give each link a 44px tap height.
+       The 900px column layout below is unchanged. */
+    @media (max-width: 899px) {
+      .footer .hub-footer a,
+      .footer .seasonal-xlink a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        min-height: 44px;
+        padding: 8px 8px;
+        white-space: normal;
+        line-height: 1.25;
+        text-align: center;
+      }
+      #relatedGuides > b,
+      #nick-hub-also > b {
+        display: block;
+        flex: 1 0 100%;
+        width: 100%;
+        margin: 0.5rem 0 0.15rem;
+      }
+      #relatedGuides,
+      #hubFooterLinks {
+        column-gap: 0.25rem;
+        row-gap: 0;
+      }
+      #nick-hub-also > div { margin: 0.05rem 0 0.1rem; }
+      .footer .bmc-btn { min-height: 44px; padding-top: 8px; padding-bottom: 8px; }
+      #get-app a { display: inline-flex; align-items: center; box-sizing: border-box; min-height: 44px; }
+    }
     .footer .disclosure {
       display: block;
       margin-bottom: 4px;
@@ -871,6 +902,10 @@
     .tagline{font-size:1rem}
     .install-bar{font-size:.85rem;padding-top:6px;padding-bottom:6px;opacity:.85}
     #get-app{opacity:.75;transform:scale(.92);transform-origin:center top}
+    @media (max-width: 899px) {
+      /* The 0.92 scale shrinks the real tap box under 44px. Phones get the full target. */
+      #get-app { transform: none; }
+    }
     @media (min-width: 900px){
       .container{max-width:780px;padding:28px 32px 22px}
       h1.wordmark{font-size:2rem}
