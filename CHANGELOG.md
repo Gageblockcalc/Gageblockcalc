@@ -1,3 +1,10 @@
+## 2026-11-10 — Wear tap target and footer contrast (v1.0.132)
+
+- The wear-block control is one label around the checkbox. Padding makes that label and the checkbox a 44px tap target on a phone. `algorithm.js` is unchanged.
+- Footer version, visit count, and disclosure are at least 12px. Muted gray is `#595959` (about 7:1 on white, about 6.7:1 on the shop panel). Footer links are `#0a58ca` (about 6.4:1). Guide and recipe footers no longer fade links with `opacity: 0.8`, which had dropped them to about 4.2:1; the footer text is `#334155`.
+- Sine bar length and angle chips are at least 44px tall. Solver math is unchanged.
+- Version stamp is 1.0.132, the next number after 1.0.131. `write-version.sh` would jump from the commit count, so the footer, cache name, and `?v=` strings are set to 1.0.132 the same way 1.0.131 was. Rollback of this pass is v1.0.131 at a5cbfd8.
+
 ## 2026-11-10 — Phone footer targets and sine bar first screen (v1.0.131)
 
 - On phones, footer headings sit on their own line with space before the links, and footer links (including Free Christmas Games) have a 44px tap height. The 900px three-column footer is unchanged. `algorithm.js` is unchanged.

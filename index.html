@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="manifest" href="/manifest.webmanifest?v=1.0.131">
+<link rel="manifest" href="/manifest.webmanifest?v=1.0.132">
 <meta name="theme-color" content="#0f172a">
   <meta charset="UTF-8">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://nick-apk-test.pages.dev 'sha256-R6kjt5FwTd5vAw94Q08NLDZsSaGTzg4NsdIfKtECSp0=' https://nick-hub-static.pages.dev https://nick-sites-hub.tekjeep.workers.dev https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com https://www.gstatic.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://nick-hub-static.pages.dev https://nick-sites-hub.tekjeep.workers.dev https://www.gstatic.com https://translate.googleapis.com https://translate-pa.googleapis.com; img-src 'self' data: blob: https://www.google.com https://nick-sites-hub.tekjeep.workers.dev https://www.gstatic.com https://fonts.gstatic.com https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com https://m.media-amazon.com https://images-na.ssl-images-amazon.com; font-src 'self' data: https://fonts.gstatic.com https://www.gstatic.com; connect-src 'self' https://nick-apk-test.pages.dev https://nick-hub-static.pages.dev https://nick-sites-hub.tekjeep.workers.dev wss://nick-sites-hub.tekjeep.workers.dev https://gageblockcalc-chat.tekjeep.workers.dev https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com https://cloudflareinsights.com; frame-src 'self' https://translate.google.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://www.amazon.com; upgrade-insecure-requests">
@@ -31,7 +31,7 @@
   <meta name="twitter:image" content="https://gageblockcalc.com/icons/og-image.png?v=2026-10-27">
   <meta name="twitter:image:alt" content="GageBlockCalc, a free inch and metric gage block stack calculator. Fewest blocks, no login.">
   <title>GageBlockCalc — Free Inch &amp; Metric Gage Block Stack Calculator</title>
-  <link rel="manifest" href="/manifest.json?v=1.0.131">
+  <link rel="manifest" href="/manifest.json?v=1.0.132">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -131,7 +131,7 @@
       --bg: #e9ecef;
       --card: #ffffff;
       --text: #212529;
-      --muted: #6c757d;
+      --muted: #595959;
       --border: #ced4da;
       --primary: #0d6efd;
       --primary-hover: #0b5ed7;
@@ -263,16 +263,39 @@
     .wear-row {
       display: flex;
       align-items: center;
-      gap: 12px;
-      min-height: var(--tap);
-      padding: 4px 2px;
+      gap: 4px;
+      min-height: 44px;
+      padding: 0 12px 0 0;
+      margin: 0;
+      cursor: pointer;
       user-select: none;
     }
 
     .wear-row input {
-      width: 22px;
-      height: 22px;
-      accent-color: var(--primary);
+      appearance: none;
+      -webkit-appearance: none;
+      width: 44px;
+      height: 44px;
+      margin: 0;
+      flex: 0 0 44px;
+      border: 0;
+      background-color: transparent;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 22px 22px;
+      cursor: pointer;
+      /* 22px glyph centered in a 44px hit box. The label wraps this input. */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'%3E%3Crect x='1.5' y='1.5' width='19' height='19' rx='4' fill='%23fff' stroke='%23495057' stroke-width='2'/%3E%3C/svg%3E");
+    }
+
+    .wear-row input:checked {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'%3E%3Crect x='1.5' y='1.5' width='19' height='19' rx='4' fill='%230d6efd' stroke='%230d6efd' stroke-width='2'/%3E%3Cpath d='M6 11.2l3.2 3.2L16.2 7.5' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    }
+
+    .wear-row input:focus-visible {
+      outline: 2px solid rgba(13, 110, 253, 0.45);
+      outline-offset: -6px;
+      border-radius: 10px;
     }
 
     .wear-row span {
@@ -704,6 +727,11 @@
     .hub-cta a:hover,
     .hub-footer a:hover { text-decoration: underline; color: var(--primary-hover); }
 
+    .footer .hub-footer a,
+    .footer .seasonal-xlink a { color: #0a58ca; }
+    .footer .hub-footer a:hover,
+    .footer .seasonal-xlink a:hover { color: #084298; }
+
     .hub-cta .sep,
     .hub-footer .sep { margin: 0 6px; }
 
@@ -745,7 +773,7 @@
       display: inline-block;
       min-height: 1.4em;
       line-height: 1.4em;
-      font-size: 0.72rem;
+      font-size: 0.75rem;
       color: var(--muted);
       font-variant-numeric: tabular-nums;
     }
@@ -768,7 +796,7 @@
     .bmc-btn[hidden] { display: none; }
     .bmc-btn:hover { filter: brightness(0.95); border-color: #d4b800; color: #000; }
 
-    .calc-version { margin-top: 0.4rem; font-size: 11px; color: #adb5bd; }
+    .calc-version { margin-top: 0.4rem; font-size: 12px; color: var(--muted); }
     .calc-version a { color: inherit; }
     /* Phone footer: keep headings off the link row and give each link a 44px tap height.
        The 900px column layout below is unchanged. */
@@ -804,7 +832,7 @@
     .footer .disclosure {
       display: block;
       margin-bottom: 4px;
-      font-size: 0.72rem;
+      font-size: 0.75rem;
       line-height: 1.35;
     }
 
@@ -1059,23 +1087,23 @@
       <p class="hub-footer no-print" style="margin-top:0.25rem"><a href="https://nick-apk-test.pages.dev/">All apps</a></p>
       <section aria-label="Get the app" class="no-print"><div id="get-app"></div></section>
       Made by Nicholas Duncan 2026
-      <div class="calc-version no-print"><span id="calcVersion" class="notranslate" translate="no">v1.0.131 · b24c7ed · 2026-11-10</span></div>
+      <div class="calc-version no-print"><span id="calcVersion" class="notranslate" translate="no">v1.0.132 · 6010011 · 2026-11-10</span></div>
     </div>
   </div>
 
   <div class="print-ticket" id="printTicket" aria-hidden="true"></div>
 
-  <script src="algorithm.js?v=1.0.131"></script>
-  <script src="affiliate-config.js?v=1.0.131"></script>
-  <script src="entry.js?v=1.0.131"></script>
-  <script src="measure.js?v=1.0.131"></script>
-  <script src="hub-config.js?v=1.0.131"></script>
-  <script src="hub.js?v=1.0.131"></script>
-  <script src="seasonal.js?v=1.0.131" defer></script>
-  <script src="version.js?v=1.0.131" defer></script>
-  <script src="explain.js?v=1.0.131"></script>
-  <script src="app.js?v=1.0.131"></script>
-  <script src="boot.js?v=1.0.131" defer></script>
+  <script src="algorithm.js?v=1.0.132"></script>
+  <script src="affiliate-config.js?v=1.0.132"></script>
+  <script src="entry.js?v=1.0.132"></script>
+  <script src="measure.js?v=1.0.132"></script>
+  <script src="hub-config.js?v=1.0.132"></script>
+  <script src="hub.js?v=1.0.132"></script>
+  <script src="seasonal.js?v=1.0.132" defer></script>
+  <script src="version.js?v=1.0.132" defer></script>
+  <script src="explain.js?v=1.0.132"></script>
+  <script src="app.js?v=1.0.132"></script>
+  <script src="boot.js?v=1.0.132" defer></script>
 <script src="https://nick-apk-test.pages.dev/get-app.js" data-app="gageblockcalc" defer></script>
 </body>
 </html>
