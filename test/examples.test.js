@@ -37,6 +37,8 @@ expect('0.2608 in 1/4-20', 'inch-81', 0.2608, false, ['0.110', '0.1008', '0.050'
 expect('mic 0.105', 'inch-81', 0.105, false, ['0.105']);
 expect('mic 0.210', 'inch-81', 0.21, false, ['0.110', '0.100']);
 expect('mic 0.315', 'inch-81', 0.315, false, ['0.200', '0.115']);
+expect('sine 5 in 10 deg', 'inch-81', 0.8682, false, ['0.650', '0.118', '0.1002']);
+expect('sine 100 mm 10 deg', 'metric-88', 17.365, false, ['10', '5', '1.36', '1.005']);
 
 const page88 = fs.readFileSync(path.join(__dirname, '../calculators/metric-88-gage-block-stack.html'), 'utf8');
 if (!page88.includes('30 + 9 + 1.12 + 1.005')) bad('metric-88 page missing solver stack');
@@ -65,6 +67,33 @@ if (!calcIndex.includes('https://gageblockcalc.com/calculators/metric-112-gage-b
 const sitemap = fs.readFileSync(path.join(__dirname, '../sitemap.xml'), 'utf8');
 if (!sitemap.includes('https://gageblockcalc.com/calculators/metric-88-gage-block-stack.html')) bad('sitemap missing metric-88');
 if (!sitemap.includes('https://gageblockcalc.com/calculators/metric-112-gage-block-stack.html')) bad('sitemap missing metric-112');
+const sine = fs.readFileSync(path.join(__dirname, '../calculators/sine-bar-gage-block-stack.html'), 'utf8');
+const sineH = 5 * Math.sin(10 * Math.PI / 180);
+const sineRounded = Math.round(sineH * 10000) / 10000;
+if (Math.abs(sineRounded - 0.8682) > 1e-9) bad('sine rounding drifted from 0.8682');
+if (!sine.includes('0.650 + 0.118 + 0.1002')) bad('sine page missing solver stack');
+if (!sine.includes('10 + 5 + 1.36 + 1.005')) bad('sine page missing metric solver stack');
+if (!sine.includes('href="/?target=0.8682&amp;set=inch-81"') && !sine.includes('href="/?target=0.8682&set=inch-81"')) bad('sine page missing inch CTA');
+if (!sine.includes('href="/?target=17.365&amp;set=metric-88"') && !sine.includes('href="/?target=17.365&set=metric-88"')) bad('sine page missing metric CTA');
+if (!sine.includes('H = L')) bad('sine page missing formula');
+if (!sine.includes('0.0001') || !sine.includes('0.001')) bad('sine page missing rounding step');
+if (!sine.includes('1.0005')) bad('sine page missing honest 1.0005 mm note');
+if (!sine.includes('HowTo') || !sine.includes('FAQPage') || !sine.includes('BreadcrumbList')) bad('sine page missing JSON-LD');
+if (/amazon|tag=gageblockcalc|affiliate/i.test(sine)) bad('sine page has an affiliate link');
+for (const rel of [
+  'inch-gage-block-stack.html',
+  'inch-36-gage-block-stack.html',
+  'inch-28-gage-block-stack.html',
+  'metric-gage-block-stack.html',
+  'metric-112-gage-block-stack.html',
+  'metric-88-gage-block-stack.html',
+]) {
+  const html = fs.readFileSync(path.join(__dirname, '../calculators', rel), 'utf8');
+  if (!html.includes('sine-bar-gage-block-stack.html')) bad(rel + ' missing sine bar link');
+}
+if (!calcIndex.includes('https://gageblockcalc.com/calculators/sine-bar-gage-block-stack.html')) bad('ItemList missing sine bar');
+if (!calcIndex.includes('/calculators/sine-bar-gage-block-stack.html')) bad('calculators index missing sine card');
+if (!sitemap.includes('https://gageblockcalc.com/calculators/sine-bar-gage-block-stack.html')) bad('sitemap missing sine bar');
 
 console.log(fail ? fail + ' FAILURES' : 'ALL PASS');
 process.exit(fail ? 1 : 0);

@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Sine Bar Gage Block Stack Calculator | GageBlockCalc</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Sine bar stack height H = L × sin(angle) for a 5 in, 10 in, 100 mm, or 200 mm bar. Decimal degrees or degrees, minutes, and seconds, then the rounded gage block stack.">
+<link rel="canonical" href="https://gageblockcalc.com/calculators/sine-bar-gage-block-stack.html">
+<meta property="og:type" content="article"><meta property="og:title" content="Sine Bar Gage Block Stack Calculator"><meta property="og:description" content="Sine bar stack height H = L × sin(angle) for a 5 in, 10 in, 100 mm, or 200 mm bar. Decimal degrees or degrees, minutes, and seconds, then the rounded gage block stack.">
+<meta property="og:url" content="https://gageblockcalc.com/calculators/sine-bar-gage-block-stack.html"><meta property="og:image" content="https://gageblockcalc.com/icons/og-image.png?v=2026-10-27">
+<meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#0f172a">
+<link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+<script type="application/ld+json">[{"@context": "https://schema.org", "@type": "HowTo", "name": "How to build a sine bar gage block stack", "step": [{"@type": "HowToStep", "name": "Convert the angle to decimal degrees", "text": "10° is already decimal degrees. Degrees, minutes, and seconds convert as degrees + minutes/60 + seconds/3600."}, {"@type": "HowToStep", "name": "Multiply length by the sine", "text": "A 5 in sine bar at 10° has H = 5 × sin(10°) = 0.86824089 in."}, {"@type": "HowToStep", "name": "Round to the set increment", "text": "An 81-piece inch set steps by 0.0001 in. 0.86824089 in rounds to 0.8682 in, which is 0.00004089 in under the exact height."}, {"@type": "HowToStep", "name": "Open the gage block stack", "text": "The solver with set=inch-81 and wear blocks off builds 0.8682 in as 0.650 + 0.118 + 0.1002."}]}, {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What formula does a sine bar use?", "acceptedAnswer": {"@type": "Answer", "text": "Stack height H = L × sin(angle), with the angle in degrees. Minutes and seconds convert first: decimal degrees = degrees + minutes/60 + seconds/3600."}}, {"@type": "Question", "name": "Why is the gage block stack not exactly L × sin(angle)?", "acceptedAnswer": {"@type": "Answer", "text": "Gage blocks move in fixed steps. The 81-piece inch set’s smallest step is 0.0001 in. The 88-piece metric set’s smallest repeating step is 0.001 mm. One 1.0005 mm block can finish a single 0.0005 mm ending, but that is not a 0.0005 mm step for every height, so this page rounds metric heights to 0.001 mm. The stack matches the rounded height. The difference from the exact sine height is at most half a step: 0.00005 in or 0.0005 mm."}}, {"@type": "Question", "name": "Which calculator set does the link open?", "acceptedAnswer": {"@type": "Answer", "text": "Inch lengths, including the 5 in and 10 in presets, open the 81-piece inch set. Millimetre lengths, including the 100 mm and 200 mm presets, open the 88-piece metric set. Wear blocks stay off. The link uses the rounded height, for example /?target=0.8682&set=inch-81."}}]}, {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "GageBlockCalc", "item": "https://gageblockcalc.com/"}, {"@type": "ListItem", "position": 2, "name": "Calculators", "item": "https://gageblockcalc.com/calculators/"}, {"@type": "ListItem", "position": 3, "name": "Sine Bar Gage Block Stack Calculator", "item": "https://gageblockcalc.com/calculators/sine-bar-gage-block-stack.html"}]}]</script>
+<style>body{font-family:system-ui,sans-serif;max-width:46rem;margin:0 auto;padding:1.5rem;background:#f8fafc;color:#0f172a;line-height:1.6}a{color:#0a58ca}h1{font-size:1.6rem;line-height:1.25}h2{margin-top:2rem;font-size:1.2rem;color:#0f172a}.card{background:#fff;border:1px solid #e2e8f0;border-radius:.6rem;padding:1rem 1.2rem;margin:1rem 0}.f{font-family:ui-monospace,monospace;background:#f1f5f9;padding:.6rem .8rem;border-radius:.4rem;display:block;overflow-x:auto}.cta{display:inline-block;background:#0a58ca;color:#fff;font-weight:700;padding:.6rem 1rem;border-radius:.45rem;text-decoration:none;margin:.25rem .5rem .25rem 0}table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid #e2e8f0;padding:.35rem .5rem;text-align:left}details{margin:.6rem 0;padding:.7rem 1rem;background:#fff;border:1px solid #e2e8f0;border-radius:.5rem}summary{font-weight:600;cursor:pointer}nav.rel a{margin-right:1rem}header.gbc-brand{flex-wrap:wrap;row-gap:.4rem}footer{margin-top:2.5rem;padding-top:1rem;border-top:1px solid #e2e8f0;font-size:.9rem;opacity:.8}
+[hidden]{display:none !important}
+.presets,.modes{display:flex;flex-wrap:wrap;gap:.4rem;margin:.35rem 0 .75rem}.presets button,.modes button{font:inherit;background:#fff;color:#0a58ca;border:1px solid #bfdbfe;border-radius:.4rem;padding:.4rem .7rem;cursor:pointer;font-weight:600}.presets button[aria-pressed="true"],.modes button[aria-pressed="true"]{background:#0a58ca;color:#fff;border-color:#0a58ca}.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));gap:.65rem}label.lbl{font-weight:600;font-size:.92rem;display:block;margin-bottom:.25rem}input,select{width:100%;font:inherit;padding:.45rem .55rem;border:1px solid #cbd5e1;border-radius:.4rem;background:#fff;color:#0f172a;box-sizing:border-box}.big{font-size:1.35rem;font-weight:700;margin:.2rem 0}.note{font-size:.92rem;color:#334155}.warn{color:#9a3412}</style>
+</head><body>
+<header class="gbc-brand" style="display:flex;align-items:center;gap:.6rem;padding:.25rem 0 1rem;margin-bottom:1rem;border-bottom:1px solid #e2e8f0"><a href="/" style="display:flex;align-items:center;gap:.6rem;text-decoration:none;color:inherit;font-weight:700;font-size:1.15rem"><img src="/icons/favicon.svg?v=2026-10-27" width="32" height="32" alt="GageBlockCalc logo">GageBlockCalc</a><span style="opacity:.7;font-size:.9rem">Free gage block stack calculator</span></header>
+<main>
+<h1>Sine Bar Gage Block Stack Calculator</h1>
+<p>Find the gage block stack height for a sine bar. Enter the bar length and the angle. The page computes H = L × sin(angle), rounds that height to the set’s smallest repeating step, and opens the existing solver on that rounded size.</p>
+<div class="card">
+<p class="lbl" id="presetLabel">Sine bar length</p>
+<div class="presets" role="group" aria-labelledby="presetLabel">
+<button type="button" data-l="5" data-u="in" aria-pressed="true">5 in</button>
+<button type="button" data-l="10" data-u="in" aria-pressed="false">10 in</button>
+<button type="button" data-l="100" data-u="mm" aria-pressed="false">100 mm</button>
+<button type="button" data-l="200" data-u="mm" aria-pressed="false">200 mm</button>
+</div>
+<div class="fields">
+<div><label class="lbl" for="length">Length</label><input id="length" type="number" inputmode="decimal" min="0" step="any" value="5"></div>
+<div><label class="lbl" for="unit">Unit</label><select id="unit"><option value="in" selected>inches</option><option value="mm">millimetres</option></select></div>
+</div>
+<p class="lbl" id="modeLabel">Angle</p>
+<div class="modes" role="group" aria-labelledby="modeLabel">
+<button type="button" id="modeDec" aria-pressed="true">Decimal degrees</button>
+<button type="button" id="modeDms" aria-pressed="false">Degrees / minutes / seconds</button>
+</div>
+<div class="fields" id="decFields"><div><label class="lbl" for="degrees">Degrees</label><input id="degrees" type="number" inputmode="decimal" min="0" max="90" step="any" value="10"></div></div>
+<div class="fields" id="dmsFields" hidden>
+<div><label class="lbl" for="dmsDeg">Degrees</label><input id="dmsDeg" type="number" inputmode="numeric" min="0" max="90" step="1" value="10"></div>
+<div><label class="lbl" for="dmsMin">Minutes</label><input id="dmsMin" type="number" inputmode="numeric" min="0" max="59" step="1" value="0"></div>
+<div><label class="lbl" for="dmsSec">Seconds</label><input id="dmsSec" type="number" inputmode="decimal" min="0" max="59.999" step="any" value="0"></div>
+</div>
+</div>
+<div class="card" id="result" aria-live="polite">
+<p class="big" id="heightOut">0.8682 in</p>
+<p id="detailOut">Exact H = 5 × sin(10°) = 0.86824089 in. Rounded to the nearest 0.0001 in. The rounded height is 0.00004089 in under L × sin(angle), within half of the 0.0001 in step.</p>
+<p class="note warn" id="warnOut"></p>
+<p><a class="cta" id="stackLink" href="/?target=0.8682&amp;set=inch-81">Open the 81-piece stack for 0.8682 in</a></p>
+</div>
+<h2>Formula</h2>
+<code class="f">H = L × sin(angle)<br>decimal degrees = degrees + minutes / 60 + seconds / 3600</code>
+<p>Inch lengths, including the 5&nbsp;in and 10&nbsp;in presets, round to 0.0001&nbsp;in and open <code>set=inch-81</code>. Millimetre lengths, including the 100&nbsp;mm and 200&nbsp;mm presets, round to 0.001&nbsp;mm and open <code>set=metric-88</code>. Wear blocks stay off.</p>
+<h2>Worked example</h2>
+<ol>
+<li><b>Convert the angle.</b> 10° is already decimal degrees. Degrees, minutes, and seconds convert as degrees + minutes/60 + seconds/3600.</li>
+<li><b>Multiply by the sine.</b> A 5&nbsp;in sine bar at 10° has H = 5 × sin(10°) = 0.86824089&nbsp;in.</li>
+<li><b>Round to the set increment.</b> An 81-piece inch set steps by 0.0001&nbsp;in. 0.86824089&nbsp;in rounds to 0.8682&nbsp;in, which is 0.00004089&nbsp;in under the exact height. That is inside the ±0.00005&nbsp;in half-step.</li>
+<li><b>Build the stack.</b> The site solver, with <code>set=inch-81</code> and wear blocks off, builds 0.8682&nbsp;in as 0.650 + 0.118 + 0.1002.</li>
+</ol>
+<div class="card">0.650 + 0.118 + 0.1002 = <b>0.8682 in</b> — 3 blocks. <a class="cta" href="/?target=0.8682&amp;set=inch-81">Open 0.8682 in on the 81-piece set</a></div>
+<p>Verified against the site solver. The primary stack, largest block first, is 0.650 + 0.118 + 0.1002. The same check for a 100&nbsp;mm bar at 10° is H = 17.36481777&nbsp;mm, which rounds to 17.365&nbsp;mm (0.00018223&nbsp;mm over the exact height, inside the ±0.0005&nbsp;mm half-step). That 88-piece stack is 10 + 5 + 1.36 + 1.005. <a href="/?target=17.365&amp;set=metric-88">Open 17.365 mm on the 88-piece set</a>.</p>
+<h2>FAQ</h2>
+<details><summary>What formula does a sine bar use?</summary><p>Stack height H = L × sin(angle), with the angle in degrees. Minutes and seconds convert first: decimal degrees = degrees + minutes/60 + seconds/3600.</p></details>
+<details><summary>Why is the gage block stack not exactly L × sin(angle)?</summary><p>Gage blocks move in fixed steps. The 81-piece inch set’s smallest step is 0.0001&nbsp;in. The 88-piece metric set’s smallest repeating step is 0.001&nbsp;mm. One 1.0005&nbsp;mm block can finish a single 0.0005&nbsp;mm ending, but that is not a 0.0005&nbsp;mm step for every height, so this page rounds metric heights to 0.001&nbsp;mm. The stack matches the rounded height. The difference from the exact sine height is at most half a step: 0.00005&nbsp;in or 0.0005&nbsp;mm.</p></details>
+<details><summary>Which calculator set does the link open?</summary><p>Inch lengths, including the 5&nbsp;in and 10&nbsp;in presets, open the 81-piece inch set. Millimetre lengths, including the 100&nbsp;mm and 200&nbsp;mm presets, open the 88-piece metric set. Wear blocks stay off. The link uses the rounded height, for example <a href="/?target=0.8682&amp;set=inch-81">/?target=0.8682&amp;set=inch-81</a>.</p></details>
+<h2>Also by Nick</h2>
+<nav class="rel"><a href="https://askmachinist.com/" rel="noopener">AskMachinist hub</a> <a href="https://askmachinist.com/guides/how-to-choose-a-gage-block-set" rel="noopener">How to choose a gage block set</a> <a href="https://askmachinist.com/guides/how-to-build-a-gage-block-stack" rel="noopener">How to build a gage block stack</a> <a href="https://askmachinist.com/guides/how-to-wring-gage-blocks" rel="noopener">How to wring gage blocks</a></nav>
+<h2>Related calculators</h2>
+<nav class="rel"><a href="/calculators/inch-gage-block-stack.html">Inch 81-piece</a> <a href="/calculators/inch-36-gage-block-stack.html">Inch 36-piece</a> <a href="/calculators/inch-28-gage-block-stack.html">Inch 28-piece</a> <a href="/calculators/metric-gage-block-stack.html">Metric 112 / 88</a> <a href="/calculators/metric-112-gage-block-stack.html">Metric 112-piece</a> <a href="/calculators/metric-88-gage-block-stack.html">Metric 88-piece</a> <a href="/calculators/wear-block-stack.html">Wear blocks</a></nav>
+</main>
+<footer><a href="/">Calculator</a> · <a href="/calculators/">All calculators</a> · <a href="/faq.html">FAQ</a> · <a href="/embed.html">Embed on your site</a> · <a href="/privacy.html">Privacy</a> · <a href="https://askmachinist.com/" rel="noopener">AskMachinist</a><br>Free, no login. Always verify critical stacks against your set's calibration certificate.</footer>
+<script>
+(function () {
+  var lengthEl = document.getElementById('length');
+  var unitEl = document.getElementById('unit');
+  var degreesEl = document.getElementById('degrees');
+  var dmsDeg = document.getElementById('dmsDeg');
+  var dmsMin = document.getElementById('dmsMin');
+  var dmsSec = document.getElementById('dmsSec');
+  var decFields = document.getElementById('decFields');
+  var dmsFields = document.getElementById('dmsFields');
+  var modeDec = document.getElementById('modeDec');
+  var modeDms = document.getElementById('modeDms');
+  var heightOut = document.getElementById('heightOut');
+  var detailOut = document.getElementById('detailOut');
+  var warnOut = document.getElementById('warnOut');
+  var stackLink = document.getElementById('stackLink');
+  var mode = 'dec';
+
+  function num(el) {
+    if (!el || String(el.value).trim() === '') return NaN;
+    return Number(el.value);
+  }
+  function roundTo(n, decimals) {
+    var f = Math.pow(10, decimals);
+    return Math.round(n * f) / f;
+  }
+  function formatTarget(n, decimals) {
+    return roundTo(n, decimals).toFixed(decimals).replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+  }
+  function formatPlain(n, decimals) {
+    return roundTo(n, decimals).toFixed(decimals);
+  }
+  function setMode(next) {
+    mode = next;
+    var dms = next === 'dms';
+    modeDec.setAttribute('aria-pressed', dms ? 'false' : 'true');
+    modeDms.setAttribute('aria-pressed', dms ? 'true' : 'false');
+    decFields.hidden = dms;
+    dmsFields.hidden = !dms;
+    render();
+  }
+  function syncPresets() {
+    var l = num(lengthEl);
+    var u = unitEl.value;
+    document.querySelectorAll('.presets button').forEach(function (btn) {
+      var on = Number(btn.getAttribute('data-l')) === l && btn.getAttribute('data-u') === u;
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  function angleInfo() {
+    if (mode === 'dms') {
+      var d = num(dmsDeg), m = num(dmsMin), s = num(dmsSec);
+      if (String(dmsMin.value).trim() === '') m = 0;
+      if (String(dmsSec.value).trim() === '') s = 0;
+      if (!isFinite(d) || !isFinite(m) || !isFinite(s)) return { error: 'Enter degrees, minutes, and seconds.' };
+      if (m < 0 || m >= 60 || s < 0 || s >= 60) return { error: 'Minutes and seconds each run from 0 through 59.' };
+      var sign = d < 0 ? -1 : 1;
+      var dec = sign * (Math.abs(d) + m / 60 + s / 3600);
+      var label = String(d) + '° ' + String(m) + '′ ' + String(s) + '″';
+      return { degrees: dec, label: label };
+    }
+    var decOnly = num(degreesEl);
+    if (!isFinite(decOnly)) return { error: 'Enter the angle in decimal degrees.' };
+    return { degrees: decOnly, label: String(decOnly) + '°' };
+  }
+  function render() {
+    syncPresets();
+    var L = num(lengthEl);
+    var unit = unitEl.value === 'mm' ? 'mm' : 'in';
+    var ang = angleInfo();
+    stackLink.hidden = true;
+    warnOut.textContent = '';
+    if (!isFinite(L) || L <= 0) {
+      heightOut.textContent = '—';
+      detailOut.textContent = 'Enter a sine bar length greater than 0.';
+      return;
+    }
+    if (ang.error) {
+      heightOut.textContent = '—';
+      detailOut.textContent = ang.error;
+      return;
+    }
+    if (!(ang.degrees > 0) || ang.degrees > 90) {
+      heightOut.textContent = '—';
+      detailOut.textContent = 'Use an angle from just above 0° through 90°.';
+      return;
+    }
+    var exact = L * Math.sin(ang.degrees * Math.PI / 180);
+    var decimals = unit === 'mm' ? 3 : 4;
+    var step = unit === 'mm' ? 0.001 : 0.0001;
+    var half = step / 2;
+    var rounded = roundTo(exact, decimals);
+    var target = formatTarget(rounded, decimals);
+    var shown = formatPlain(rounded, decimals);
+    var diff = Math.abs(rounded - exact);
+    var way = rounded < exact - 1e-15 ? 'under' : (rounded > exact + 1e-15 ? 'over' : 'equal to');
+    var setId = unit === 'mm' ? 'metric-88' : 'inch-81';
+    var setName = unit === 'mm' ? '88-piece' : '81-piece';
+    var unitName = unit === 'mm' ? 'mm' : 'in';
+    heightOut.textContent = shown + ' ' + unitName;
+    var detail = 'Exact H = ' + String(L) + ' × sin(' + ang.label + ') = ' + exact.toFixed(8) + ' ' + unitName + '. ';
+    detail += 'Rounded to the nearest ' + formatPlain(step, decimals) + ' ' + unitName + '. ';
+    if (way === 'equal to') detail += 'The rounded height matches L × sin(angle) at this step.';
+    else detail += 'The rounded height is ' + diff.toFixed(8) + ' ' + unitName + ' ' + way + ' L × sin(angle), within half of the ' + formatPlain(step, decimals) + ' ' + unitName + ' step.';
+    detailOut.textContent = detail;
+    var floor = unit === 'mm' ? 0.5 : 0.05;
+    var linkOk = /^(\d{1,4}(\.\d{1,6})?|\.\d{1,6})$/.test(target);
+    if (rounded + 1e-12 < floor) {
+      warnOut.textContent = 'That rounded height is below the smallest block in this set (' + formatPlain(floor, decimals) + ' ' + unitName + '). The solver will not find a stack.';
+    } else if (!linkOk) {
+      warnOut.textContent = 'That height is outside the range the calculator link accepts.';
+      return;
+    }
+    stackLink.hidden = false;
+    stackLink.href = '/?target=' + target + '&set=' + setId;
+    stackLink.textContent = 'Open the ' + setName + ' stack for ' + target + ' ' + unitName;
+  }
+  document.querySelectorAll('.presets button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      lengthEl.value = btn.getAttribute('data-l');
+      unitEl.value = btn.getAttribute('data-u');
+      render();
+    });
+  });
+  modeDec.addEventListener('click', function () { setMode('dec'); });
+  modeDms.addEventListener('click', function () { setMode('dms'); });
+  [lengthEl, unitEl, degreesEl, dmsDeg, dmsMin, dmsSec].forEach(function (el) {
+    el.addEventListener('input', render);
+  });
+  render();
+})();
+</script>
+</body></html>

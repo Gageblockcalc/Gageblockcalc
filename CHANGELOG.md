@@ -1,3 +1,10 @@
+## 2026-11-10 — Embeddable widget and sine bar stack page (v1.0.129)
+
+- `/widget.html` can be framed on another site. The `X-Frame-Options: SAMEORIGIN` header was not in the repo. Cloudflare zone `gageblockcalc.com` ruleset `gbc security headers` (`http_response_headers_transform`, id `a0d187757177478ca51da3bc2d5a346c`) set it on every response. That rule now skips `/widget.html`. A second rule drops `X-Frame-Options` there and sets `Content-Security-Policy: frame-ancestors *`. Every other URL, including `/` and `/embed.html`, still sends `SAMEORIGIN`. `embed.js` iframes `/widget.html` only. No new tracker.
+- New SEO page `/calculators/sine-bar-gage-block-stack.html`. Length presets are 5 in, 10 in, 100 mm, and 200 mm, and the angle accepts decimal degrees or degrees/minutes/seconds. H = L × sin(angle). Inch heights round to 0.0001 in and open `set=inch-81`. Metric heights round to 0.001 mm and open `set=metric-88`. The page says the 1.0005 mm block is one half-thousandth block, not a 0.0005 mm step for every height.
+- Worked example, verified with the solver and wear off: a 5 in bar at 10° is 0.86824089 in, rounded to 0.8682 in, stack 0.650 + 0.118 + 0.1002. A 100 mm bar at 10° rounds to 17.365 mm, stack 10 + 5 + 1.36 + 1.005. HowTo, FAQPage, and BreadcrumbList JSON-LD, sitemap, calculators index ItemList, and links from the inch and metric calculator pages. No affiliate links on the new page. Solver math is unchanged.
+- Version stamp is 1.0.129, the next number after 1.0.128. `write-version.sh` would jump from the commit count, so the footer, cache name, and `?v=` strings are set to 1.0.129 the same way 1.0.128 was. Rollback build remains v1.0.128 at 24d6be2.
+
 ## 2026-11-09 — Metric 112-piece calculator page (v1.0.128)
 
 - New SEO page `/calculators/metric-112-gage-block-stack.html` with formula, worked example (41.125 mm = 25 + 14 + 1.12 + 1.005, verified against `set=metric-112` with wear off), 3-question FAQ, HowTo/FAQPage/Breadcrumb JSON-LD, and CTAs. Also-by-Nick links the AskMachinist hub plus choose, build, wring, and metric guides. No affiliate links on the new page.
