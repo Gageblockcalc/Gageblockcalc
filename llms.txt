@@ -1,0 +1,62 @@
+# GageBlockCalc
+
+Free gage block stack calculator for inch 81-, 36-, and 28-piece sets and metric 112- and 88-piece sets. No login. Recipe pages below were built by that same solver and each stack adds up to the stated size.
+
+## Tools
+- Calculator: https://gageblockcalc.com/
+- Common shop sizes: https://gageblockcalc.com/calculators/stacks/
+- Sine bar stack height: https://gageblockcalc.com/calculators/sine-bar-gage-block-stack.html
+- Inch 81-piece guide: https://gageblockcalc.com/calculators/inch-gage-block-stack.html
+- Inch 36-piece guide: https://gageblockcalc.com/calculators/inch-36-gage-block-stack.html
+- Inch 28-piece guide: https://gageblockcalc.com/calculators/inch-28-gage-block-stack.html
+- Metric sets: https://gageblockcalc.com/calculators/metric-gage-block-stack.html
+- Metric 112-piece guide: https://gageblockcalc.com/calculators/metric-112-gage-block-stack.html
+- Metric 88-piece guide: https://gageblockcalc.com/calculators/metric-88-gage-block-stack.html
+- Wear blocks: https://gageblockcalc.com/calculators/wear-block-stack.html
+- Embed the widget: https://gageblockcalc.com/embed.html
+- FAQ: https://gageblockcalc.com/faq.html
+
+## AskMachinist
+- How to wring gage blocks: https://askmachinist.com/guides/how-to-wring-gage-blocks
+- How to choose a gage block set: https://askmachinist.com/guides/how-to-choose-a-gage-block-set
+- How to build a gage block stack: https://askmachinist.com/guides/how-to-build-a-gage-block-stack
+- Temperature correction: https://askmachinist.com/tools/gage-block-temperature-correction
+- Worked stacks already published: https://askmachinist.com/gage-block-stacks/
+
+## Recipes
+- 0.105 in, 81-piece: https://gageblockcalc.com/calculators/stacks/0.105-in-81.html
+- 0.210 in, 81-piece: https://gageblockcalc.com/calculators/stacks/0.210-in-81.html
+- 0.250 in, 81-piece: https://gageblockcalc.com/calculators/stacks/0.2500-in-81.html
+- 0.2608 in, 81-piece: https://gageblockcalc.com/calculators/stacks/0.2608-in-81.html
+- 0.315 in, 81-piece: https://gageblockcalc.com/calculators/stacks/0.315-in-81.html
+- 0.375 in, 81-piece: https://gageblockcalc.com/calculators/stacks/0.375-in-81.html
+- 0.500 in, 81-piece: https://gageblockcalc.com/calculators/stacks/0.5000-in-81.html
+- 0.625 in, 81-piece: https://gageblockcalc.com/calculators/stacks/0.625-in-81.html
+- 0.750 in, 81-piece: https://gageblockcalc.com/calculators/stacks/0.7500-in-81.html
+- 0.8682 in, 81-piece: https://gageblockcalc.com/calculators/stacks/0.8682-in-81.html
+- 0.875 in, 81-piece: https://gageblockcalc.com/calculators/stacks/0.875-in-81.html
+- 1.000 in, 81-piece: https://gageblockcalc.com/calculators/stacks/1.0000-in-81.html
+- 1.250 in, 81-piece: https://gageblockcalc.com/calculators/stacks/1.250-in-81.html
+- 1.500 in, 81-piece: https://gageblockcalc.com/calculators/stacks/1.500-in-81.html
+- 2.500 in, 81-piece: https://gageblockcalc.com/calculators/stacks/2.5000-in-81.html
+- 4.000 in, 81-piece: https://gageblockcalc.com/calculators/stacks/4.0000-in-81.html
+- 0.7505 in, 36-piece: https://gageblockcalc.com/calculators/stacks/0.7505-in-36.html
+- 0.625 in, 36-piece: https://gageblockcalc.com/calculators/stacks/0.625-in-36.html
+- 0.255 in, 36-piece: https://gageblockcalc.com/calculators/stacks/0.255-in-36.html
+- 0.12345 in, 28-piece: https://gageblockcalc.com/calculators/stacks/0.12345-in-28.html
+- 0.10005 in, 28-piece: https://gageblockcalc.com/calculators/stacks/0.10005-in-28.html
+- 0.240 in, 28-piece: https://gageblockcalc.com/calculators/stacks/0.240-in-28.html
+- 10 mm, 112-piece: https://gageblockcalc.com/calculators/stacks/10.00-mm-112.html
+- 12.5 mm, 112-piece: https://gageblockcalc.com/calculators/stacks/12.50-mm-112.html
+- 20 mm, 112-piece: https://gageblockcalc.com/calculators/stacks/20.00-mm-112.html
+- 25 mm, 112-piece: https://gageblockcalc.com/calculators/stacks/25.00-mm-112.html
+- 41.125 mm, 112-piece: https://gageblockcalc.com/calculators/stacks/41.125-mm-112.html
+- 50 mm, 112-piece: https://gageblockcalc.com/calculators/stacks/50.00-mm-112.html
+- 75 mm, 112-piece: https://gageblockcalc.com/calculators/stacks/75.00-mm-112.html
+- 100 mm, 112-piece: https://gageblockcalc.com/calculators/stacks/100.00-mm-112.html
+- 25 mm, 88-piece: https://gageblockcalc.com/calculators/stacks/25.00-mm-88.html
+- 41.125 mm, 88-piece: https://gageblockcalc.com/calculators/stacks/41.125-mm-88.html
+- 17.365 mm, 88-piece: https://gageblockcalc.com/calculators/stacks/17.365-mm-88.html
+- 2.3456 in, 81-piece, wear blocks: https://gageblockcalc.com/calculators/stacks/2.3456-in-81-wear.html
+- 1.500 in, 81-piece, wear blocks: https://gageblockcalc.com/calculators/stacks/1.5000-in-81-wear.html
+- 0.750 in, 81-piece, wear blocks: https://gageblockcalc.com/calculators/stacks/0.7500-in-81-wear.html
