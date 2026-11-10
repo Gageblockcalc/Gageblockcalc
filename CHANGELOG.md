@@ -1,3 +1,10 @@
+## 2026-11-09 — Metric 112-piece calculator page (v1.0.128)
+
+- New SEO page `/calculators/metric-112-gage-block-stack.html` with formula, worked example (41.125 mm = 25 + 14 + 1.12 + 1.005, verified against `set=metric-112` with wear off), 3-question FAQ, HowTo/FAQPage/Breadcrumb JSON-LD, and CTAs. Also-by-Nick links the AskMachinist hub plus choose, build, wring, and metric guides. No affiliate links on the new page.
+- The same solver builds 25.4 mm as 24 + 1.4, and 14 mm as the single 14 mm block (the 88-piece set builds 14 mm as 10 + 4). Lengths above 716.2955 mm, the sum of the 88-piece inventory, are the sizes only the 112-piece set can make.
+- The combined metric page stays and now shows that verified 112-piece stack. Calculators index, ItemList, related nav, and sitemap list the dedicated 112-piece URL beside the 88-piece page. Solver math is unchanged. Free, no login, no new trackers.
+- Version stamp is 1.0.128, the next number after 1.0.127. `write-version.sh` would have jumped to 1.0.134 from the commit count, so the footer, cache name, and `?v=` strings are set to 1.0.128 the same way 1.0.127 was. The stamp date is America/New_York. Rollback build remains v1.0.127 at bf65481.
+
 ## 2026-11-09 — Wear deep link and metric 88-piece page (v1.0.127)
 
 - `/?target=…&set=…&wear=1` and `wear=true` check Include wear / protection blocks and solve with wear blocks included. `wear=0` and `wear=false` turn them off. A link that omits `wear` still leaves the saved toggle alone.
