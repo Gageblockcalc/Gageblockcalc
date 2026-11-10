@@ -9,14 +9,39 @@
 <meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#0f172a">
 <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
 <script type="application/ld+json">[{"@context": "https://schema.org", "@type": "HowTo", "name": "How to build a sine bar gage block stack", "step": [{"@type": "HowToStep", "name": "Convert the angle to decimal degrees", "text": "10° is already decimal degrees. Degrees, minutes, and seconds convert as degrees + minutes/60 + seconds/3600."}, {"@type": "HowToStep", "name": "Multiply length by the sine", "text": "A 5 in sine bar at 10° has H = 5 × sin(10°) = 0.86824089 in."}, {"@type": "HowToStep", "name": "Round to the set increment", "text": "An 81-piece inch set steps by 0.0001 in. 0.86824089 in rounds to 0.8682 in, which is 0.00004089 in under the exact height."}, {"@type": "HowToStep", "name": "Open the gage block stack", "text": "The solver with set=inch-81 and wear blocks off builds 0.8682 in as 0.650 + 0.118 + 0.1002."}]}, {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What formula does a sine bar use?", "acceptedAnswer": {"@type": "Answer", "text": "Stack height H = L × sin(angle), with the angle in degrees. Minutes and seconds convert first: decimal degrees = degrees + minutes/60 + seconds/3600."}}, {"@type": "Question", "name": "Why is the gage block stack not exactly L × sin(angle)?", "acceptedAnswer": {"@type": "Answer", "text": "Gage blocks move in fixed steps. The 81-piece inch set’s smallest step is 0.0001 in. The 88-piece metric set’s smallest repeating step is 0.001 mm. One 1.0005 mm block can finish a single 0.0005 mm ending, but that is not a 0.0005 mm step for every height, so this page rounds metric heights to 0.001 mm. The stack matches the rounded height. The difference from the exact sine height is at most half a step: 0.00005 in or 0.0005 mm."}}, {"@type": "Question", "name": "Which calculator set does the link open?", "acceptedAnswer": {"@type": "Answer", "text": "Inch lengths, including the 5 in and 10 in presets, open the 81-piece inch set. Millimetre lengths, including the 100 mm and 200 mm presets, open the 88-piece metric set. Wear blocks stay off. The link uses the rounded height, for example /?target=0.8682&set=inch-81."}}]}, {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "GageBlockCalc", "item": "https://gageblockcalc.com/"}, {"@type": "ListItem", "position": 2, "name": "Calculators", "item": "https://gageblockcalc.com/calculators/"}, {"@type": "ListItem", "position": 3, "name": "Sine Bar Gage Block Stack Calculator", "item": "https://gageblockcalc.com/calculators/sine-bar-gage-block-stack.html"}]}]</script>
-<style>body{font-family:system-ui,sans-serif;max-width:46rem;margin:0 auto;padding:1.5rem;background:#f8fafc;color:#0f172a;line-height:1.6}a{color:#0a58ca}h1{font-size:1.6rem;line-height:1.25}h2{margin-top:2rem;font-size:1.2rem;color:#0f172a}.card{background:#fff;border:1px solid #e2e8f0;border-radius:.6rem;padding:1rem 1.2rem;margin:1rem 0}.f{font-family:ui-monospace,monospace;background:#f1f5f9;padding:.6rem .8rem;border-radius:.4rem;display:block;overflow-x:auto}.cta{display:inline-block;background:#0a58ca;color:#fff;font-weight:700;padding:.6rem 1rem;border-radius:.45rem;text-decoration:none;margin:.25rem .5rem .25rem 0}table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid #e2e8f0;padding:.35rem .5rem;text-align:left}details{margin:.6rem 0;padding:.7rem 1rem;background:#fff;border:1px solid #e2e8f0;border-radius:.5rem}summary{font-weight:600;cursor:pointer}nav.rel a{margin-right:1rem}header.gbc-brand{flex-wrap:wrap;row-gap:.4rem}footer{margin-top:2.5rem;padding-top:1rem;border-top:1px solid #e2e8f0;font-size:.9rem;opacity:.8}
+<style>body{font-family:system-ui,sans-serif;max-width:46rem;margin:0 auto;padding:1.5rem;background:#f8fafc;color:#0f172a;line-height:1.6}a{color:#0a58ca}h1{font-size:1.6rem;line-height:1.25}h2{margin-top:2rem;font-size:1.2rem;color:#0f172a}.card{background:#fff;border:1px solid #e2e8f0;border-radius:.6rem;padding:1rem 1.2rem;margin:1rem 0}.f{font-family:ui-monospace,monospace;background:#f1f5f9;padding:.6rem .8rem;border-radius:.4rem;display:block;overflow-x:auto}.cta{display:inline-block;background:#0a58ca;color:#fff;font-weight:700;padding:.6rem 1rem;border-radius:.45rem;text-decoration:none;margin:.25rem .5rem .25rem 0}table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid #e2e8f0;padding:.35rem .5rem;text-align:left}details{margin:.6rem 0;padding:.7rem 1rem;background:#fff;border:1px solid #e2e8f0;border-radius:.5rem}summary{font-weight:600;cursor:pointer}nav.rel a{margin-right:1rem}header.gbc-brand{flex-wrap:wrap;row-gap:.4rem;padding:.25rem 0 1rem;margin-bottom:1rem}footer{margin-top:2.5rem;padding-top:1rem;border-top:1px solid #e2e8f0;font-size:.9rem;opacity:.8}
+p.lbl{margin:.35rem 0 .2rem}#warnOut:empty{display:none}
+@media (max-width:700px){
+  body{padding:.5rem .7rem;line-height:1.4}
+  header.gbc-brand{padding:.15rem 0 .4rem;margin-bottom:.35rem}
+  h1{font-size:1.22rem;line-height:1.15;margin:.3rem 0 .25rem}
+  h2{margin-top:1.15rem}
+  .card{padding:.55rem .65rem;margin:.35rem 0}
+  .presets,.modes{gap:.3rem;margin:.1rem 0 .35rem}
+  .presets button,.modes button{padding:.32rem .5rem;font-size:.86rem}
+  .fields{gap:.4rem}
+  p.lbl,label.lbl{font-size:.84rem;margin:.12rem 0 .1rem}
+  input,select{padding:.32rem .45rem}
+  .big{font-size:1.2rem;margin:0}
+  .cta{display:inline-flex;align-items:center;box-sizing:border-box;min-height:44px;padding:.5rem .85rem;margin:.15rem 0 0}
+  main{display:flex;flex-direction:column}
+  main>*{order:6}
+  main>h1{order:1}
+  main>div.card:first-of-type{order:2}
+  #result{order:3;display:flex;flex-direction:column}
+  main>p.lede{order:4;font-size:.9rem;line-height:1.35;margin:.45rem 0 .2rem}
+  #heightOut{order:1}
+  #result .cta-row{order:2;margin:.2rem 0 0}
+  #warnOut{order:3;margin:.25rem 0 0}
+  #detailOut{order:4;font-size:.86rem;line-height:1.35;margin:.35rem 0 0}
+}
 [hidden]{display:none !important}
 .presets,.modes{display:flex;flex-wrap:wrap;gap:.4rem;margin:.35rem 0 .75rem}.presets button,.modes button{font:inherit;background:#fff;color:#0a58ca;border:1px solid #bfdbfe;border-radius:.4rem;padding:.4rem .7rem;cursor:pointer;font-weight:600}.presets button[aria-pressed="true"],.modes button[aria-pressed="true"]{background:#0a58ca;color:#fff;border-color:#0a58ca}.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));gap:.65rem}label.lbl{font-weight:600;font-size:.92rem;display:block;margin-bottom:.25rem}input,select{width:100%;font:inherit;padding:.45rem .55rem;border:1px solid #cbd5e1;border-radius:.4rem;background:#fff;color:#0f172a;box-sizing:border-box}.big{font-size:1.35rem;font-weight:700;margin:.2rem 0}.note{font-size:.92rem;color:#334155}.warn{color:#9a3412}</style>
 </head><body>
-<header class="gbc-brand" style="display:flex;align-items:center;gap:.6rem;padding:.25rem 0 1rem;margin-bottom:1rem;border-bottom:1px solid #e2e8f0"><a href="/" style="display:flex;align-items:center;gap:.6rem;text-decoration:none;color:inherit;font-weight:700;font-size:1.15rem"><img src="/icons/favicon.svg?v=2026-10-27" width="32" height="32" alt="GageBlockCalc logo">GageBlockCalc</a><span style="opacity:.7;font-size:.9rem">Free gage block stack calculator</span></header>
+<header class="gbc-brand" style="display:flex;align-items:center;gap:.6rem;border-bottom:1px solid #e2e8f0"><a href="/" style="display:flex;align-items:center;gap:.6rem;text-decoration:none;color:inherit;font-weight:700;font-size:1.15rem"><img src="/icons/favicon.svg?v=2026-10-27" width="32" height="32" alt="GageBlockCalc logo">GageBlockCalc</a><span style="opacity:.7;font-size:.9rem">Free gage block stack calculator</span></header>
 <main>
 <h1>Sine Bar Gage Block Stack Calculator</h1>
-<p>Find the gage block stack height for a sine bar. Enter the bar length and the angle. The page computes H = L × sin(angle), rounds that height to the set’s smallest repeating step, and opens the existing solver on that rounded size.</p>
+<p class="lede">Find the gage block stack height for a sine bar. Enter the bar length and the angle. The page computes H = L × sin(angle), rounds that height to the set’s smallest repeating step, and opens the existing solver on that rounded size.</p>
 <div class="card">
 <p class="lbl" id="presetLabel">Sine bar length</p>
 <div class="presets" role="group" aria-labelledby="presetLabel">
@@ -45,7 +70,7 @@
 <p class="big" id="heightOut">0.8682 in</p>
 <p id="detailOut">Exact H = 5 × sin(10°) = 0.86824089 in. Rounded to the nearest 0.0001 in. The rounded height is 0.00004089 in under L × sin(angle), within half of the 0.0001 in step.</p>
 <p class="note warn" id="warnOut"></p>
-<p><a class="cta" id="stackLink" href="/?target=0.8682&amp;set=inch-81">Open the 81-piece stack for 0.8682 in</a></p>
+<p class="cta-row"><a class="cta" id="stackLink" href="/?target=0.8682&amp;set=inch-81">Open the 81-piece stack for 0.8682 in</a></p>
 </div>
 <h2>Formula</h2>
 <code class="f">H = L × sin(angle)<br>decimal degrees = degrees + minutes / 60 + seconds / 3600</code>
