@@ -43,13 +43,28 @@ if (!page88.includes('30 + 9 + 1.12 + 1.005')) bad('metric-88 page missing solve
 if (!page88.includes('href="/?target=41.125&set=metric-88"')) bad('metric-88 page missing CTA');
 if (!page88.includes('HowTo') || !page88.includes('FAQPage') || !page88.includes('BreadcrumbList')) bad('metric-88 page missing JSON-LD');
 if (/amazon|tag=gageblockcalc|affiliate/i.test(page88)) bad('metric-88 page has an affiliate link');
+if (!page88.includes('metric-112-gage-block-stack.html')) bad('metric-88 page missing metric-112 link');
+const page112 = fs.readFileSync(path.join(__dirname, '../calculators/metric-112-gage-block-stack.html'), 'utf8');
+if (!page112.includes('25 + 14 + 1.12 + 1.005')) bad('metric-112 page missing solver stack');
+if (!page112.includes('24 + 1.4')) bad('metric-112 page missing 25.4 mm stack');
+if (!page112.includes('href="/?target=41.125&set=metric-112"')) bad('metric-112 page missing CTA');
+if (!page112.includes('HowTo') || !page112.includes('FAQPage') || !page112.includes('BreadcrumbList')) bad('metric-112 page missing JSON-LD');
+if (/amazon|tag=gageblockcalc|affiliate/i.test(page112)) bad('metric-112 page has an affiliate link');
+if (!page112.includes('metric-88-gage-block-stack.html') || !page112.includes('metric-gage-block-stack.html')) bad('metric-112 page missing metric cross-links');
+const pageMetric = fs.readFileSync(path.join(__dirname, '../calculators/metric-gage-block-stack.html'), 'utf8');
+if (!pageMetric.includes('25 + 14 + 1.12 + 1.005')) bad('combined metric page missing 112 solver stack');
+if (pageMetric.includes('19 + 20')) bad('combined metric page still shows the old 19 + 20 stack');
+if (!pageMetric.includes('metric-112-gage-block-stack.html') || !pageMetric.includes('metric-88-gage-block-stack.html')) bad('combined metric page missing dedicated links');
 const wearPage = fs.readFileSync(path.join(__dirname, '../calculators/wear-block-stack.html'), 'utf8');
 if (!wearPage.includes('href="/?target=2.3456&set=inch-81&wear=1"')) bad('wear page CTA missing wear=1');
 if (!wearPage.includes('metric-88-gage-block-stack.html')) bad('wear page missing metric-88 link');
+if (!wearPage.includes('metric-112-gage-block-stack.html')) bad('wear page missing metric-112 link');
 const calcIndex = fs.readFileSync(path.join(__dirname, '../calculators/index.html'), 'utf8');
 if (!calcIndex.includes('https://gageblockcalc.com/calculators/metric-88-gage-block-stack.html')) bad('ItemList missing metric-88');
+if (!calcIndex.includes('https://gageblockcalc.com/calculators/metric-112-gage-block-stack.html')) bad('ItemList missing metric-112');
 const sitemap = fs.readFileSync(path.join(__dirname, '../sitemap.xml'), 'utf8');
 if (!sitemap.includes('https://gageblockcalc.com/calculators/metric-88-gage-block-stack.html')) bad('sitemap missing metric-88');
+if (!sitemap.includes('https://gageblockcalc.com/calculators/metric-112-gage-block-stack.html')) bad('sitemap missing metric-112');
 
 console.log(fail ? fail + ' FAILURES' : 'ALL PASS');
 process.exit(fail ? 1 : 0);
