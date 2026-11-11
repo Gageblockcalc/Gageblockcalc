@@ -21,7 +21,7 @@ const HUB = [
   ['metric-88', '99.995'], ['metric-88', '150.123'],
 ];
 
-if (recipes.length < 25 || recipes.length > 40) bad('recipe count ' + recipes.length);
+if (recipes.length < 25 || recipes.length > 48) bad('recipe count ' + recipes.length);
 const uses = new Set();
 recipes.forEach((recipe) => {
   const set = sets[recipe.set];
@@ -38,8 +38,20 @@ recipes.forEach((recipe) => {
   const found = A.findStacks(Number(recipe.target), set, av, !!recipe.wear, null);
   if (!found.stacks.length) { bad(recipe.slug + ' unsolved'); return; }
   const labels = found.stacks[0].map((x) => A.formatSize(x, set));
-  const sum = found.stacks[0].map((x) => A.toUnits(x, set.unitScale)).reduce((a, b) => a + b, 0);
+  const blockUnits = found.stacks[0].map((x) => A.toUnits(x, set.unitScale));
+  const sum = blockUnits.reduce((a, b) => a + b, 0);
   if (sum !== units) bad(recipe.slug + ' sum mismatch');
+  const sizeUnits = new Set(set.sizes.map((s) => A.toUnits(s, set.unitScale)));
+  const wearUnits = A.toUnits(set.wearSize, set.unitScale);
+  const used = new Map();
+  blockUnits.forEach((u) => {
+    if (!sizeUnits.has(u)) bad(recipe.slug + ' block not in set ' + u);
+    used.set(u, (used.get(u) || 0) + 1);
+  });
+  used.forEach((count, u) => {
+    const allowed = recipe.wear && u === wearUnits ? 2 : 1;
+    if (count > allowed) bad(recipe.slug + ' reuses a block (' + u + ' x' + count + ')');
+  });
   const joined = labels.join(' + ');
   if (!html.includes('data-stack="' + joined + '"')) bad(recipe.slug + ' table does not match solver ' + joined);
   const href = '/?target=' + recipe.target + '&amp;set=' + recipe.set + '&amp;wear=' + (recipe.wear ? '1' : '0');
@@ -78,6 +90,15 @@ const home = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 if (!home.includes('href="/calculators/stacks/">Common sizes</a>')) bad('calculator footer missing Common sizes');
 if (fs.existsSync(path.join(root, 'calculators/stacks/0.9999-in-81.html'))) bad('typo slug should not exist');
 if (fs.existsSync(path.join(root, 'calculators/stacks/1.2345-in-81.html'))) bad('hub size was generated');
+
+const alias = fs.readFileSync(path.join(root, 'calculators/inch-81-gage-block-stack.html'), 'utf8');
+if (!alias.includes('rel="canonical" href="https://gageblockcalc.com/calculators/inch-gage-block-stack.html"')) bad('alias canonical');
+if (!/name="robots" content="noindex"/.test(alias)) bad('alias noindex');
+if (!/http-equiv="refresh" content="0; url=\/calculators\/inch-gage-block-stack\.html"/.test(alias)) bad('alias meta refresh');
+if (!alias.includes("location.search") || !alias.includes('location.replace')) bad('alias js redirect does not keep the query string');
+if (!alias.includes('href="/calculators/inch-gage-block-stack.html"')) bad('alias fallback link');
+if (sitemap.includes('inch-81-gage-block-stack.html')) bad('alias must stay out of sitemap.xml');
+if (llms.includes('inch-81-gage-block-stack.html')) bad('alias must stay out of llms.txt');
 
 console.log(fail ? fail + ' FAILURES' : 'ALL PASS (' + recipes.length + ' recipes)');
 process.exit(fail ? 1 : 0);

@@ -242,14 +242,20 @@ function pageHtml(solved, near) {
     extra.push('<a href="https://askmachinist.com/guides/unc-unf-thread-size-chart" rel="noopener">UNC/UNF chart</a>');
     extra.push('<a href="https://askmachinist.com/tools/three-wire-thread-measurement" rel="noopener">Three-wire calculator</a>');
   }
-  if (recipe.slug === '0.105-in-81' || recipe.slug === '0.210-in-81' || recipe.slug === '0.315-in-81') {
+  if (recipe.slug === '0.105-in-81' || recipe.slug === '0.210-in-81' || recipe.slug === '0.315-in-81' || recipe.slug === '0.420-in-81') {
     extra.push('<a href="https://askmachinist.com/guides/how-to-check-a-micrometer-with-gage-blocks" rel="noopener">Check a micrometer</a>');
   }
-  if (recipe.slug === '0.8682-in-81' || recipe.slug === '2.5000-in-81' || recipe.slug === '17.365-mm-88') {
+  if (recipe.slug === '0.8682-in-81' || recipe.slug === '2.5000-in-81' || recipe.slug === '3.5355-in-81' || recipe.slug === '17.365-mm-88') {
     extra.push('<a href="/calculators/sine-bar-gage-block-stack.html">Sine bar height</a>');
   }
   if (recipe.slug === '0.625-in-81') extra.push('<a href="/calculators/stacks/0.625-in-36.html">0.625 in on the 36-piece set</a>');
   if (recipe.slug === '0.625-in-36') extra.push('<a href="/calculators/stacks/0.625-in-81.html">0.625 in on the 81-piece set</a>');
+  if (recipe.slug === '0.2500-in-81') extra.push('<a href="/calculators/stacks/0.250-in-36.html">0.250 in on the 36-piece set</a>');
+  if (recipe.slug === '0.250-in-36') extra.push('<a href="/calculators/stacks/0.2500-in-81.html">0.250 in on the 81-piece set</a>');
+  if (recipe.slug === '0.375-in-81') extra.push('<a href="/calculators/stacks/0.375-in-36.html">0.375 in on the 36-piece set</a>');
+  if (recipe.slug === '0.375-in-36') extra.push('<a href="/calculators/stacks/0.375-in-81.html">0.375 in on the 81-piece set</a>');
+  if (recipe.slug === '12.70-mm-112') extra.push('<a href="/calculators/stacks/12.70-mm-88.html">12.7 mm on the 88-piece set</a>');
+  if (recipe.slug === '12.70-mm-88') extra.push('<a href="/calculators/stacks/12.70-mm-112.html">12.7 mm on the 112-piece set</a>');
   if (recipe.slug === '41.125-mm-112') extra.push('<a href="/calculators/stacks/41.125-mm-88.html">41.125 mm on the 88-piece set</a>');
   if (recipe.slug === '41.125-mm-88') extra.push('<a href="/calculators/stacks/41.125-mm-112.html">41.125 mm on the 112-piece set</a>');
   if (recipe.slug === '0.7500-in-81') extra.push('<a href="/calculators/stacks/0.7500-in-81-wear.html">0.750 in with wear blocks</a>');
@@ -293,11 +299,14 @@ function pageHtml(solved, near) {
     '</main>\n' + FOOTER + '</body></html>\n';
 }
 
-const STYLE = '<style>body{font-family:system-ui,sans-serif;max-width:46rem;margin:0 auto;padding:1.5rem;background:#f8fafc;color:#0f172a;line-height:1.6}a{color:#0a58ca}h1{font-size:1.6rem;line-height:1.25}h2{margin-top:2rem;font-size:1.2rem;color:#0f172a}.card{background:#fff;border:1px solid #e2e8f0;border-radius:.6rem;padding:1rem 1.2rem;margin:1rem 0}.cta{display:inline-block;background:#0a58ca;color:#fff;font-weight:700;padding:.6rem 1rem;border-radius:.45rem;text-decoration:none;margin:.25rem .5rem .25rem 0}table.stack,table.idx{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid #e2e8f0;padding:.4rem .45rem;text-align:left;vertical-align:top}table.stack{font-variant-numeric:tabular-nums;background:#fff}details{margin:.6rem 0;padding:.7rem 1rem;background:#fff;border:1px solid #e2e8f0;border-radius:.5rem}summary{font-weight:600;cursor:pointer}nav.rel a{margin-right:1rem}header.gbc-brand{flex-wrap:wrap;row-gap:.4rem}footer{margin-top:2.5rem;padding-top:1rem;border-top:1px solid #e2e8f0;font-size:.9rem;color:#334155}.shop{background:#fff;border:1px solid #e2e8f0;border-radius:.6rem;padding:1rem 1.2rem;margin:1rem 0}.shop ul{margin:.4rem 0;padding-left:1.1rem}.disclosure{font-size:.92rem;color:#334155}main{overflow-wrap:anywhere}@media(max-width:420px){body{padding:1rem}h1{font-size:1.35rem}}@media print{.no-print,header,footer,nav,.shop{display:none !important}body{background:#fff;max-width:none;color:#000}a{color:#000;text-decoration:none}}</style>\n';
+const STYLE = '<style>body{font-family:system-ui,sans-serif;max-width:46rem;margin:0 auto;padding:1.5rem;background:#f8fafc;color:#0f172a;line-height:1.6}a{color:#0a58ca}h1{font-size:1.6rem;line-height:1.25}h2{margin-top:2rem;font-size:1.2rem;color:#0f172a}.card{background:#fff;border:1px solid #e2e8f0;border-radius:.6rem;padding:1rem 1.2rem;margin:1rem 0}.cta{display:inline-flex;align-items:center;box-sizing:border-box;min-height:44px;background:#0a58ca;color:#fff;font-weight:700;padding:.6rem 1rem;border-radius:.45rem;text-decoration:none;margin:.25rem .5rem .25rem 0}table.stack,table.idx{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid #e2e8f0;padding:.4rem .45rem;text-align:left;vertical-align:top}table.stack{font-variant-numeric:tabular-nums;background:#fff}details{margin:.6rem 0;padding:.7rem 1rem;background:#fff;border:1px solid #e2e8f0;border-radius:.5rem}summary{font-weight:600;cursor:pointer;min-height:44px;display:flex;align-items:center}nav.rel a,.card>a{display:inline-flex;align-items:center;box-sizing:border-box;min-height:44px;margin-right:.35rem}main p a:not(.cta){display:inline-flex;align-items:center;box-sizing:border-box;min-height:44px}footer a{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-height:44px;min-width:44px;padding:.15rem .45rem}header.gbc-brand{flex-wrap:wrap;row-gap:.4rem}header.gbc-brand>a{min-height:44px;display:inline-flex;align-items:center}footer{margin-top:2.5rem;padding-top:1rem;border-top:1px solid #e2e8f0;font-size:.9rem;color:#334155}.shop{background:#fff;border:1px solid #e2e8f0;border-radius:.6rem;padding:1rem 1.2rem;margin:1rem 0}.shop ul{margin:.4rem 0;padding-left:1.1rem}.shop a{display:inline-flex;align-items:center;box-sizing:border-box;min-height:44px}.disclosure{font-size:.92rem;color:#334155}.seasonal-xlink{margin:.75rem 0 0}.calc-version{margin-top:.4rem;font-size:12px;color:#595959}main{overflow-wrap:anywhere}@media(max-width:420px){body{padding:1rem}h1{font-size:1.35rem}}@media print{.no-print,header,footer,nav,.shop{display:none !important}body{background:#fff;max-width:none;color:#000}a{color:#000;text-decoration:none}}</style>\n';
 
 const HEADER = '<header class="gbc-brand no-print" style="display:flex;align-items:center;gap:.6rem;padding:.25rem 0 1rem;margin-bottom:1rem;border-bottom:1px solid #e2e8f0"><a href="/" style="display:flex;align-items:center;gap:.6rem;text-decoration:none;color:inherit;font-weight:700;font-size:1.15rem"><img src="/icons/favicon.svg?v=2026-10-27" width="32" height="32" alt="GageBlockCalc logo">GageBlockCalc</a><span style="opacity:.7;font-size:.9rem">Free gage block stack calculator</span></header>\n';
 
-const FOOTER = '<footer><a href="/">Calculator</a> · <a href="/calculators/">All calculators</a> · <a href="/calculators/stacks/">Common sizes</a> · <a href="/calculators/sine-bar-gage-block-stack.html">Sine bar</a> · <a href="/llms.txt">llms.txt</a> · <a href="/faq.html">FAQ</a> · <a href="/privacy.html">Privacy</a><br>Free, no login. Always verify critical stacks against your set\'s calibration certificate.</footer>\n';
+const FOOTER = '<footer><a href="/">Calculator</a> · <a href="/calculators/">All calculators</a> · <a href="/calculators/stacks/">Common sizes</a> · <a href="/calculators/sine-bar-gage-block-stack.html">Sine bar</a> · <a href="/llms.txt">llms.txt</a> · <a href="/faq.html">FAQ</a> · <a href="/privacy.html">Privacy</a><br>Free, no login. Always verify critical stacks against your set\'s calibration certificate.'
+  + '<p class="seasonal-xlink no-print"><span aria-hidden="true">🎄</span> <a href="https://askmachinist.com/guides/machinist-christmas-gift-guide" rel="noopener">Machinist Christmas gift guide</a> · <a href="https://oppsgo.com/christmas-games" target="_blank" rel="noopener">Free Christmas Games</a></p>'
+  + '<div class="calc-version no-print"><span id="calcVersion" class="notranslate" translate="no"></span></div></footer>\n'
+  + '<script src="/version.js" defer></script>\n';
 
 function indexHtml(solvedAll) {
   const groups = GROUP_ORDER.map((g) => {
@@ -402,7 +411,7 @@ function replaceMarked(text, marker, inner) {
 }
 
 function buildAll() {
-  if (recipes.length < 25 || recipes.length > 40) fail('recipe count ' + recipes.length + ' is outside 25–40');
+  if (recipes.length < 25 || recipes.length > 48) fail('recipe count ' + recipes.length + ' is outside 25–48');
   const seenSlug = new Set();
   const seenUse = new Set();
   const seenContext = new Set();
