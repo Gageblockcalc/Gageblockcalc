@@ -1,3 +1,12 @@
+## 2026-11-11 — Recipe links, one shop link, and phone speed (v1.0.134)
+
+- Each of the 48 `/calculators/stacks/` recipes links to 3–4 nearby recipes on the same set, to its set guide, and to the calculator with `?target=&set=&wear=`. The stacks index is grouped by set with jump links. Meta descriptions end on a word instead of a hard 158-character cut, and the index JSON-LD names include the set so they are unique. `algorithm.js` is unchanged.
+- Inch, 36-piece, 28-piece, metric 112, metric 88, the combined metric page, wear, and sine bar each link to their matching recipes and to the AskMachinist set page that already exists.
+- Recipe and set pages have one affiliate link, labeled “Shop this gage block set”, under the stack or worked example, with `rel="sponsored nofollow noopener"` and tag `gageblockcalc-20`. The Amazon disclosure stays next to that link.
+- Home scripts defer so they are not render-blocking. The shop panel’s first paint matches the default 81-piece labels, which removes the layout shift. Images that render keep width and height. No new tracker.
+- Footers that share the site footer, and the More from Nick / Also by Nick rows, include `More from Nick: <a href="https://oppsgo.com">OppsGo</a> free browser games`.
+- Version stamp is 1.0.134 via `scripts/write-version.sh 1.0.134`. The commit count would have jumped past 1.0.134, so the script takes the stamp as an argument. Rollback is v1.0.133 at 5bab2ee.
+
 ## 2026-11-10 — Alias for the 81-piece URL and twelve more stacks (v1.0.133)
 
 - `/calculators/inch-81-gage-block-stack.html` was a 404. It is now a noindex alias: canonical and meta refresh point at `/calculators/inch-gage-block-stack.html`, and a script keeps the query string on that same path. A visible link remains if the redirect does not run. The alias is not in `sitemap.xml` or `llms.txt`.

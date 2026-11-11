@@ -53,6 +53,22 @@ const PARENT = {
   'metric-88': { href: '/calculators/metric-88-gage-block-stack.html', name: 'Metric 88-piece guide' },
 };
 
+const WEAR_PARENT = { href: '/calculators/wear-block-stack.html', name: 'Wear-block guide' };
+
+// AskMachinist set pages that already exist. Do not invent URLs.
+const SET_HUB = {
+  'inch-81': { href: 'https://askmachinist.com/gage-block-stacks/81-piece-inch-gage-block-set', label: '81-piece inch set on AskMachinist' },
+  'inch-36': { href: 'https://askmachinist.com/gage-block-stacks/36-piece-inch-gage-block-set', label: '36-piece inch set on AskMachinist' },
+  'inch-28': { href: 'https://askmachinist.com/gage-block-stacks/28-piece-inch-gage-block-set', label: '28-piece inch set on AskMachinist' },
+  'metric-112': { href: 'https://askmachinist.com/gage-block-stacks/112-piece-metric-gage-block-set', label: '112-piece metric set on AskMachinist' },
+  'metric-88': { href: 'https://askmachinist.com/gage-block-stacks/88-piece-metric-gage-block-set', label: '88-piece metric set on AskMachinist' },
+  wear: { href: 'https://askmachinist.com/guides/gage-block-care-wear-blocks', label: 'Wear blocks on AskMachinist' },
+  sine: { href: 'https://askmachinist.com/guides/how-to-use-a-sine-bar-with-gage-blocks', label: 'Sine bar with gage blocks on AskMachinist' },
+};
+
+const SINE_SLUGS = new Set(['0.8682-in-81', '2.5000-in-81', '3.5355-in-81', '17.365-mm-88']);
+const AFF_REL = 'sponsored nofollow noopener';
+
 const GROUP_ORDER = [
   { id: 'inch-81', title: 'Inch, 81-piece set', match: (r) => r.set === 'inch-81' && !r.wear },
   { id: 'inch-36', title: 'Inch, 36-piece set', match: (r) => r.set === 'inch-36' && !r.wear },
@@ -63,13 +79,14 @@ const GROUP_ORDER = [
 ];
 
 const LANDINGS = [
-  { file: 'calculators/inch-gage-block-stack.html', marker: 'inch-81', match: (r) => r.set === 'inch-81' && !r.wear && r.landing },
-  { file: 'calculators/inch-36-gage-block-stack.html', marker: 'inch-36', match: (r) => r.set === 'inch-36' && !r.wear },
-  { file: 'calculators/inch-28-gage-block-stack.html', marker: 'inch-28', match: (r) => r.set === 'inch-28' && !r.wear },
-  { file: 'calculators/metric-112-gage-block-stack.html', marker: 'metric-112', match: (r) => r.set === 'metric-112' && !r.wear },
-  { file: 'calculators/metric-88-gage-block-stack.html', marker: 'metric-88', match: (r) => r.set === 'metric-88' && !r.wear },
-  { file: 'calculators/metric-gage-block-stack.html', marker: 'metric', match: (r) => (r.set === 'metric-112' || r.set === 'metric-88') && !r.wear && r.landing },
-  { file: 'calculators/wear-block-stack.html', marker: 'wear', match: (r) => r.wear },
+  { file: 'calculators/inch-gage-block-stack.html', marker: 'inch-81', shop: 'inch-81', hubs: ['inch-81'], match: (r) => r.set === 'inch-81' && !r.wear },
+  { file: 'calculators/inch-36-gage-block-stack.html', marker: 'inch-36', shop: 'inch-36', hubs: ['inch-36'], match: (r) => r.set === 'inch-36' && !r.wear },
+  { file: 'calculators/inch-28-gage-block-stack.html', marker: 'inch-28', shop: 'inch-28', hubs: ['inch-28'], match: (r) => r.set === 'inch-28' && !r.wear },
+  { file: 'calculators/metric-112-gage-block-stack.html', marker: 'metric-112', shop: 'metric-112', hubs: ['metric-112'], match: (r) => r.set === 'metric-112' && !r.wear },
+  { file: 'calculators/metric-88-gage-block-stack.html', marker: 'metric-88', shop: 'metric-88', hubs: ['metric-88'], match: (r) => r.set === 'metric-88' && !r.wear },
+  { file: 'calculators/metric-gage-block-stack.html', marker: 'metric', shop: 'metric-112', hubs: ['metric-112', 'metric-88'], match: (r) => (r.set === 'metric-112' || r.set === 'metric-88') && !r.wear },
+  { file: 'calculators/wear-block-stack.html', marker: 'wear', shop: 'inch-81', hubs: ['wear'], match: (r) => r.wear },
+  { file: 'calculators/sine-bar-gage-block-stack.html', marker: 'sine', shop: null, hubs: ['sine'], match: (r) => SINE_SLUGS.has(r.slug) },
 ];
 
 function fail(msg) {
@@ -149,13 +166,75 @@ function wringLabels(solved, recipe) {
   return [wearLabel].concat(inner, [wearLabel]);
 }
 
+function byDistance(list, target) {
+  return list.slice().sort((a, b) => {
+    const d = Math.abs(Number(a.recipe.target) - target) - Math.abs(Number(b.recipe.target) - target);
+    if (d) return d;
+    return a.recipe.slug < b.recipe.slug ? -1 : 1;
+  });
+}
+
 function neighbors(recipe, solvedAll) {
-  const same = solvedAll.filter((s) => s.recipe.set === recipe.set && !!s.recipe.wear === !!recipe.wear && s.recipe.slug !== recipe.slug);
-  same.sort((a, b) => Number(a.recipe.target) - Number(b.recipe.target));
-  const idx = solvedAll.findIndex((s) => s.recipe.slug === recipe.slug);
   const t = Number(recipe.target);
-  const ranked = same.slice().sort((a, b) => Math.abs(Number(a.recipe.target) - t) - Math.abs(Number(b.recipe.target) - t));
-  return ranked.slice(0, 4);
+  const sameSet = solvedAll.filter((s) => s.recipe.set === recipe.set && s.recipe.slug !== recipe.slug);
+  const sameWear = sameSet.filter((s) => !!s.recipe.wear === !!recipe.wear);
+  const picked = byDistance(sameWear, t).slice(0, 4);
+  if (picked.length < 3) {
+    const have = new Set(picked.map((s) => s.recipe.slug));
+    for (const s of byDistance(sameSet, t)) {
+      if (have.has(s.recipe.slug)) continue;
+      picked.push(s);
+      have.add(s.recipe.slug);
+      if (picked.length >= 4) break;
+    }
+  }
+  picked.sort((a, b) => Number(a.recipe.target) - Number(b.recipe.target) || (a.recipe.slug < b.recipe.slug ? -1 : 1));
+  return picked;
+}
+
+function clipAtWord(text, max) {
+  const clean = String(text).replace(/\s+/g, ' ').trim();
+  if (clean.length <= max) return /[.!?]$/.test(clean) ? clean : clean + '.';
+  let cut = clean.slice(0, max);
+  const sentence = cut.lastIndexOf('. ');
+  if (sentence >= 80) return cut.slice(0, sentence + 1);
+  const space = cut.lastIndexOf(' ');
+  if (space >= 80) cut = cut.slice(0, space);
+  return cut.replace(/[.,;: ]+$/, '') + '.';
+}
+
+function metaDescription(solved) {
+  const recipe = solved.recipe;
+  const m = solved.meta;
+  const n = solved.labels.length;
+  const kind = m.unit === 'mm' ? 'metric' : 'inch';
+  const article = /^8/.test(m.code) ? 'an' : 'a';
+  const wear = recipe.wear ? ' with wear blocks' : '';
+  const lead = solved.display + ' on ' + article + ' ' + m.code + '-piece ' + kind + ' set' + wear
+    + ' uses ' + solved.labels.join(' + ') + ' (' + n + (n === 1 ? ' block' : ' blocks') + '). ';
+  return clipAtWord(lead + recipe.use, 158);
+}
+
+function pageTitle(solved) {
+  const recipe = solved.recipe;
+  const m = solved.meta;
+  const wearBit = recipe.wear ? ', wear blocks' : '';
+  return 'Gage block combination for ' + solved.display + ' (' + m.code + '-piece set' + wearBit + ')';
+}
+
+function parentFor(recipe) {
+  if (recipe.wear) return WEAR_PARENT;
+  return PARENT[recipe.set];
+}
+
+function shopBlock(setId) {
+  const meta = setMeta(setId);
+  const url = Aff.setShopUrl(setId, meta.set.name);
+  if (!/tag=gageblockcalc-20(?:&|$)/.test(url)) fail('shop url missing gageblockcalc-20 for ' + setId);
+  return '<aside class="shop no-print" aria-label="Shop this gage block set">\n'
+    + '<p><a href="' + esc(url) + '" target="_blank" rel="' + AFF_REL + '">Shop this gage block set</a></p>\n'
+    + '<p class="disclosure">As an Amazon Associate I earn from qualifying purchases.</p>\n'
+    + '</aside>';
 }
 
 function pageHtml(solved, near) {
@@ -163,12 +242,11 @@ function pageHtml(solved, near) {
   const m = solved.meta;
   const n = solved.labels.length;
   const joined = solved.labels.join(' + ');
-  const wearBit = recipe.wear ? ', wear blocks' : '';
-  const title = 'Gage block combination for ' + solved.display + ' (' + m.code + '-piece set' + wearBit + ')';
-  const desc = (title + '. ' + recipe.use).slice(0, 158);
+  const title = pageTitle(solved);
+  const desc = metaDescription(solved);
   const href = calcHref(recipe);
   const url = 'https://gageblockcalc.com/calculators/stacks/' + recipe.slug + '.html';
-  const parent = PARENT[recipe.set];
+  const parent = parentFor(recipe);
   const wring = wringLabels(solved, recipe);
   const wearLabel = recipe.wear ? A.formatSize(m.set.wearSize, m.set) + ' ' + m.unitWord : '';
   const faqs = [
@@ -225,18 +303,18 @@ function pageHtml(solved, near) {
       ],
     },
   ];
-  const shopSet = Aff.setShopUrl(recipe.set, m.set.name);
-  const shopWear = Aff.wearShopUrl(m.unit);
-  const shopStone = Aff.amazonSearchUrl(Aff.accessoriesQuery());
   const rows = solved.rows.map((row) =>
     '<tr><td>' + row.order + '</td><td>' + esc(row.label) + ' ' + m.unitWord + '</td><td>' + esc(row.running) + ' ' + m.unitWord + '</td></tr>'
   ).join('');
   const explainSteps = solved.explained.steps.map((step) =>
     '<li><b>' + esc(step.label) + ' ' + m.unitWord + '.</b> Stack so far ' + esc(step.height) + ', ' + esc(step.note) + '</li>'
   ).join('');
-  const nearLinks = near.map((s) =>
-    '<a href="/calculators/stacks/' + s.recipe.slug + '.html">' + esc(s.display) + (s.recipe.wear ? ' with wear' : '') + '</a>'
-  ).join(' ');
+  const nearLinks = near.map((s) => {
+    let label = s.display;
+    if (s.recipe.wear) label += ' with wear';
+    else if (recipe.wear) label += ' without wear';
+    return '<a href="/calculators/stacks/' + s.recipe.slug + '.html">' + esc(label) + '</a>';
+  }).join(' ');
   const extra = [];
   if (recipe.slug === '0.2608-in-81') {
     extra.push('<a href="https://askmachinist.com/guides/unc-unf-thread-size-chart" rel="noopener">UNC/UNF chart</a>');
@@ -282,17 +360,13 @@ function pageHtml(solved, near) {
     '<p>The blocks add to <b>' + esc(solved.display) + '</b>. The order matches the calculator, largest block first.' +
     (recipe.wear ? ' Wring the wear blocks on the outside: ' + esc(wring.join(', then ')) + '.' : ' Wring thickest first.') + '</p>\n' +
     '<p><a class="cta" id="openCalc" href="' + esc(href) + '">Open this stack in the calculator</a></p>\n' +
-    '<aside class="shop no-print">\n<h2>Shop this set</h2>\n<ul>\n' +
-    '<li><a href="' + esc(shopSet) + '" target="_blank" rel="noopener sponsored">Buy ' + (/^8/.test(m.code) ? 'an' : 'a') + ' ' + esc(m.code) + '-piece gage block set on Amazon →</a></li>\n' +
-    '<li><a href="' + esc(shopWear) + '" target="_blank" rel="noopener sponsored">Buy wear / protection blocks on Amazon →</a></li>\n' +
-    '<li><a href="' + esc(shopStone) + '" target="_blank" rel="noopener sponsored">Buy a gage block stone on Amazon →</a></li>\n' +
-    '</ul>\n<p class="disclosure">As an Amazon Associate I earn from qualifying purchases.</p>\n</aside>\n' +
     '<h2>Shop use</h2>\n<p>' + esc(recipe.use) + '</p>\n' +
     '<h2>How this was chosen</h2>\n<p>' + esc(solved.explained.how) + ' ' + esc(solved.explained.why) + '</p>\n' +
     '<p>' + esc(recipe.context) + '</p>\n<ol>' + explainSteps + '</ol>\n' +
     '<p>' + esc(solved.explained.temp) + '</p>\n' +
-    '<h2>Nearby sizes</h2>\n<nav class="rel">' + nearLinks + '</nav>\n' +
-    '<h2>Related</h2>\n<nav class="rel"><a href="' + parent.href + '">' + esc(parent.name) + '</a> <a href="/calculators/stacks/">All common sizes</a> <a href="/">Calculator</a> <a href="/calculators/sine-bar-gage-block-stack.html">Sine bar</a> <a href="https://askmachinist.com/guides/how-to-wring-gage-blocks" rel="noopener">How to wring</a> <a href="https://askmachinist.com/guides/how-to-choose-a-gage-block-set" rel="noopener">Choose a set</a> <a href="https://askmachinist.com/guides/how-to-build-a-gage-block-stack" rel="noopener">How to build a stack</a> <a href="https://askmachinist.com/tools/gage-block-temperature-correction" rel="noopener">Temperature correction</a> ' + extra.join(' ') + '</nav>\n' +
+    shopBlock(recipe.set) + '\n' +
+    '<h2>Nearby sizes</h2>\n<nav class="rel" aria-label="Related recipes">' + nearLinks + '</nav>\n' +
+    '<h2>Related</h2>\n<nav class="rel"><a href="' + parent.href + '">' + esc(parent.name) + '</a> <a href="/calculators/stacks/">All common sizes</a> <a href="' + esc(href) + '">Open ' + esc(solved.display) + ' in the calculator</a> <a href="/calculators/sine-bar-gage-block-stack.html">Sine bar</a> <a href="https://askmachinist.com/guides/how-to-wring-gage-blocks" rel="noopener">How to wring</a> <a href="https://askmachinist.com/guides/how-to-choose-a-gage-block-set" rel="noopener">Choose a set</a> <a href="https://askmachinist.com/guides/how-to-build-a-gage-block-stack" rel="noopener">How to build a stack</a> <a href="https://askmachinist.com/tools/gage-block-temperature-correction" rel="noopener">Temperature correction</a> ' + extra.join(' ') + '</nav>\n' +
     '<h2>FAQ</h2>\n' +
     faqs.map((f) => '<details><summary>' + esc(f.q) + '</summary><p>' + esc(f.a) + '</p></details>').join('\n') + '\n' +
     '<p class="no-print">Print this page from the browser for a shop ticket. The stack table is what prints; the shop links stay on screen.</p>\n' +
@@ -305,17 +379,22 @@ const HEADER = '<header class="gbc-brand no-print" style="display:flex;align-ite
 
 const FOOTER = '<footer><a href="/">Calculator</a> · <a href="/calculators/">All calculators</a> · <a href="/calculators/stacks/">Common sizes</a> · <a href="/calculators/sine-bar-gage-block-stack.html">Sine bar</a> · <a href="/llms.txt">llms.txt</a> · <a href="/faq.html">FAQ</a> · <a href="/privacy.html">Privacy</a><br>Free, no login. Always verify critical stacks against your set\'s calibration certificate.'
   + '<p class="seasonal-xlink no-print"><span aria-hidden="true">🎄</span> <a href="https://askmachinist.com/guides/machinist-christmas-gift-guide" rel="noopener">Machinist Christmas gift guide</a> · <a href="https://oppsgo.com/christmas-games" target="_blank" rel="noopener">Free Christmas Games</a></p>'
+  + '<p class="nick-also no-print">More from Nick: <a href="https://oppsgo.com">OppsGo</a> free browser games</p>'
   + '<div class="calc-version no-print"><span id="calcVersion" class="notranslate" translate="no"></span></div></footer>\n'
   + '<script src="/version.js" defer></script>\n';
 
 function indexHtml(solvedAll) {
+  const jumps = '<nav class="rel" aria-label="Jump to a set">' + GROUP_ORDER.map((g) =>
+    '<a href="#' + g.id + '">' + esc(g.title) + '</a>'
+  ).join(' ') + '</nav>\n';
   const groups = GROUP_ORDER.map((g) => {
-    const items = solvedAll.filter((s) => g.match(s.recipe));
+    const items = solvedAll.filter((s) => g.match(s.recipe))
+      .sort((a, b) => Number(a.recipe.target) - Number(b.recipe.target) || (a.recipe.slug < b.recipe.slug ? -1 : 1));
     const cards = items.map((s) => {
       const first = s.recipe.use.split(/(?<=\.)\s/)[0];
       return '<div class="card"><a href="/calculators/stacks/' + s.recipe.slug + '.html"><b>' + esc(s.display) + ' · ' + esc(s.meta.code) + '-piece' + (s.recipe.wear ? ' · wear' : '') + ' · ' + s.labels.length + ' block' + (s.labels.length === 1 ? '' : 's') + '</b></a><br>' + esc(s.labels.join(' + ')) + '<br>' + esc(first) + '</div>';
     }).join('');
-    return '<h2>' + esc(g.title) + '</h2>\n' + cards;
+    return '<h2 id="' + g.id + '">' + esc(g.title) + '</h2>\n' + cards;
   }).join('\n');
   const hub = HUB.map((h) => '<a href="' + h.href + '" rel="noopener">' + esc(h.label) + '</a>').join(' ');
   const itemList = {
@@ -325,7 +404,7 @@ function indexHtml(solvedAll) {
       '@type': 'ListItem',
       position: i + 1,
       url: 'https://gageblockcalc.com/calculators/stacks/' + s.recipe.slug + '.html',
-      name: 'Gage block combination for ' + s.display,
+      name: pageTitle(s),
     })),
   };
   return '<!doctype html>\n<html lang="en"><head><meta charset="utf-8">\n' +
@@ -342,6 +421,7 @@ function indexHtml(solvedAll) {
     '<main>\n<h1>Gage block combinations for common shop sizes</h1>\n' +
     '<p>A stack is the fewest gage blocks that wring to a target length. These pages are the solver’s answer for sizes shops look up, written out so you can read the blocks without running JavaScript. Open the <a href="/">calculator</a> for a size that is not listed. Wringing notes are in <a href="https://askmachinist.com/guides/how-to-wring-gage-blocks" rel="noopener">how to wring gage blocks</a>.</p>\n' +
     '<p><a class="cta" href="/">Open the calculator</a> <a class="cta" href="/calculators/sine-bar-gage-block-stack.html">Sine bar height</a></p>\n' +
+    jumps +
     groups + '\n' +
     '<h2>Already on AskMachinist</h2>\n' +
     '<p>AskMachinist already has a worked stack for these sizes. This library does not repeat them.</p>\n' +
@@ -391,22 +471,28 @@ function sitemapBlock(solvedAll) {
     solvedAll.map((s) => 'https://gageblockcalc.com/calculators/stacks/' + s.recipe.slug + '.html')
   );
   return urls.map((loc) =>
-    '  <url>\n    <loc>' + loc + '</loc>\n    <lastmod>2026-11-10</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>'
+    '  <url>\n    <loc>' + loc + '</loc>\n    <lastmod>2026-11-11</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>'
   ).join('\n');
 }
 
-function landingNav(items) {
-  return '<nav class="rel">' + items.map((s) =>
+function landingNav(items, hubs) {
+  const links = items.map((s) =>
     '<a href="/calculators/stacks/' + s.recipe.slug + '.html">' + esc(s.display) + (s.recipe.wear ? ' wear' : '') + '</a>'
-  ).join(' ') + '</nav>';
+  );
+  (hubs || []).forEach((key) => {
+    const hub = SET_HUB[key];
+    if (!hub) fail('missing hub ' + key);
+    links.push('<a href="' + hub.href + '" rel="noopener">' + esc(hub.label) + '</a>');
+  });
+  return '<nav class="rel">' + links.join(' ') + '</nav>';
 }
 
-function replaceMarked(text, marker, inner) {
-  const start = '<!-- common-sizes:' + marker + ' -->';
-  const end = '<!-- /common-sizes:' + marker + ' -->';
+function replaceSpan(text, token, inner) {
+  const start = '<!-- ' + token + ' -->';
+  const end = '<!-- /' + token + ' -->';
   const i = text.indexOf(start);
   const j = text.indexOf(end);
-  if (i < 0 || j < i) fail('missing marker ' + marker);
+  if (i < 0 || j < i) fail('missing marker ' + token);
   return text.slice(0, i + start.length) + '\n' + inner + '\n' + text.slice(j);
 }
 
@@ -436,10 +522,24 @@ function buildAll() {
   });
 
   const files = new Map();
+  const titles = new Set();
+  const descs = new Set();
   solvedAll.forEach((solved) => {
     const near = neighbors(solved.recipe, solvedAll);
-    if (near.length < 2) fail(solved.recipe.slug + ' needs nearby sizes');
-    files.set(path.join(STACK_DIR, solved.recipe.slug + '.html'), pageHtml(solved, near));
+    if (near.length < 3 || near.length > 4) fail(solved.recipe.slug + ' has ' + near.length + ' related recipes');
+    const title = pageTitle(solved);
+    const desc = metaDescription(solved);
+    if (titles.has(title)) fail('duplicate title ' + title);
+    if (descs.has(desc)) fail('duplicate description ' + solved.recipe.slug);
+    if (desc.length < 80 || desc.length > 160 || !/[.!?]$/.test(desc)) fail(solved.recipe.slug + ' description length ' + desc.length);
+    titles.add(title);
+    descs.add(desc);
+    const html = pageHtml(solved, near);
+    const shops = (html.match(/>Shop this gage block set</g) || []).length;
+    if (shops !== 1) fail(solved.recipe.slug + ' affiliate blocks ' + shops);
+    if ((html.match(/amazon\.com/g) || []).length !== 1) fail(solved.recipe.slug + ' amazon link count');
+    if (!html.includes('rel="' + AFF_REL + '"')) fail(solved.recipe.slug + ' affiliate rel');
+    files.set(path.join(STACK_DIR, solved.recipe.slug + '.html'), html);
   });
   files.set(path.join(STACK_DIR, 'index.html'), indexHtml(solvedAll));
   files.set(path.join(ROOT, 'llms.txt'), llmsText(solvedAll));
@@ -452,10 +552,17 @@ function buildAll() {
   files.set(path.join(ROOT, 'sitemap.xml'), sitemap);
 
   LANDINGS.forEach((landing) => {
-    const items = solvedAll.filter((s) => landing.match(s.recipe)).slice(0, 10);
+    const items = solvedAll.filter((s) => landing.match(s.recipe))
+      .sort((a, b) => Number(a.recipe.target) - Number(b.recipe.target) || (a.recipe.slug < b.recipe.slug ? -1 : 1));
     if (!items.length) fail('no landing links for ' + landing.marker);
     const file = path.join(ROOT, landing.file);
-    files.set(file, replaceMarked(fs.readFileSync(file, 'utf8'), landing.marker, landingNav(items)));
+    let text = replaceSpan(fs.readFileSync(file, 'utf8'), 'common-sizes:' + landing.marker, landingNav(items, landing.hubs));
+    if (landing.shop) {
+      text = replaceSpan(text, 'shop-set:' + landing.marker, shopBlock(landing.shop));
+      const shops = (text.match(/>Shop this gage block set</g) || []).length;
+      if (shops !== 1) fail(landing.marker + ' affiliate blocks ' + shops);
+    }
+    files.set(file, text);
   });
 
   return { files, solvedAll };

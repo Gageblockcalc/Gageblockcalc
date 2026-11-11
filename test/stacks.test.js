@@ -100,5 +100,49 @@ if (!alias.includes('href="/calculators/inch-gage-block-stack.html"')) bad('alia
 if (sitemap.includes('inch-81-gage-block-stack.html')) bad('alias must stay out of sitemap.xml');
 if (llms.includes('inch-81-gage-block-stack.html')) bad('alias must stay out of llms.txt');
 
+const indexHtml = fs.readFileSync(path.join(root, 'calculators/stacks/index.html'), 'utf8');
+['#inch-81', '#inch-36', '#inch-28', '#metric-112', '#metric-88', '#wear'].forEach((id) => {
+  if (!indexHtml.includes('href="' + id + '"') || !indexHtml.includes('id="' + id.slice(1) + '"')) bad('stacks index missing jump ' + id);
+});
+const names = [];
+const ld = indexHtml.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+JSON.parse(ld[1]).itemListElement.forEach((item) => names.push(item.name));
+if (new Set(names).size !== names.length) bad('stacks index JSON-LD names are not unique');
+
+const landings = {
+  'calculators/inch-gage-block-stack.html': ['81-piece-inch-gage-block-set', '0.420-in-81.html', '4.0000-in-81.html'],
+  'calculators/inch-36-gage-block-stack.html': ['36-piece-inch-gage-block-set', '0.250-in-36.html', '0.375-in-36.html'],
+  'calculators/inch-28-gage-block-stack.html': ['28-piece-inch-gage-block-set', '0.100-in-28.html', '0.125-in-28.html'],
+  'calculators/metric-112-gage-block-stack.html': ['112-piece-metric-gage-block-set', '12.70-mm-112.html', '30.00-mm-112.html'],
+  'calculators/metric-88-gage-block-stack.html': ['88-piece-metric-gage-block-set', '12.70-mm-88.html', '15.00-mm-88.html'],
+  'calculators/wear-block-stack.html': ['gage-block-care-wear-blocks', '0.7500-in-81-wear.html'],
+  'calculators/sine-bar-gage-block-stack.html': ['how-to-use-a-sine-bar-with-gage-blocks', '0.8682-in-81.html', '17.365-mm-88.html'],
+};
+Object.entries(landings).forEach(([file, bits]) => {
+  const html = fs.readFileSync(path.join(root, file), 'utf8');
+  bits.forEach((bit) => { if (!html.includes(bit)) bad(file + ' missing ' + bit); });
+  if (file.indexOf('sine-bar') < 0) {
+    if ((html.match(/>Shop this gage block set</g) || []).length !== 1) bad(file + ' shop link count');
+    if (!html.includes('rel="sponsored nofollow noopener"')) bad(file + ' shop rel');
+    if (!html.includes('As an Amazon Associate I earn from qualifying purchases.')) bad(file + ' disclosure');
+  }
+});
+
+recipes.forEach((recipe) => {
+  const html = fs.readFileSync(path.join(root, 'calculators', 'stacks', recipe.slug + '.html'), 'utf8');
+  const near = html.split('<h2>Nearby sizes</h2>')[1].split('</nav>')[0];
+  const count = (near.match(/\/calculators\/stacks\//g) || []).length;
+  if (count < 3 || count > 4) bad(recipe.slug + ' related count ' + count);
+  const desc = (html.match(/name="description" content="([^"]*)"/) || [])[1] || '';
+  if (desc.length < 80 || desc.length > 160 || !/[.!?]$/.test(desc)) bad(recipe.slug + ' description ' + desc.length);
+  const blocks = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+  const data = JSON.parse(blocks[1]);
+  const types = data.map((d) => d['@type']);
+  if (types.indexOf('FAQPage') < 0 || types.indexOf('HowTo') < 0 || types.indexOf('BreadcrumbList') < 0) bad(recipe.slug + ' JSON-LD types');
+  if ((html.match(/>Shop this gage block set</g) || []).length !== 1) bad(recipe.slug + ' shop count');
+  if ((html.match(/amazon\.com/g) || []).length !== 1) bad(recipe.slug + ' amazon count');
+  if (!html.includes('More from Nick: <a href="https://oppsgo.com">OppsGo</a> free browser games')) bad(recipe.slug + ' OppsGo');
+});
+
 console.log(fail ? fail + ' FAILURES' : 'ALL PASS (' + recipes.length + ' recipes)');
 process.exit(fail ? 1 : 0);
