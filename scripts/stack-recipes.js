@@ -87,6 +87,26 @@ module.exports = [
     context: 'One block. 3.000 in plus 1.000 in reaches the same length, spends two of the four whole-inch blocks, and adds a joint. Keep 3 in and 1 in for other setups.',
   },
   {
+    slug: '0.420-in-81', target: '0.420', set: 'inch-81', wear: false, landing: true,
+    use: 'The next 0–1 in micrometer check after 0.315 in. Shops usually step 0.105, 0.210, 0.315, 0.420, 0.525, 0.630, 0.735, 0.840, and 0.945 in so the spindle stops off the previous line.',
+    context: 'There is no 0.420 in block. 0.120 in is in the thousandths series, 0.101 in through 0.149 in. 0.300 in is in the 0.050 in series, 0.050 in through 0.950 in. One joint. The check below this one, 0.315 in, is 0.200 in plus 0.115 in.',
+  },
+  {
+    slug: '1.125-in-81', target: '1.125', set: 'inch-81', wear: false, landing: false,
+    use: '1-1/8 in. A spacer or a height between the 1 in block and the 1-1/4 in stack, when the drawing is in eighths of an inch.',
+    context: '1.000 in plus 0.125 in. The whole inch is its own block. 0.125 in is in the thousandths series, 0.101 in through 0.149 in, not a 0.050 in step. One joint. There is no 1.125 in block. 1.250 in, the next size up in this library, adds 0.250 in instead.',
+  },
+  {
+    slug: '2.0000-in-81', target: '2.000', set: 'inch-81', wear: false, landing: true,
+    use: 'The 2 in reference for a 1–2 in micrometer, a height gage, or a setup that wants two full inches and no wrung joint.',
+    context: 'The whole-inch blocks in an 81-piece set are 1, 2, 3, and 4 in, one of each. 2.000 in is the 2 in block. Two 1 in blocks are not in the box. The 1 in page and the 4 in page are the other single whole-inch blocks already written out.',
+  },
+  {
+    slug: '3.5355-in-81', target: '3.5355', set: 'inch-81', wear: false, landing: true,
+    use: 'Stack height for a 5 in sine bar at 45 degrees, after rounding to 0.0001 in. 5 × sin(45°) is 3.53553391 in, which is 0.00003391 in above 3.5355 in.',
+    context: '0.1005 in clears the fourth decimal. That series is 0.1001 in through 0.1009 in. 0.135 in clears the thousandths that remain, from the 0.101 in through 0.149 in series. 0.300 in is in the 0.050 in series, and 3.000 in is the 3 in block. A 30 degree angle on the same 5 in bar is the exact 2.500 in stack.',
+  },
+  {
     slug: '0.7505-in-36', target: '0.7505', set: 'inch-36', wear: false, landing: true,
     use: 'The worked example on the 36-piece calculator page. 0.7505 in ends in 5 at the fourth decimal, so the stack has to use a 0.1005-series block.',
     context: 'A 36-piece set includes 0.1001 in through 0.1009 in, and 0.1005 in clears that 5. 0.150 in is in the hundredths series (0.110 in through 0.190 in), and 0.500 in is in the tenths series. Three blocks.',
@@ -102,6 +122,16 @@ module.exports = [
     context: 'Two blocks: 0.150 in and 0.105 in. The 36-piece hundredths series includes 0.150 in, and the thousandths series includes 0.105 in. There is no 0.255 in block in the set.',
   },
   {
+    slug: '0.250-in-36', target: '0.250', set: 'inch-36', wear: false, landing: true,
+    use: 'A quarter inch on a 36-piece set. The 81-piece set has a 0.250 in block for this size. This set does not, so the quarter inch is two blocks.',
+    context: '0.200 in is in the 0.100 in series, 0.100 in through 0.500 in, and 0.050 in is the single fiftieth block. One joint. Do not look for a 0.250 in block in a 36-piece box. The 81-piece recipe for the same nominal size is that one block.',
+  },
+  {
+    slug: '0.375-in-36', target: '0.375', set: 'inch-36', wear: false, landing: true,
+    use: 'Three-eighths of an inch on a 36-piece set. The 81-piece recipe for the same size is 0.250 + 0.125, and this set has neither of those blocks.',
+    context: '0.170 in is in the hundredths series, 0.110 in through 0.190 in. 0.105 in is in the thousandths series, 0.101 in through 0.109 in. 0.100 in is in the 0.100 in series. Three blocks. The set steps by 0.100 in from 0.100 in up, so it has no 0.300 in plus 0.075 in path.',
+  },
+  {
     slug: '0.12345-in-28', target: '0.12345', set: 'inch-28', wear: false, landing: true,
     use: 'The worked example for a 28-piece thin set. The size runs to the fifth decimal, which only the 0.02005 in block can clear.',
     context: '0.02005 in takes the final 5. 0.0204 in clears the ten-thousandths that remain. 0.023 in clears the thousandths. 0.060 in finishes it. An 81-piece set has no 0.02005 in block, so this exact size belongs to the thin set.',
@@ -115,6 +145,16 @@ module.exports = [
     slug: '0.240-in-28', target: '0.240', set: 'inch-28', wear: false, landing: true,
     use: 'Near the top of a 28-piece thin set. The working range of that set is about 0.020 in to 0.240 in.',
     context: 'Three blocks from the 0.010 in series: 0.090, 0.080, and 0.070 in. The set has no 0.100 in block and no long blocks, so 0.240 in cannot be a single piece.',
+  },
+  {
+    slug: '0.100-in-28', target: '0.100', set: 'inch-28', wear: false, landing: true,
+    use: 'One tenth of an inch on a 28-piece thin set. A short check inside that set’s working range, about 0.020 in to 0.240 in, and not a single block.',
+    context: 'There is no 0.100 in block. The 0.010 in series runs from 0.010 in through 0.090 in, so 0.090 in and 0.010 in are both real blocks. Two blocks. An 81-piece set makes 0.100 in with the one 0.100 in block. This thin set does not have it.',
+  },
+  {
+    slug: '0.125-in-28', target: '0.125', set: 'inch-28', wear: false, landing: true,
+    use: 'One-eighth inch on a 28-piece thin set. The size sits inside the working range, and the set has no 0.125 in block to pick up.',
+    context: '0.090 in and 0.010 in are in the 0.010 in series, 0.010 in through 0.090 in. 0.025 in is in the thousandths series, 0.021 in through 0.029 in. Three blocks. There is no 0.100 in block that would shorten this stack. 0.240 in, the long end of the set, is a different three-block stack.',
   },
   {
     slug: '10.00-mm-112', target: '10', set: 'metric-112', wear: false, landing: true,
@@ -157,6 +197,16 @@ module.exports = [
     context: 'One block. 75 + 25 uses the two other long blocks and a wrung joint this size does not need. An 88-piece set also contains a 100 mm block, in its 10 mm series.',
   },
   {
+    slug: '12.70-mm-112', target: '12.7', set: 'metric-112', wear: false, landing: false,
+    use: 'Half an inch, written in millimetres. 12.7 mm is 0.500 in. It is the conversion when the drawing is inch and the blocks on the bench are metric. It is not the 12.5 mm block.',
+    context: '12.5 mm is one block in the 0.5 mm series, and it is 0.2 mm short of half an inch. 11.5 mm is in that same series, 0.5 mm through 24.5 mm. 1.2 mm is in the 0.01 mm series, 1.01 mm through 1.49 mm. Two blocks. Do not wring 12.5 mm and call it 12.7 mm.',
+  },
+  {
+    slug: '30.00-mm-112', target: '30', set: 'metric-112', wear: false, landing: false,
+    use: '30 mm, a common spacer and height-gage check. The 112-piece set has no 30 mm block. Its long blocks are 25, 50, 75, and 100 mm.',
+    context: '25 mm is the first long block and 5 mm is in the 0.5 mm series, 0.5 mm through 24.5 mm. One joint. 24.5 mm plus something else is a longer stack, and there is no 5.5 mm block. An 88-piece set does contain a 30 mm block, in its 10 mm series. This page stays on the 112-piece set.',
+  },
+  {
     slug: '25.00-mm-88', target: '25', set: 'metric-88', wear: false, landing: true,
     use: '25 mm on an 88-piece set. This set has no 25 mm block. The 112-piece set does, and that page is a single block.',
     context: 'The 88-piece long series steps by 10 mm, so 25 mm is 20 + 5. 20 mm is in the 10 mm series and 5 mm is in the 0.5 mm series, which stops at 9.5 mm. Do not look for a 25 mm block in this box.',
@@ -170,6 +220,16 @@ module.exports = [
     slug: '17.365-mm-88', target: '17.365', set: 'metric-88', wear: false, landing: true,
     use: 'Stack height for a 100 mm sine bar at 10 degrees, rounded to 0.001 mm. 100 × sin(10°) is 17.36481777 mm, which is 0.00018223 mm under 17.365 mm.',
     context: '1.005 mm clears the thousandths. 1.36 mm clears the hundredths. 10 mm and 5 mm are in the 0.5 mm series and finish the size. The repeating step of this set is 0.001 mm. The single 1.0005 mm block is not a 0.0005 mm step for every height, so the sine height is rounded to 0.001 mm.',
+  },
+  {
+    slug: '15.00-mm-88', target: '15', set: 'metric-88', wear: false, landing: true,
+    use: '15 mm on an 88-piece set. This set has no 15 mm block. A 112-piece set does, in the 0.5 mm series, and that size is one block there.',
+    context: 'The 88-piece 0.5 mm series stops at 9.5 mm. 10 mm is in the 10 mm series and 5 mm is in the 0.5 mm series. One joint. Do not look for a 15 mm block in this box. 25 mm on the same set is the same kind of gap: 20 mm plus 5 mm, because the long steps are 10 mm.',
+  },
+  {
+    slug: '12.70-mm-88', target: '12.7', set: 'metric-88', wear: false, landing: true,
+    use: 'Half an inch on an 88-piece metric set. 12.7 mm is 0.500 in. The 112-piece stack for the same target is two blocks, because that set has an 11.5 mm block.',
+    context: '10 mm is in the 10 mm series. The 0.5 mm series stops at 9.5 mm, so the 2.7 mm that remain are not one block. 1.5 mm is in the 0.5 mm series and 1.2 mm is in the 0.01 mm series, 1.01 mm through 1.49 mm. Three blocks. 12.5 mm is not half an inch.',
   },
   {
     slug: '2.3456-in-81-wear', target: '2.3456', set: 'inch-81', wear: true, landing: true,
