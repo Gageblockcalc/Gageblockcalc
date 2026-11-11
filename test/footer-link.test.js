@@ -21,6 +21,8 @@ if (!index.includes('>SnapMatch</a>')) bad('SnapMatch missing');
 if (!index.includes('>Jeep Guides</a>')) bad('Jeep Guides missing');
 if (!index.includes('>St. Pete Web Co</a>')) bad('studio link missing');
 if (!index.includes('id="nick-hub-also"')) bad('Also-by-Nick footer missing');
+if (!index.includes('More from Nick: <a href="https://oppsgo.com">OppsGo</a> free browser games')) bad('OppsGo anchor missing');
+if (!faq.includes('More from Nick: <a href="https://oppsgo.com">OppsGo</a> free browser games')) bad('FAQ OppsGo anchor missing');
 if (!faq.includes('Also by Nick:')) bad('FAQ Also by Nick missing');
 if (!faq.includes('href="https://oppsgo.com/"')) bad('FAQ evergreen games link missing');
 if (!faq.includes('>SnapMatch</a>')) bad('FAQ SnapMatch missing');
