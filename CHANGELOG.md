@@ -1,3 +1,9 @@
+## 2026-11-17 — Black Friday machinist tool guide (v1.0.135)
+
+- New page `/black-friday-machinist-tool-deals.html` with buying notes for gage block sets (81, 36, 28, metric 88 and 112), sine bars, micrometers, calipers, indicators, height gages, surface plates, parallels, 1-2-3 blocks, edge finders, accessories, and care. Amazon links are searches with tag `gageblockcalc-20`. No prices and no percent-off claims. FAQPage and ItemList JSON-LD. Sitemap and `llms.txt` include the URL.
+- Home related guides, the calculators index, and the “Shop this gage block set” block link to the page. `algorithm.js` is unchanged.
+- Version stamp is 1.0.135, the next patch after 1.0.134. Rollback of this page is v1.0.134 at 052eca6.
+
 ## 2026-11-11 — Recipe links, one shop link, and phone speed (v1.0.134)
 
 - Each of the 48 `/calculators/stacks/` recipes links to 3–4 nearby recipes on the same set, to its set guide, and to the calculator with `?target=&set=&wear=`. The stacks index is grouped by set with jump links. Meta descriptions end on a word instead of a hard 158-character cut, and the index JSON-LD names include the set so they are unique. `algorithm.js` is unchanged.
