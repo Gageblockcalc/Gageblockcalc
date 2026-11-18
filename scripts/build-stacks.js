@@ -382,7 +382,7 @@ const HEADER = '<header class="gbc-brand no-print" style="display:flex;align-ite
 
 const FOOTER = '<footer><a href="/">Calculator</a> · <a href="/calculators/">All calculators</a> · <a href="/calculators/stacks/">Common sizes</a> · <a href="/calculators/sine-bar-gage-block-stack.html">Sine bar</a> · <a href="/llms.txt">llms.txt</a> · <a href="/faq.html">FAQ</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a><br>Free, no login. Always verify critical stacks against your set\'s calibration certificate.'
   + '<p class="seasonal-xlink no-print"><span aria-hidden="true">🎄</span> <a href="https://askmachinist.com/guides/machinist-christmas-gift-guide" rel="noopener">Machinist Christmas gift guide</a> · <a data-gbc-games="1" href="https://oppsgo.com/thanksgiving-games" target="_blank" rel="noopener">Free Thanksgiving Games</a></p>'
-  + '<p class="nick-also no-print">More from Nick: <a href="https://oppsgo.com">OppsGo</a> free browser games</p>'
+  + '<p class="nick-also no-print">More from Nick: <a href="https://oppsgo.com">OppsGo</a> free browser games · <a href="/arcade/">Break Room</a></p>'
   + '<p class="gbc-legal">© 2026 GageBlockCalc</p>'
   + '<div class="calc-version no-print"><span id="calcVersion" class="notranslate" translate="no"></span></div></footer>\n'
   + SEASON_SRC
@@ -454,6 +454,7 @@ function llmsText(solvedAll) {
   lines.push('- Wear blocks: https://gageblockcalc.com/calculators/wear-block-stack.html');
   lines.push('- Embed the widget: https://gageblockcalc.com/embed.html');
   lines.push('- FAQ: https://gageblockcalc.com/faq.html');
+  lines.push('- Break Room: https://gageblockcalc.com/arcade');
   lines.push('- Black Friday and Cyber Monday 2026 tool guide: https://gageblockcalc.com/black-friday-machinist-tool-deals.html');
   lines.push('');
   lines.push('## AskMachinist');
