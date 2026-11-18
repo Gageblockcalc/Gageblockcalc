@@ -1,3 +1,11 @@
+## 2026-11-18 — Break Room arcade (v1.0.138)
+
+- New `/arcade` page embeds Nick's OppsGo play-together games (`embed.js`, party preset, no keys). Invite links stay on gageblockcalc.com and keep `oppsgo_game` and `oppsgo_room`. The page uses the site header, footer, and seasonal strip, and links back to the calculator.
+- Every page footer links to Break Room beside the OppsGo games line. The framed calculator widget is unchanged. `algorithm.js` is unchanged. No new tracker.
+- The home page Content-Security-Policy meta tag allows `https://oppsgo.com` on `script-src`, `frame-src`, and `connect-src`. `/arcade` has its own policy with the same allowance so the embed can load.
+- Sitemap and `llms.txt` include `https://gageblockcalc.com/arcade`.
+- Version stamp is 1.0.138, the next patch after 1.0.137. `scripts/write-version.sh 1.0.138` wrote the stamp. Rollback of this page is v1.0.137 at c87a0ed.
+
 ## 2026-11-18 — Remove the All apps footer link (v1.0.137)
 
 - The home footer no longer links to All apps at https://nick-apk-test.pages.dev/. That site is retiring. The empty Get the app slot and its script are gone with it, so the footer does not keep a blank row. `algorithm.js` is unchanged.

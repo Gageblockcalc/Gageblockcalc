@@ -15,6 +15,7 @@ Free gage block stack calculator for inch 81-, 36-, and 28-piece sets and metric
 - Wear blocks: https://gageblockcalc.com/calculators/wear-block-stack.html
 - Embed the widget: https://gageblockcalc.com/embed.html
 - FAQ: https://gageblockcalc.com/faq.html
+- Break Room: https://gageblockcalc.com/arcade
 - Black Friday and Cyber Monday 2026 tool guide: https://gageblockcalc.com/black-friday-machinist-tool-deals.html
 
 ## AskMachinist

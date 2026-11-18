@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Break Room | GageBlockCalc</title>
+<meta name="description" content="Free multiplayer games while the CMM runs. Send a Break Room invite from the bench, play a round, then jump back to the gage block calculator. No account.">
+<link rel="canonical" href="https://gageblockcalc.com/arcade">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="GageBlockCalc">
+<meta property="og:title" content="Break Room | GageBlockCalc">
+<meta property="og:description" content="Free multiplayer games while the CMM runs. Send a Break Room invite from the bench, play a round, then jump back to the gage block calculator. No account.">
+<meta property="og:url" content="https://gageblockcalc.com/arcade">
+<meta property="og:image" content="https://gageblockcalc.com/icons/og-image.png?v=2026-10-27">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Break Room | GageBlockCalc">
+<meta name="twitter:description" content="Free multiplayer games while the CMM runs. Send a Break Room invite from the bench, play a round, then jump back to the gage block calculator. No account.">
+<meta name="twitter:image" content="https://gageblockcalc.com/icons/og-image.png?v=2026-10-27">
+<meta name="theme-color" content="#0f172a">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-0pdzWl8hGpEf1MktzIOZlvDZ35T+L6kyWzFfxCSHX2s=' https://oppsgo.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' https://oppsgo.com; frame-src https://oppsgo.com; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;max-width:100%}
+body{font-family:system-ui,sans-serif;max-width:46rem;margin:0 auto;padding:1.5rem;background:#f8fafc;color:#0f172a;line-height:1.6}
+a{color:#0a58ca}
+h1{font-size:1.6rem;line-height:1.25}
+header.gbc-brand{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;row-gap:.4rem;padding:.25rem 0 1rem;margin-bottom:1rem;border-bottom:1px solid #e2e8f0}
+header.gbc-brand>a{min-height:44px;min-width:0;display:inline-flex;align-items:center;gap:.6rem;text-decoration:none;color:inherit;font-weight:700;font-size:1.15rem}
+main{overflow-wrap:anywhere;min-width:0}
+main p a{display:inline-flex;align-items:center;box-sizing:border-box;min-height:44px;max-width:100%}
+#oppsgo-arcade{max-width:100%;min-width:0}
+#oppsgo-arcade iframe{max-width:100%}
+footer{margin-top:2.5rem;padding-top:1rem;border-top:1px solid #e2e8f0;font-size:.9rem;color:#334155}
+footer a{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-height:44px;min-width:44px;max-width:100%;padding:.15rem .45rem;white-space:normal}
+.seasonal-xlink{margin:.75rem 0 0}
+.nick-also{margin:.75rem 0 0}
+.calc-version{margin-top:.4rem;font-size:12px;color:#595959}
+@media(max-width:420px){body{padding:1rem}h1{font-size:1.35rem}}
+</style>
+</head>
+<body>
+<header class="gbc-brand"><a href="/"><img src="/icons/favicon.svg?v=2026-10-27" width="32" height="32" alt="GageBlockCalc logo">GageBlockCalc</a><span style="opacity:.7;font-size:.9rem">Free gage block stack calculator</span></header>
+<script>/* Sync seasonal strip. Inserted during parse so the line is in the first layout. Keep in step with seasonal.js. */
+(function(){
+  if(document.getElementById('gbc-season'))return;
+  var d=new Date(),m=d.getMonth(),day=d.getDate(),id='',spec=null;
+  if(m===10&&day>=18&&day<=26)id='thanksgiving';
+  else if(m===10&&day>=27)id='deals';
+  else if(m===11)id='christmas';
+  if(id==='thanksgiving')spec=['\uD83E\uDD83','Happy Thanksgiving from GageBlockCalc. The ','/','stack calculator',' is free, with no login.'];
+  else if(id==='deals')spec=['\uD83D\uDED2','Black Friday and Cyber Monday: see our ','/black-friday-machinist-tool-deals.html','machinist tool guide',''];
+  else if(id==='christmas')spec=['\uD83C\uDF84','Merry Christmas from GageBlockCalc. ','https://askmachinist.com/guides/machinist-christmas-gift-guide','Gift ideas for machinists',''];
+  if(!spec)return;
+  var s=document.currentScript;
+  if(!s||!s.parentNode)return;
+  var p=document.createElement('p');
+  p.id='gbc-season';
+  p.className='gbc-season no-print';
+  p.setAttribute('role','note');
+  p.setAttribute('data-gbc-season',id);
+  var home=s.parentNode.classList&&s.parentNode.classList.contains('container');
+  p.style.cssText='box-sizing:border-box;display:block;max-width:100%;min-height:2.25rem;margin:'+(home?'0':'.75rem 0 0')+';padding:.35rem .7rem;font-size:.875rem;line-height:1.4;text-align:left;background:#f8fafc;color:#1e293b;border:1px solid #e2e8f0;border-radius:8px;overflow-wrap:anywhere';
+  var em=document.createElement('span');
+  em.setAttribute('aria-hidden','true');
+  em.textContent=spec[0]+' ';
+  p.appendChild(em);
+  p.appendChild(document.createTextNode(spec[1]));
+  var a=document.createElement('a');
+  a.setAttribute('href',spec[2]);
+  a.textContent=spec[3];
+  a.style.cssText='color:#0a58ca;display:inline;min-height:0;text-decoration:underline;text-underline-offset:2px';
+  if(spec[2].indexOf('https:')===0)a.setAttribute('rel','noopener');
+  p.appendChild(a);
+  if(spec[4])p.appendChild(document.createTextNode(spec[4]));
+  s.parentNode.insertBefore(p,s.nextSibling);
+})();</script>
+<main>
+<h1>Break Room</h1>
+<p>The CMM is still walking that part. Break Room loads a free OppsGo game you can play with the person next to you while you wait on the report. Copy the invite, run one round, and get back to the stack when the program finishes. No account.</p>
+<p><a href="/">Back to the stack calculator</a></p>
+<div id="oppsgo-arcade"></div>
+<script src="https://oppsgo.com/embed.js" data-target="#oppsgo-arcade" data-preset="party" data-game="auto" data-room="auto" data-name="" data-theme="dark" data-height="640" data-invite-base="https://gageblockcalc.com/arcade" async></script>
+<noscript><iframe src="https://oppsgo.com/embed/arcade?preset=party&src=gageblockcalc" title="OppsGo games" width="100%" height="640" style="border:0;border-radius:12px" allow="autoplay; fullscreen; gamepad; clipboard-write" allowfullscreen loading="lazy"></iframe></noscript>
+</main>
+<footer><a href="/">Calculator</a> · <a href="/calculators/">All calculators</a> · <a href="/calculators/stacks/">Common sizes</a> · <a href="/faq.html">FAQ</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a><br>Free, no login. Always verify critical stacks against your set's calibration certificate.<p class="seasonal-xlink no-print"><span aria-hidden="true">🎄</span> <a href="https://askmachinist.com/guides/machinist-christmas-gift-guide" rel="noopener">Machinist Christmas gift guide</a> · <a data-gbc-games="1" href="https://oppsgo.com/thanksgiving-games" target="_blank" rel="noopener">Free Thanksgiving Games</a></p><p class="nick-also no-print">More from Nick: <a href="https://oppsgo.com">OppsGo</a> free browser games · <a href="/arcade/">Break Room</a></p><div class="calc-version no-print"><span id="calcVersion" class="notranslate" translate="no"></span></div><span class="gbc-legal">© 2026 GageBlockCalc</span></footer>
+<script src="/version.js?v=1.0.138" defer></script>
+<script src="/seasonal.js?v=1.0.138" defer></script>
+</body>
+</html>
