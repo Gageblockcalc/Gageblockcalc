@@ -11,8 +11,9 @@ const boot = fs.readFileSync(path.join(root, 'boot.js'), 'utf8');
 const faqBoot = fs.readFileSync(path.join(root, 'faq-boot.js'), 'utf8');
 
 if (/free-halloween-games\.pages\.dev|oppsgo\.com\/halloween-games|Free Halloween Games/i.test(index)) bad('index still has a halloween games link');
-if (!index.includes('href="https://oppsgo.com/christmas-games"')) bad('christmas href missing');
-if (!index.includes('>Free Christmas Games</a>')) bad('christmas label missing');
+if (!index.includes('data-gbc-games="1" href="https://oppsgo.com/thanksgiving-games"')) bad('thanksgiving games href missing');
+if (!index.includes('>Free Thanksgiving Games</a>')) bad('thanksgiving games label missing');
+if (index.includes('oppsgo.com/christmas-games')) bad('static HTML should ship Thanksgiving games, not Christmas');
 if (!index.includes('href="https://oppsgo.com/" target="_blank" rel="noopener">Free Online Games</a>')) bad('evergreen games link changed');
 if (!index.includes('>Dance Coach</a>')) bad('dance coach missing');
 if (!index.includes('>Machinist Hub</a>')) bad('Machinist Hub missing');
@@ -53,10 +54,10 @@ function fakeLink(href, text) {
   };
   return el;
 }
-function runSwap(links) {
+function runSwap(links, when) {
   const doc = { querySelectorAll() { return links; } };
   const fn = new Function('document', swapA + '\nreturn swapHalloweenGamesLinks;');
-  fn(doc)(doc);
+  fn(doc)(doc, when);
 }
 
 const pages = fakeLink('https://free-halloween-games.pages.dev/', 'Free Halloween Games');
@@ -67,14 +68,20 @@ const evergreen = fakeLink('https://oppsgo.com/', 'Free Online Games');
 const dance = fakeLink('https://dancecoach.pages.dev/', 'Dance Coach');
 const hub = fakeLink('https://askmachinist.com/', 'Machinist Hub');
 const labeled = fakeLink('https://example.com/old', 'Free Halloween Games');
-runSwap([pages, opps, evergreen, dance, hub, labeled]);
+runSwap([pages, opps, evergreen, dance, hub, labeled], new Date(2026, 10, 30));
 
-function expectChristmas(el, name) {
-  if (el.href !== 'https://oppsgo.com/christmas-games' || el.textContent !== 'Free Christmas Games') bad(name + ' not swapped: ' + el.href + ' ' + el.textContent);
+function expectGames(el, name, href, label) {
+  if (el.href !== href || el.textContent !== label) bad(name + ' not swapped: ' + el.href + ' ' + el.textContent);
 }
-expectChristmas(pages, 'pages.dev');
-expectChristmas(opps, 'oppsgo halloween');
-expectChristmas(labeled, 'label only');
+expectGames(pages, 'pages.dev Nov 30', 'https://oppsgo.com/thanksgiving-games', 'Free Thanksgiving Games');
+expectGames(opps, 'oppsgo halloween Nov 30', 'https://oppsgo.com/thanksgiving-games', 'Free Thanksgiving Games');
+expectGames(labeled, 'label only Nov 30', 'https://oppsgo.com/thanksgiving-games', 'Free Thanksgiving Games');
+
+const decPages = fakeLink('https://free-halloween-games.pages.dev/', 'Free Halloween Games');
+const decOpps = fakeLink('https://oppsgo.com/halloween-games/', 'Free Halloween Games');
+runSwap([decPages, decOpps], new Date(2026, 11, 1));
+expectGames(decPages, 'pages.dev Dec 1', 'https://oppsgo.com/christmas-games', 'Free Christmas Games');
+expectGames(decOpps, 'oppsgo halloween Dec 1', 'https://oppsgo.com/christmas-games', 'Free Christmas Games');
 if (box.ssr !== '1') bad('swapped block was not locked');
 if (evergreen.href !== 'https://oppsgo.com/' || evergreen.textContent !== 'Free Online Games') bad('evergreen link mutated');
 if (dance.href !== 'https://dancecoach.pages.dev/' || dance.textContent !== 'Dance Coach') bad('dance coach mutated');

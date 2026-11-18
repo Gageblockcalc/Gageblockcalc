@@ -1,3 +1,13 @@
+## 2026-11-18 — Date-gated seasonal strip (v1.0.136)
+
+- A slim line sits just below the header on the home page, calculator and set pages, recipe pages, and the Black Friday guide. It follows the visitor's local date: Thanksgiving Nov 18–26, Black Friday through Cyber Monday Nov 27–30, Christmas Dec 1–31. Any other day leaves no element and no gap. The line is inserted by a tiny inline script during parse, with a fixed min-height, so it does not shift the page. `seasonal.js` is the deferred fallback. No animation, remote image, tracker, or new external script.
+- Thanksgiving links to the calculator. The deals line links to the machinist tool guide and does not state a price or a percent off. Christmas links to the existing machinist gift guide. The Free Christmas Games footer link stays.
+- The old rotating pun line, including the Halloween puns, is gone. `algorithm.js` is unchanged.
+- Machinist Hub footer links that only had `data-hub-path` now also have a real `href` on askmachinist.com, so they work with no JavaScript. The `data-hub-path` attribute stays.
+- The first seasonal games footer link ships as Free Thanksgiving Games (https://oppsgo.com/thanksgiving-games) through November 30. On and after December 1, `seasonal.js` switches that link’s label and href to Free Christmas Games. The OppsGo link stays.
+- New `/terms.html`: the calculator is free and provided as-is, with no warranty, plus the Amazon Associate disclosure, a link to the privacy page, and support@gageblockcalc.com. Every page footer includes Privacy, Terms, and © 2026 GageBlockCalc. The terms URL is in the sitemap.
+- Version stamp is 1.0.136, the next patch after 1.0.135. Rollback of this strip is v1.0.135 at ff777c2.
+
 ## 2026-11-17 — Black Friday machinist tool guide (v1.0.135)
 
 - New page `/black-friday-machinist-tool-deals.html` with buying notes for gage block sets (81, 36, 28, metric 88 and 112), sine bars, micrometers, calipers, indicators, height gages, surface plates, parallels, 1-2-3 blocks, edge finders, accessories, and care. Amazon links are searches with tag `gageblockcalc-20`. No prices and no percent-off claims. FAQPage and ItemList JSON-LD. Sitemap and `llms.txt` include the URL.

@@ -1,0 +1,34 @@
+/* Sync seasonal strip. Inserted during parse so the line is in the first layout. Keep in step with seasonal.js. */
+(function(){
+  if(document.getElementById('gbc-season'))return;
+  var d=new Date(),m=d.getMonth(),day=d.getDate(),id='',spec=null;
+  if(m===10&&day>=18&&day<=26)id='thanksgiving';
+  else if(m===10&&day>=27)id='deals';
+  else if(m===11)id='christmas';
+  if(id==='thanksgiving')spec=['\uD83E\uDD83','Happy Thanksgiving from GageBlockCalc. The ','/','stack calculator',' is free, with no login.'];
+  else if(id==='deals')spec=['\uD83D\uDED2','Black Friday and Cyber Monday: see our ','/black-friday-machinist-tool-deals.html','machinist tool guide',''];
+  else if(id==='christmas')spec=['\uD83C\uDF84','Merry Christmas from GageBlockCalc. ','https://askmachinist.com/guides/machinist-christmas-gift-guide','Gift ideas for machinists',''];
+  if(!spec)return;
+  var s=document.currentScript;
+  if(!s||!s.parentNode)return;
+  var p=document.createElement('p');
+  p.id='gbc-season';
+  p.className='gbc-season no-print';
+  p.setAttribute('role','note');
+  p.setAttribute('data-gbc-season',id);
+  var home=s.parentNode.classList&&s.parentNode.classList.contains('container');
+  p.style.cssText='box-sizing:border-box;display:block;max-width:100%;min-height:2.25rem;margin:'+(home?'0':'.75rem 0 0')+';padding:.35rem .7rem;font-size:.875rem;line-height:1.4;text-align:left;background:#f8fafc;color:#1e293b;border:1px solid #e2e8f0;border-radius:8px;overflow-wrap:anywhere';
+  var em=document.createElement('span');
+  em.setAttribute('aria-hidden','true');
+  em.textContent=spec[0]+' ';
+  p.appendChild(em);
+  p.appendChild(document.createTextNode(spec[1]));
+  var a=document.createElement('a');
+  a.setAttribute('href',spec[2]);
+  a.textContent=spec[3];
+  a.style.cssText='color:#0a58ca;display:inline;min-height:0;text-decoration:underline;text-underline-offset:2px';
+  if(spec[2].indexOf('https:')===0)a.setAttribute('rel','noopener');
+  p.appendChild(a);
+  if(spec[4])p.appendChild(document.createTextNode(spec[4]));
+  s.parentNode.insertBefore(p,s.nextSibling);
+})();

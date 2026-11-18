@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="manifest" href="/manifest.webmanifest?v=1.0.135">
+<link rel="manifest" href="/manifest.webmanifest?v=1.0.136">
 <meta name="theme-color" content="#0f172a">
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://nick-apk-test.pages.dev 'sha256-R6kjt5FwTd5vAw94Q08NLDZsSaGTzg4NsdIfKtECSp0=' https://nick-hub-static.pages.dev https://nick-sites-hub.tekjeep.workers.dev https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com https://www.gstatic.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://nick-hub-static.pages.dev https://nick-sites-hub.tekjeep.workers.dev https://www.gstatic.com https://translate.googleapis.com https://translate-pa.googleapis.com; img-src 'self' data: blob: https://www.google.com https://nick-sites-hub.tekjeep.workers.dev https://www.gstatic.com https://fonts.gstatic.com https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com https://m.media-amazon.com https://images-na.ssl-images-amazon.com; font-src 'self' data: https://fonts.gstatic.com https://www.gstatic.com; connect-src 'self' https://nick-apk-test.pages.dev https://nick-hub-static.pages.dev https://nick-sites-hub.tekjeep.workers.dev wss://nick-sites-hub.tekjeep.workers.dev https://gageblockcalc-chat.tekjeep.workers.dev https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com https://cloudflareinsights.com; frame-src 'self' https://translate.google.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://www.amazon.com; upgrade-insecure-requests">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://nick-apk-test.pages.dev 'sha256-R6kjt5FwTd5vAw94Q08NLDZsSaGTzg4NsdIfKtECSp0=' 'sha256-0pdzWl8hGpEf1MktzIOZlvDZ35T+L6kyWzFfxCSHX2s=' https://nick-hub-static.pages.dev https://nick-sites-hub.tekjeep.workers.dev https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com https://www.gstatic.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://nick-hub-static.pages.dev https://nick-sites-hub.tekjeep.workers.dev https://www.gstatic.com https://translate.googleapis.com https://translate-pa.googleapis.com; img-src 'self' data: blob: https://www.google.com https://nick-sites-hub.tekjeep.workers.dev https://www.gstatic.com https://fonts.gstatic.com https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com https://m.media-amazon.com https://images-na.ssl-images-amazon.com; font-src 'self' data: https://fonts.gstatic.com https://www.gstatic.com; connect-src 'self' https://nick-apk-test.pages.dev https://nick-hub-static.pages.dev https://nick-sites-hub.tekjeep.workers.dev wss://nick-sites-hub.tekjeep.workers.dev https://gageblockcalc-chat.tekjeep.workers.dev https://translate.google.com https://translate.googleapis.com https://translate-pa.googleapis.com https://cloudflareinsights.com; frame-src 'self' https://translate.google.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://www.amazon.com; upgrade-insecure-requests">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Free gage block stack calculator for inch (imperial) and metric sets, including an 81-piece set. Enter a target and get the fewest blocks. No login.">
@@ -31,7 +31,7 @@
   <meta name="twitter:image" content="https://gageblockcalc.com/icons/og-image.png?v=2026-10-27">
   <meta name="twitter:image:alt" content="GageBlockCalc, a free inch and metric gage block stack calculator. Fewest blocks, no login.">
   <title>GageBlockCalc — Free Inch &amp; Metric Gage Block Stack Calculator</title>
-  <link rel="manifest" href="/manifest.json?v=1.0.135">
+  <link rel="manifest" href="/manifest.json?v=1.0.136">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -398,7 +398,6 @@
     }
 
     .results { min-height: 80px; }
-    .seasonal-pun { margin: 6px 0 0; font-size: 0.8rem; color: var(--muted); text-align: center; overflow-wrap: anywhere; }
 
     .hint, .loading, .error, .meta {
       text-align: center;
@@ -976,6 +975,40 @@
   <div class="container">
     <h1 class="wordmark"><img class="mark" src="/icons/favicon.svg?v=2026-10-27" width="32" height="32" alt="">GageBlockCalc</h1>
     <p class="tagline">Free inch &amp; metric gage block stack calculator. Fewest blocks, no login.</p>
+    <script>/* Sync seasonal strip. Inserted during parse so the line is in the first layout. Keep in step with seasonal.js. */
+(function(){
+  if(document.getElementById('gbc-season'))return;
+  var d=new Date(),m=d.getMonth(),day=d.getDate(),id='',spec=null;
+  if(m===10&&day>=18&&day<=26)id='thanksgiving';
+  else if(m===10&&day>=27)id='deals';
+  else if(m===11)id='christmas';
+  if(id==='thanksgiving')spec=['\uD83E\uDD83','Happy Thanksgiving from GageBlockCalc. The ','/','stack calculator',' is free, with no login.'];
+  else if(id==='deals')spec=['\uD83D\uDED2','Black Friday and Cyber Monday: see our ','/black-friday-machinist-tool-deals.html','machinist tool guide',''];
+  else if(id==='christmas')spec=['\uD83C\uDF84','Merry Christmas from GageBlockCalc. ','https://askmachinist.com/guides/machinist-christmas-gift-guide','Gift ideas for machinists',''];
+  if(!spec)return;
+  var s=document.currentScript;
+  if(!s||!s.parentNode)return;
+  var p=document.createElement('p');
+  p.id='gbc-season';
+  p.className='gbc-season no-print';
+  p.setAttribute('role','note');
+  p.setAttribute('data-gbc-season',id);
+  var home=s.parentNode.classList&&s.parentNode.classList.contains('container');
+  p.style.cssText='box-sizing:border-box;display:block;max-width:100%;min-height:2.25rem;margin:'+(home?'0':'.75rem 0 0')+';padding:.35rem .7rem;font-size:.875rem;line-height:1.4;text-align:left;background:#f8fafc;color:#1e293b;border:1px solid #e2e8f0;border-radius:8px;overflow-wrap:anywhere';
+  var em=document.createElement('span');
+  em.setAttribute('aria-hidden','true');
+  em.textContent=spec[0]+' ';
+  p.appendChild(em);
+  p.appendChild(document.createTextNode(spec[1]));
+  var a=document.createElement('a');
+  a.setAttribute('href',spec[2]);
+  a.textContent=spec[3];
+  a.style.cssText='color:#0a58ca;display:inline;min-height:0;text-decoration:underline;text-underline-offset:2px';
+  if(spec[2].indexOf('https:')===0)a.setAttribute('rel','noopener');
+  p.appendChild(a);
+  if(spec[4])p.appendChild(document.createTextNode(spec[4]));
+  s.parentNode.insertBefore(p,s.nextSibling);
+})();</script>
 
     <div>
       <label class="field-label" for="setSelect">Block set</label>
@@ -1006,7 +1039,6 @@
     <div class="block-selection" id="blockSelection"></div>
 
     <div class="results" id="results" aria-live="polite"></div>
-    <p class="seasonal-pun no-print" data-seasonal-pun hidden></p>
 
     <aside class="affiliate-panel no-print" id="affiliatePanel" aria-label="Shop gage blocks">
       <h2 id="affiliatePanelTitle">Shop gage blocks for this set</h2>
@@ -1085,7 +1117,7 @@
     <div class="footer">
       <p class="seasonal-xlink no-print" style="margin:0 0 0.5rem;font-size:0.9rem"><span aria-hidden="true">🎄</span> Shopping for a machinist? See the <a href="https://askmachinist.com/guides/machinist-christmas-gift-guide" rel="noopener">Machinist Christmas gift guide</a>.</p>
       <nav class="hub-footer no-print" id="hubFooterLinks" aria-label="Machinist Hub">
-        <a data-hub-path="/#chat" rel="noopener">Ask a machinist</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/" rel="noopener" title="Machinist community, saved stacks and guides">Machinist Hub</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/guides/" rel="noopener">Guides</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/tools/sine-bar-calculator" rel="noopener">Sine bar calculator</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/gage-block-stacks/" href="https://askmachinist.com/gage-block-stacks/" rel="noopener" title="Worked gage block stacks, set contents and charts">Gage block stacks</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/guides/metric-gage-block-stacks" rel="noopener">Metric stacks guide</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/guides/machinist-christmas-gift-guide" href="https://askmachinist.com/guides/machinist-christmas-gift-guide" rel="noopener" title="Gift ideas for machinists: measuring tools and shop gear">Christmas gift guide</a>
+        <a data-hub-path="/#chat" href="https://askmachinist.com/#chat" rel="noopener">Ask a machinist</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/" href="https://askmachinist.com/" rel="noopener" title="Machinist community, saved stacks and guides">Machinist Hub</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/guides/" href="https://askmachinist.com/guides/" rel="noopener">Guides</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/tools/sine-bar-calculator" href="https://askmachinist.com/tools/sine-bar-calculator" rel="noopener">Sine bar calculator</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/gage-block-stacks/" href="https://askmachinist.com/gage-block-stacks/" rel="noopener" title="Worked gage block stacks, set contents and charts">Gage block stacks</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/guides/metric-gage-block-stacks" href="https://askmachinist.com/guides/metric-gage-block-stacks" rel="noopener">Metric stacks guide</a><span class="sep" aria-hidden="true">·</span><a data-hub-path="/guides/machinist-christmas-gift-guide" href="https://askmachinist.com/guides/machinist-christmas-gift-guide" rel="noopener" title="Gift ideas for machinists: measuring tools and shop gear">Christmas gift guide</a>
       </nav>
       <nav class="hub-footer no-print" id="relatedGuides" aria-label="Related guides">
         <b style="column-span:all;display:block">Related guides</b>
@@ -1109,27 +1141,28 @@
       </div>
       <span class="disclosure">As an Amazon Associate I earn from qualifying purchases.</span>
       <nav class="hub-footer no-print" aria-label="Site feedback" style="margin-top:0.5rem"><a href="#feedback" data-hub-open="feedback">Feedback</a> · <a href="#chat" data-hub-open="chat">Chat</a> · <a href="mailto:support@gageblockcalc.com">support@gageblockcalc.com</a></nav>
-      <nav class="hub-footer no-print" aria-label="More from Nick" style="margin-top:0.5rem" id="nick-hub-also" data-nick-also data-hub-ssr="1"><b>More from Nick</b><div>More from Nick: <a href="https://oppsgo.com">OppsGo</a> free browser games</div><div>Games: <a href="https://oppsgo.com/christmas-games" target="_blank" rel="noopener">Free Christmas Games</a> · <a href="https://oppsgo.com/" target="_blank" rel="noopener">Free Online Games</a> · <a href="https://dancecoach.pages.dev/" target="_blank" rel="noopener">Dance Coach</a></div><div>Tools: <a href="https://askmachinist.com/" target="_blank" rel="noopener">Ask a Machinist</a> · <a href="https://tekjeep.com/" target="_blank" rel="noopener">Jeep Guides</a> · <a href="https://getsnapmatch.com/" target="_blank" rel="noopener">SnapMatch</a> · <a href="https://avalancheplan.pages.dev/" target="_blank" rel="noopener">Debt Payoff Planner</a> · <a href="https://cradlecue.pages.dev/" target="_blank" rel="noopener">CradleCue Baby Tracker</a> · <a href="https://driver-assist.pages.dev/" target="_blank" rel="noopener">RideYield Driver Tool</a></div><div>Studio: <a href="https://stpetewebco.com/" target="_blank" rel="noopener">St. Pete Web Co</a></div></nav>
+      <nav class="hub-footer no-print" aria-label="More from Nick" style="margin-top:0.5rem" id="nick-hub-also" data-nick-also data-hub-ssr="1"><b>More from Nick</b><div>More from Nick: <a href="https://oppsgo.com">OppsGo</a> free browser games</div><div>Games: <a data-gbc-games="1" href="https://oppsgo.com/thanksgiving-games" target="_blank" rel="noopener">Free Thanksgiving Games</a> · <a href="https://oppsgo.com/" target="_blank" rel="noopener">Free Online Games</a> · <a href="https://dancecoach.pages.dev/" target="_blank" rel="noopener">Dance Coach</a></div><div>Tools: <a href="https://askmachinist.com/" target="_blank" rel="noopener">Ask a Machinist</a> · <a href="https://tekjeep.com/" target="_blank" rel="noopener">Jeep Guides</a> · <a href="https://getsnapmatch.com/" target="_blank" rel="noopener">SnapMatch</a> · <a href="https://avalancheplan.pages.dev/" target="_blank" rel="noopener">Debt Payoff Planner</a> · <a href="https://cradlecue.pages.dev/" target="_blank" rel="noopener">CradleCue Baby Tracker</a> · <a href="https://driver-assist.pages.dev/" target="_blank" rel="noopener">RideYield Driver Tool</a></div><div>Studio: <a href="https://stpetewebco.com/" target="_blank" rel="noopener">St. Pete Web Co</a></div></nav>
       <p class="hub-footer no-print" style="margin-top:0.25rem"><a href="https://nick-apk-test.pages.dev/">All apps</a></p>
       <section aria-label="Get the app" class="no-print"><div id="get-app"></div></section>
+      <p class="hub-footer no-print"><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · © 2026 GageBlockCalc</p>
       Made by Nicholas Duncan 2026
-      <div class="calc-version no-print"><span id="calcVersion" class="notranslate" translate="no">v1.0.135 · 052eca6 · 2026-11-17</span></div>
+      <div class="calc-version no-print"><span id="calcVersion" class="notranslate" translate="no">v1.0.136 · ff777c2 · 2026-11-18</span></div>
     </div>
   </div>
 
   <div class="print-ticket" id="printTicket" aria-hidden="true"></div>
 
-  <script src="algorithm.js?v=1.0.135" defer></script>
-  <script src="affiliate-config.js?v=1.0.135" defer></script>
-  <script src="entry.js?v=1.0.135" defer></script>
-  <script src="measure.js?v=1.0.135" defer></script>
-  <script src="hub-config.js?v=1.0.135" defer></script>
-  <script src="hub.js?v=1.0.135" defer></script>
-  <script src="seasonal.js?v=1.0.135" defer></script>
-  <script src="version.js?v=1.0.135" defer></script>
-  <script src="explain.js?v=1.0.135" defer></script>
-  <script src="app.js?v=1.0.135" defer></script>
-  <script src="boot.js?v=1.0.135" defer></script>
+  <script src="algorithm.js?v=1.0.136" defer></script>
+  <script src="affiliate-config.js?v=1.0.136" defer></script>
+  <script src="entry.js?v=1.0.136" defer></script>
+  <script src="measure.js?v=1.0.136" defer></script>
+  <script src="hub-config.js?v=1.0.136" defer></script>
+  <script src="hub.js?v=1.0.136" defer></script>
+  <script src="seasonal.js?v=1.0.136" defer></script>
+  <script src="version.js?v=1.0.136" defer></script>
+  <script src="explain.js?v=1.0.136" defer></script>
+  <script src="app.js?v=1.0.136" defer></script>
+  <script src="boot.js?v=1.0.136" defer></script>
 <script src="https://nick-apk-test.pages.dev/get-app.js" data-app="gageblockcalc" defer></script>
 </body>
 </html>
