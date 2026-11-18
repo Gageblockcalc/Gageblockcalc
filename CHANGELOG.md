@@ -1,3 +1,8 @@
+## 2026-11-18 — Remove the All apps footer link (v1.0.137)
+
+- The home footer no longer links to All apps at https://nick-apk-test.pages.dev/. That site is retiring. The empty Get the app slot and its script are gone with it, so the footer does not keep a blank row. `algorithm.js` is unchanged.
+- Version stamp is 1.0.137, the next patch after 1.0.136. Rollback of this removal is v1.0.136 at 9d9be74.
+
 ## 2026-11-18 — Date-gated seasonal strip (v1.0.136)
 
 - A slim line sits just below the header on the home page, calculator and set pages, recipe pages, and the Black Friday guide. It follows the visitor's local date: Thanksgiving Nov 18–26, Black Friday through Cyber Monday Nov 27–30, Christmas Dec 1–31. Any other day leaves no element and no gap. The line is inserted by a tiny inline script during parse, with a fixed min-height, so it does not shift the page. `seasonal.js` is the deferred fallback. No animation, remote image, tracker, or new external script.
