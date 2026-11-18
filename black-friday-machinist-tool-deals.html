@@ -46,6 +46,40 @@ main{overflow-wrap:anywhere}
 </style>
 </head><body>
 <header class="gbc-brand no-print" style="display:flex;align-items:center;gap:.6rem;padding:.25rem 0 1rem;margin-bottom:1rem;border-bottom:1px solid #e2e8f0"><a href="/" style="display:flex;align-items:center;gap:.6rem;text-decoration:none;color:inherit;font-weight:700;font-size:1.15rem"><img src="/icons/favicon.svg?v=2026-10-27" width="32" height="32" alt="GageBlockCalc logo">GageBlockCalc</a><span style="opacity:.7;font-size:.9rem">Free gage block stack calculator</span></header>
+<script>/* Sync seasonal strip. Inserted during parse so the line is in the first layout. Keep in step with seasonal.js. */
+(function(){
+  if(document.getElementById('gbc-season'))return;
+  var d=new Date(),m=d.getMonth(),day=d.getDate(),id='',spec=null;
+  if(m===10&&day>=18&&day<=26)id='thanksgiving';
+  else if(m===10&&day>=27)id='deals';
+  else if(m===11)id='christmas';
+  if(id==='thanksgiving')spec=['\uD83E\uDD83','Happy Thanksgiving from GageBlockCalc. The ','/','stack calculator',' is free, with no login.'];
+  else if(id==='deals')spec=['\uD83D\uDED2','Black Friday and Cyber Monday: see our ','/black-friday-machinist-tool-deals.html','machinist tool guide',''];
+  else if(id==='christmas')spec=['\uD83C\uDF84','Merry Christmas from GageBlockCalc. ','https://askmachinist.com/guides/machinist-christmas-gift-guide','Gift ideas for machinists',''];
+  if(!spec)return;
+  var s=document.currentScript;
+  if(!s||!s.parentNode)return;
+  var p=document.createElement('p');
+  p.id='gbc-season';
+  p.className='gbc-season no-print';
+  p.setAttribute('role','note');
+  p.setAttribute('data-gbc-season',id);
+  var home=s.parentNode.classList&&s.parentNode.classList.contains('container');
+  p.style.cssText='box-sizing:border-box;display:block;max-width:100%;min-height:2.25rem;margin:'+(home?'0':'.75rem 0 0')+';padding:.35rem .7rem;font-size:.875rem;line-height:1.4;text-align:left;background:#f8fafc;color:#1e293b;border:1px solid #e2e8f0;border-radius:8px;overflow-wrap:anywhere';
+  var em=document.createElement('span');
+  em.setAttribute('aria-hidden','true');
+  em.textContent=spec[0]+' ';
+  p.appendChild(em);
+  p.appendChild(document.createTextNode(spec[1]));
+  var a=document.createElement('a');
+  a.setAttribute('href',spec[2]);
+  a.textContent=spec[3];
+  a.style.cssText='color:#0a58ca;display:inline;min-height:0;text-decoration:underline;text-underline-offset:2px';
+  if(spec[2].indexOf('https:')===0)a.setAttribute('rel','noopener');
+  p.appendChild(a);
+  if(spec[4])p.appendChild(document.createTextNode(spec[4]));
+  s.parentNode.insertBefore(p,s.nextSibling);
+})();</script>
 <main>
 <h1>Black Friday and Cyber Monday 2026 machinist tool guide</h1>
 <p>Use this as a checklist when you compare inspection tools around Black Friday and Cyber Monday 2026. Each Amazon link is a search. This page does not quote a price and does not claim that any listing is reduced by a certain percent. Read the grade, the certificate, and what is in the box on the listing itself.</p>
@@ -168,6 +202,7 @@ main{overflow-wrap:anywhere}
 <details><summary>What should I look for on a micrometer or a caliper?</summary><p>Read the stated accuracy and resolution, not only the brand. A 0 to 1 inch outside micrometer should include a standard for larger sizes and a ratchet or friction stop. Check it on gage blocks away from zero, such as 0.105, 0.210, and 0.315 inch. A zero check only shows that the anvils meet. A caliper is coarser than a micrometer.</p></details>
 <details><summary>Do I need a granite surface plate with a height gage?</summary><p>Yes, if the height gage is how you inspect or lay out. The plate is the reference. Look for a stated grade: ASME B89.3.7 grade B for a toolroom and grade A for inspection. A height gage on a bench that is not flat only repeats the bench.</p></details>
 </main>
-<footer><a href="/">Calculator</a> · <a href="/calculators/">All calculators</a> · <a href="/calculators/stacks/">Common sizes</a> · <a href="/calculators/sine-bar-gage-block-stack.html">Sine bar</a> · <a href="/llms.txt">llms.txt</a> · <a href="/faq.html">FAQ</a> · <a href="/privacy.html">Privacy</a><br>Free, no login. Always verify critical stacks against your set's calibration certificate.<p class="seasonal-xlink no-print"><span aria-hidden="true">🎄</span> <a href="https://askmachinist.com/guides/machinist-christmas-gift-guide" rel="noopener">Machinist Christmas gift guide</a> · <a href="https://oppsgo.com/christmas-games" target="_blank" rel="noopener">Free Christmas Games</a></p><p class="nick-also no-print">More from Nick: <a href="https://oppsgo.com">OppsGo</a> free browser games</p><div class="calc-version no-print"><span id="calcVersion" class="notranslate" translate="no"></span></div></footer>
-<script src="/version.js?v=1.0.135" defer></script>
+<footer><a href="/">Calculator</a> · <a href="/calculators/">All calculators</a> · <a href="/calculators/stacks/">Common sizes</a> · <a href="/calculators/sine-bar-gage-block-stack.html">Sine bar</a> · <a href="/llms.txt">llms.txt</a> · <a href="/faq.html">FAQ</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a><br>Free, no login. Always verify critical stacks against your set's calibration certificate.<p class="seasonal-xlink no-print"><span aria-hidden="true">🎄</span> <a href="https://askmachinist.com/guides/machinist-christmas-gift-guide" rel="noopener">Machinist Christmas gift guide</a> · <a data-gbc-games="1" href="https://oppsgo.com/thanksgiving-games" target="_blank" rel="noopener">Free Thanksgiving Games</a></p><p class="nick-also no-print">More from Nick: <a href="https://oppsgo.com">OppsGo</a> free browser games</p><div class="calc-version no-print"><span id="calcVersion" class="notranslate" translate="no"></span></div><span class="gbc-legal">© 2026 GageBlockCalc</span></footer>
+<script src="/version.js?v=1.0.136" defer></script>
+<script src="/seasonal.js?v=1.0.136" defer></script>
 </body></html>

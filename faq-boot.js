@@ -10,9 +10,13 @@
   // Shared hub catalog can still paint Free Halloween Games
   // (free-halloween-games.pages.dev or oppsgo.com/halloween-games).
   // Replace only those anchors. Every other footer link stays.
-  function swapHalloweenGamesLinks(root) {
+  function swapHalloweenGamesLinks(root, when) {
     var scope = root && root.querySelectorAll ? root : document;
     var links = scope.querySelectorAll('a[href]');
+    var d = when || new Date();
+    var christmas = d.getMonth() === 11;
+    var gamesHref = christmas ? 'https://oppsgo.com/christmas-games' : 'https://oppsgo.com/thanksgiving-games';
+    var gamesLabel = christmas ? 'Free Christmas Games' : 'Free Thanksgiving Games';
     for (var i = 0; i < links.length; i++) {
       var a = links[i];
       var href = a.getAttribute('href') || '';
@@ -20,8 +24,8 @@
       var hrefHit = /free-halloween-games\.pages\.dev/i.test(href) || /oppsgo\.com\/halloween-games/i.test(href);
       var labelHit = /^free halloween games$/i.test(label);
       if (!hrefHit && !labelHit) continue;
-      a.setAttribute('href', 'https://oppsgo.com/christmas-games');
-      a.textContent = 'Free Christmas Games';
+      a.setAttribute('href', gamesHref);
+      a.textContent = gamesLabel;
       if (a.closest) {
         var box = a.closest('#nick-hub-also, [data-nick-also]');
         if (box && box.setAttribute) box.setAttribute('data-hub-ssr', '1');

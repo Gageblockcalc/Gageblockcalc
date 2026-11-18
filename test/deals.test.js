@@ -12,8 +12,10 @@ if (!page.includes('rel="canonical" href="https://gageblockcalc.com/black-friday
 if (!page.includes('property="og:title"')) bad('og title missing');
 if (!page.includes('name="twitter:card"')) bad('twitter card missing');
 if (!page.includes('"@type":"FAQPage"') || !page.includes('"@type":"ItemList"')) bad('JSON-LD types missing');
-const scripts = page.match(/<script[^>]+src="([^"]+)"/g) || [];
-if (scripts.length !== 1 || scripts[0].indexOf('/version.js') < 0) bad('unexpected scripts ' + scripts.join(','));
+const scripts = (page.match(/<script[^>]+src="([^"]+)"/g) || []).map((s) => s.match(/src="([^"]+)"/)[1]);
+if (scripts.length !== 2) bad('unexpected scripts ' + scripts.join(','));
+if (!scripts.some((s) => s.indexOf('/version.js') >= 0)) bad('version.js missing');
+if (!scripts.some((s) => s.indexOf('seasonal.js') >= 0)) bad('seasonal.js missing');
 const amazon = page.match(/https:\/\/www\.amazon\.com\/s\?k=[^"']+/g) || [];
 if (amazon.length < 12) bad('too few amazon searches ' + amazon.length);
 amazon.forEach((href) => {
@@ -28,7 +30,8 @@ if (/\d+\s*%\s*off|\$\s*\d|countdown|hurry|limited time/i.test(page)) bad('price
   if (!page.includes('id="' + id.slice(1) + '"')) bad('missing section ' + id);
 });
 if (!page.includes('More from Nick: <a href="https://oppsgo.com">OppsGo</a> free browser games')) bad('OppsGo footer missing');
-if (!page.includes('https://oppsgo.com/christmas-games')) bad('Christmas games link missing');
+if (!page.includes('data-gbc-games="1" href="https://oppsgo.com/thanksgiving-games"')) bad('Thanksgiving games link missing');
+if (page.includes('oppsgo.com/christmas-games')) bad('static deals page should ship Thanksgiving games');
 if (!page.includes('Machinist Christmas gift guide')) bad('Christmas gift guide missing');
 if (!page.includes('id="calcVersion"')) bad('version footer missing');
 
