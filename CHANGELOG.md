@@ -1,3 +1,11 @@
+## 2026-11-19 — About, contact, and shop how-tos (v1.0.139)
+
+- New `/about.html` and `/contact.html`. About covers what the calculator is, who it is for, free with no login, the browser cache, the Amazon Associate disclosure, and Ask a Machinist. Contact uses support@gageblockcalc.com plus the calculator Feedback and Chat links. No form and no new address.
+- Ten shop pages: wringing, grades 00 / 0 / AS-1 / AS-2 / B, caliper check, height-gage check, sine bar angle table, sine plate setup, temperature correction (`ΔL = L·α·ΔT`), inch↔mm conversion, care and storage, and ceramic vs steel vs carbide. Each has a worked example, FAQ, HowTo, FAQPage, and BreadcrumbList. Stack lists come from the existing solver. `algorithm.js` is unchanged.
+- Every page footer except the framed widget and the embed instructions page links About, Contact, Privacy, and Terms. Existing footer links stay. Widget, embed.js, the arcade Content-Security-Policy, and `widget.html` frame rules are unchanged.
+- Calculators index, home related guides, FAQ, set guides, sitemap, and `llms.txt` link the new pages.
+- Version stamp is 1.0.139, the next patch after 1.0.138. `scripts/write-version.sh 1.0.139` wrote the stamp. Rollback of this pass is v1.0.138 at 7e56978.
+
 ## 2026-11-18 — Break Room arcade (v1.0.138)
 
 - New `/arcade` page embeds Nick's OppsGo play-together games (`embed.js`, party preset, no keys). Invite links stay on gageblockcalc.com and keep `oppsgo_game` and `oppsgo_room`. The page uses the site header, footer, and seasonal strip, and links back to the calculator.

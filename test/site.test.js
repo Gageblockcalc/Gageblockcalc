@@ -26,6 +26,10 @@ files.forEach(function (file) {
   });
   if (!html.includes('href="/privacy.html"')) bad(rel + ' missing Privacy link');
   if (!html.includes('href="/terms.html"')) bad(rel + ' missing Terms link');
+  if (rel !== 'widget.html' && rel !== 'embed.html') {
+    if (!html.includes('href="/about.html"')) bad(rel + ' missing About link');
+    if (!html.includes('href="/contact.html"')) bad(rel + ' missing Contact link');
+  }
   if (!html.includes('© 2026 GageBlockCalc')) bad(rel + ' missing copyright');
 });
 
@@ -55,6 +59,8 @@ if (!terms.includes('rel="canonical" href="https://gageblockcalc.com/terms.html"
 
 const sitemap = fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8');
 if (!sitemap.includes('https://gageblockcalc.com/terms.html')) bad('sitemap missing terms');
+if (!sitemap.includes('https://gageblockcalc.com/about.html')) bad('sitemap missing about');
+if (!sitemap.includes('https://gageblockcalc.com/contact.html')) bad('sitemap missing contact');
 
 console.log(fail ? fail + ' FAILURES' : 'ALL PASS');
 process.exit(fail ? 1 : 0);

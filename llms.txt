@@ -18,6 +18,20 @@ Free gage block stack calculator for inch 81-, 36-, and 28-piece sets and metric
 - Break Room: https://gageblockcalc.com/arcade
 - Black Friday and Cyber Monday 2026 tool guide: https://gageblockcalc.com/black-friday-machinist-tool-deals.html
 
+## Shop how-tos
+- About: https://gageblockcalc.com/about.html
+- Contact: https://gageblockcalc.com/contact.html
+- How to wring gage blocks: https://gageblockcalc.com/guides/how-to-wring-gage-blocks.html
+- Gage block grades: https://gageblockcalc.com/guides/gage-block-grades.html
+- Check calipers with gage blocks: https://gageblockcalc.com/guides/check-calipers-with-gage-blocks.html
+- Verify a height gage: https://gageblockcalc.com/guides/verify-height-gage-with-gage-blocks.html
+- Sine plate setup: https://gageblockcalc.com/guides/sine-plate-setup.html
+- Gage block care and storage: https://gageblockcalc.com/guides/gage-block-care-and-storage.html
+- Ceramic, steel, and carbide: https://gageblockcalc.com/guides/ceramic-vs-steel-vs-carbide-gage-blocks.html
+- Sine bar angle table: https://gageblockcalc.com/calculators/sine-bar-angle-table.html
+- Temperature correction: https://gageblockcalc.com/calculators/gage-block-temperature-correction.html
+- Inch and millimetre conversion: https://gageblockcalc.com/calculators/inch-mm-gage-block-conversion.html
+
 ## AskMachinist
 - How to wring gage blocks: https://askmachinist.com/guides/how-to-wring-gage-blocks
 - How to choose a gage block set: https://askmachinist.com/guides/how-to-choose-a-gage-block-set

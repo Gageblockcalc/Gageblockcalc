@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Ceramic vs Steel vs Carbide Gage Blocks | GageBlockCalc</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Steel, zirconia ceramic, and tungsten carbide gage blocks compared by expansion, rust, and wear. Coefficients from NIST Monograph 180. Do not mix materials in one stack.">
+<link rel="canonical" href="https://gageblockcalc.com/guides/ceramic-vs-steel-vs-carbide-gage-blocks.html">
+<meta property="og:type" content="article"><meta property="og:title" content="Ceramic vs Steel vs Carbide Gage Blocks"><meta property="og:description" content="Steel, zirconia ceramic, and tungsten carbide gage blocks compared by expansion, rust, and wear. Coefficients from NIST Monograph 180. Do not mix materials in one stack.">
+<meta property="og:url" content="https://gageblockcalc.com/guides/ceramic-vs-steel-vs-carbide-gage-blocks.html"><meta property="og:image" content="https://gageblockcalc.com/icons/og-image.png?v=2026-10-27">
+<meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#0f172a">
+<link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"HowTo","name":"How to choose between ceramic, steel, and carbide gage blocks","step":[{"@type":"HowToStep","name":"Match expansion to the work","text":"Steel blocks are the usual choice next to steel parts because both use a coefficient near 11.5 × 10⁻⁶ per °C. Tungsten carbide is about 4.5 × 10⁻⁶. Zirconia ceramic is about 9.2 × 10⁻⁶. Those are the NIST Monograph 180 values at 20 °C."},{"@type":"HowToStep","name":"Match the material to the abuse","text":"Steel rusts and needs a film in the case. Carbide wears longer and is heavier, and it can chip if dropped. Zirconia does not rust and its expansion is closer to steel than carbide is. It can chip if it is struck."},{"@type":"HowToStep","name":"Do not mix materials in one stack","text":"A mixed stack grows as separate pieces. Off 20 °C, the nominal sum is no longer the length of the stack. Correct each material, or build the stack from one material."}]},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Which material expands like a steel part?","acceptedAnswer":{"@type":"Answer","text":"Steel blocks. The nominal coefficient is 11.5 × 10⁻⁶ per °C, close to many steel workpieces, so the difference can be small when both are at the same temperature. Carbide at 4.5 × 10⁻⁶ and zirconia at 9.2 × 10⁻⁶ do not match steel as closely. Those three numbers are the NIST Monograph 180 table values at 20 °C."}},{"@type":"Question","name":"Can I wring a steel block to a carbide block?","acceptedAnswer":{"@type":"Answer","text":"They can wring. You should not treat that stack as one material when the room is off 20 °C. Each block grows by its own coefficient. Build the stack from one material unless you are prepared to correct each block."}},{"@type":"Question","name":"Do ceramic and carbide rust?","acceptedAnswer":{"@type":"Answer","text":"Not the way steel does. Steel needs a rust-preventive film in the case. Ceramic and carbide still need clean faces. Carbide is heavy and can chip if it is dropped. Ceramic can chip if it is struck. Steel dents and rusts more readily than it chips."}}]},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"GageBlockCalc","item":"https://gageblockcalc.com/"},{"@type":"ListItem","position":2,"name":"Calculators","item":"https://gageblockcalc.com/calculators/"},{"@type":"ListItem","position":3,"name":"Ceramic vs steel vs carbide","item":"https://gageblockcalc.com/guides/ceramic-vs-steel-vs-carbide-gage-blocks.html"}]}]</script>
+<style>html{box-sizing:border-box}*,*:before,*:after{box-sizing:inherit}body{font-family:system-ui,sans-serif;max-width:46rem;margin:0 auto;padding:1.5rem;background:#f8fafc;color:#0f172a;line-height:1.6;overflow-wrap:anywhere}a{color:#0a58ca}h1{font-size:1.6rem;line-height:1.25}h2{margin-top:2rem;font-size:1.2rem;color:#0f172a}.card{background:#fff;border:1px solid #e2e8f0;border-radius:.6rem;padding:1rem 1.2rem;margin:1rem 0}.f{font-family:ui-monospace,monospace;background:#f1f5f9;padding:.6rem .8rem;border-radius:.4rem;display:block;overflow-x:auto;max-width:100%}.cta{display:inline-flex;align-items:center;box-sizing:border-box;min-height:44px;background:#0a58ca;color:#fff;font-weight:700;padding:.6rem 1rem;border-radius:.45rem;text-decoration:none;margin:.25rem .5rem .25rem 0}.table-wrap{overflow-x:auto;max-width:100%;margin:.5rem 0 1rem}table{border-collapse:collapse;width:100%;background:#fff}td,th{border-bottom:1px solid #e2e8f0;padding:.4rem .45rem;text-align:left;vertical-align:top}details{margin:.6rem 0;padding:.7rem 1rem;background:#fff;border:1px solid #e2e8f0;border-radius:.5rem}summary{font-weight:600;cursor:pointer;min-height:44px;display:flex;align-items:center}nav.rel a{display:inline-flex;align-items:center;box-sizing:border-box;min-height:44px;margin-right:.35rem;max-width:100%}main p a:not(.cta){display:inline-flex;align-items:center;box-sizing:border-box;min-height:44px;max-width:100%}header.gbc-brand{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;row-gap:.4rem;padding:.25rem 0 1rem;margin-bottom:1rem;border-bottom:1px solid #e2e8f0}header.gbc-brand>a{min-height:44px;display:inline-flex;align-items:center;gap:.6rem;text-decoration:none;color:inherit;font-weight:700;font-size:1.15rem}footer{margin-top:2.5rem;padding-top:1rem;border-top:1px solid #e2e8f0;font-size:.9rem;color:#334155}footer a{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-height:44px;min-width:44px;max-width:100%;padding:.15rem .45rem}.legal-nav{font-weight:700}.seasonal-xlink,.nick-also{margin:.75rem 0 0}.calc-version{margin-top:.4rem;font-size:12px;color:#595959}label.lbl{font-weight:600;font-size:.92rem;display:block;margin:.7rem 0 .25rem}input,select{width:100%;max-width:100%;font:inherit;padding:.45rem .55rem;border:1px solid #cbd5e1;border-radius:.4rem;background:#fff;color:#0f172a;min-height:44px}.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));gap:.65rem}.note{font-size:.92rem;color:#334155}.big{font-size:1.35rem;font-weight:700;margin:.2rem 0}ol.steps{padding-left:1.2rem}ol.steps li{margin:.35rem 0}@media(max-width:420px){body{padding:1rem}h1{font-size:1.35rem}}@media print{.no-print,header,footer{display:none !important}body{background:#fff;max-width:none;color:#000}a{color:#000;text-decoration:none}}</style>
+</head><body>
+<header class="gbc-brand"><a href="/"><img src="/icons/favicon.svg?v=2026-10-27" width="32" height="32" alt="GageBlockCalc logo">GageBlockCalc</a><span style="opacity:.7;font-size:.9rem">Free gage block stack calculator</span></header>
+<script>/* Sync seasonal strip. Inserted during parse so the line is in the first layout. Keep in step with seasonal.js. */
+(function(){
+  if(document.getElementById('gbc-season'))return;
+  var d=new Date(),m=d.getMonth(),day=d.getDate(),id='',spec=null;
+  if(m===10&&day>=18&&day<=26)id='thanksgiving';
+  else if(m===10&&day>=27)id='deals';
+  else if(m===11)id='christmas';
+  if(id==='thanksgiving')spec=['\uD83E\uDD83','Happy Thanksgiving from GageBlockCalc. The ','/','stack calculator',' is free, with no login.'];
+  else if(id==='deals')spec=['\uD83D\uDED2','Black Friday and Cyber Monday: see our ','/black-friday-machinist-tool-deals.html','machinist tool guide',''];
+  else if(id==='christmas')spec=['\uD83C\uDF84','Merry Christmas from GageBlockCalc. ','https://askmachinist.com/guides/machinist-christmas-gift-guide','Gift ideas for machinists',''];
+  if(!spec)return;
+  var s=document.currentScript;
+  if(!s||!s.parentNode)return;
+  var p=document.createElement('p');
+  p.id='gbc-season';
+  p.className='gbc-season no-print';
+  p.setAttribute('role','note');
+  p.setAttribute('data-gbc-season',id);
+  var home=s.parentNode.classList&&s.parentNode.classList.contains('container');
+  p.style.cssText='box-sizing:border-box;display:block;max-width:100%;min-height:2.25rem;margin:'+(home?'0':'.75rem 0 0')+';padding:.35rem .7rem;font-size:.875rem;line-height:1.4;text-align:left;background:#f8fafc;color:#1e293b;border:1px solid #e2e8f0;border-radius:8px;overflow-wrap:anywhere';
+  var em=document.createElement('span');
+  em.setAttribute('aria-hidden','true');
+  em.textContent=spec[0]+' ';
+  p.appendChild(em);
+  p.appendChild(document.createTextNode(spec[1]));
+  var a=document.createElement('a');
+  a.setAttribute('href',spec[2]);
+  a.textContent=spec[3];
+  a.style.cssText='color:#0a58ca;display:inline;min-height:0;text-decoration:underline;text-underline-offset:2px';
+  if(spec[2].indexOf('https:')===0)a.setAttribute('rel','noopener');
+  p.appendChild(a);
+  if(spec[4])p.appendChild(document.createTextNode(spec[4]));
+  s.parentNode.insertBefore(p,s.nextSibling);
+})();</script>
+<main>
+<h1>Ceramic vs Steel vs Carbide Gage Blocks</h1>
+
+<p>The calculator treats a block as its nominal size. The material is what decides how that size moves when the room is not 20 °C, and what happens when the block is dropped, left damp, or wrung all day. These notes use the coefficients in NIST Monograph 180, Table 3.2, at 20 °C. A set's certificate overrides the table.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Material</th><th>α at 20 °C</th><th>What that means in the shop</th></tr></thead>
+<tbody>
+<tr><td>Steel, blocks under 25 mm</td><td>11.5 × 10⁻⁶ / °C</td><td>Closest of the three to most steel parts. Rusts. Needs a light film in the case and a wipe before the next wring.</td></tr>
+<tr><td>Zirconia ceramic</td><td>9.2 × 10⁻⁶ / °C</td><td>Closer to steel than carbide is. Does not rust. Hard. Can chip if it is struck.</td></tr>
+<tr><td>Chrome carbide</td><td>8.4 × 10⁻⁶ / °C</td><td>Between zirconia and tungsten carbide. NIST lists it separately from tungsten carbide.</td></tr>
+<tr><td>Tungsten carbide</td><td>4.5 × 10⁻⁶ / °C</td><td>About a third of steel, which is how NIST describes it. Wears well. Heavy. The expansion difference against a steel part is the large one.</td></tr>
+</tbody></table></div>
+<p>A long steel block is not 11.5. NIST lists a 500 mm steel gage block at 10.6 × 10⁻⁶ / °C. ISO 3650 specifies steel as (11.5 ± 1.0) × 10⁻⁶ per K. The <a href="/calculators/gage-block-temperature-correction.html">temperature calculator</a> uses 11.5, 9.2, 8.4, and 4.5 as presets and lets you type the certificate value.</p>
+<h2>Do not mix them in one stack</h2>
+<p>Wringing a steel block to a carbide block can make a joint. It does not make one coefficient. Off 20 °C each block grows by its own α. The nominal sum is then the wrong length.</p>
+<p>Worked difference, steel part against tungsten carbide blocks, 100 mm, 5 °C above 20 °C:</p>
+<span class="f">ΔL = 100 × (11.5 − 4.5)×10⁻⁶ × 5 = 0.0035 mm</span>
+<p>The part is 3.5 µm longer than the carbide stack, relative to how they compared at 20 °C. The same sum with steel blocks against a steel part at the same 11.5 coefficient is zero to first order. Both grew. The comparison did not. A part alloy that is not 11.5 still needs its own coefficient. Type both into the temperature page.</p>
+<h2>Which one to keep at the bench</h2>
+<p>Steel is the ordinary choice when the work is steel and someone will actually oil the set. Carbide earns its place as a working set that is wrung constantly, if you will correct for temperature or you work close to 20 °C. Zirconia is the corrosion-resistant choice when the expansion still needs to stay nearer steel than carbide does. None of the three is a reason to skip the certificate. Grade and material are different choices. The <a href="/guides/gage-block-grades.html">grades page</a> is the tolerance. This page is the metal, the ceramic, and the carbide.</p>
+<p>The stack for a nominal 1.000 in block is the same list in the calculator whichever material the block is. <a href="/?target=1.000&amp;set=inch-81&amp;wear=0">Open 1.000 in</a>. The temperature change is not in that list.</p>
+<h2>On this site</h2>
+<nav class="rel"><a href="/calculators/gage-block-temperature-correction.html">Temperature calculator</a> <a href="/guides/gage-block-grades.html">Grades</a> <a href="/guides/gage-block-care-and-storage.html">Care and storage</a></nav>
+<h2>On Ask a Machinist</h2>
+<nav class="rel"><a href="https://askmachinist.com/guides/carbide-vs-steel-gage-blocks" rel="noopener">Carbide vs steel gage blocks</a> <a href="https://askmachinist.com/guides/how-to-choose-a-gage-block-set" rel="noopener">How to choose a gage block set</a> <a href="https://askmachinist.com/tools/gage-block-temperature-correction" rel="noopener">Temperature correction on Ask a Machinist</a></nav>
+<h2>FAQ</h2>
+<details><summary>Which material expands like a steel part?</summary><p>Steel blocks. The nominal coefficient is 11.5 × 10⁻⁶ per °C, close to many steel workpieces, so the difference can be small when both are at the same temperature. Carbide at 4.5 × 10⁻⁶ and zirconia at 9.2 × 10⁻⁶ do not match steel as closely. Those three numbers are the NIST Monograph 180 table values at 20 °C.</p></details>
+<details><summary>Can I wring a steel block to a carbide block?</summary><p>They can wring. You should not treat that stack as one material when the room is off 20 °C. Each block grows by its own coefficient. Build the stack from one material unless you are prepared to correct each block.</p></details>
+<details><summary>Do ceramic and carbide rust?</summary><p>Not the way steel does. Steel needs a rust-preventive film in the case. Ceramic and carbide still need clean faces. Carbide is heavy and can chip if it is dropped. Ceramic can chip if it is struck. Steel dents and rusts more readily than it chips.</p></details>
+</main>
+<footer><a href="/">Calculator</a> · <a href="/calculators/">All calculators</a> · <a href="/calculators/stacks/">Common sizes</a> · <a href="/calculators/sine-bar-gage-block-stack.html">Sine bar</a> · <a href="/llms.txt">llms.txt</a> · <a href="/faq.html">FAQ</a><br>Free, no login. Always verify critical stacks against your set's calibration certificate.<p class="legal-nav"><a href="/about.html">About</a> · <a href="/contact.html">Contact</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></p><p class="seasonal-xlink no-print"><span aria-hidden="true">🎄</span> <a href="https://askmachinist.com/guides/machinist-christmas-gift-guide" rel="noopener">Machinist Christmas gift guide</a> · <a data-gbc-games="1" href="https://oppsgo.com/thanksgiving-games" target="_blank" rel="noopener">Free Thanksgiving Games</a></p><p class="nick-also no-print">More from Nick: <a href="https://oppsgo.com">OppsGo</a> free browser games · <a href="/arcade/">Break Room</a></p><p class="gbc-legal">© 2026 GageBlockCalc</p><div class="calc-version no-print"><span id="calcVersion" class="notranslate" translate="no"></span></div></footer>
+<script src="/seasonal.js" defer></script>
+<script src="/version.js" defer></script>
+</body></html>
