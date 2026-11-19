@@ -380,7 +380,7 @@ const SEASON_BOOT = '<script>' + fs.readFileSync(path.join(ROOT, 'js/season-boot
 const SEASON_SRC = '<script src="/seasonal.js" defer></script>\n';
 const HEADER = '<header class="gbc-brand no-print" style="display:flex;align-items:center;gap:.6rem;padding:.25rem 0 1rem;margin-bottom:1rem;border-bottom:1px solid #e2e8f0"><a href="/" style="display:flex;align-items:center;gap:.6rem;text-decoration:none;color:inherit;font-weight:700;font-size:1.15rem"><img src="/icons/favicon.svg?v=2026-10-27" width="32" height="32" alt="GageBlockCalc logo">GageBlockCalc</a><span style="opacity:.7;font-size:.9rem">Free gage block stack calculator</span></header>\n' + SEASON_BOOT;
 
-const FOOTER = '<footer><a href="/">Calculator</a> · <a href="/calculators/">All calculators</a> · <a href="/calculators/stacks/">Common sizes</a> · <a href="/calculators/sine-bar-gage-block-stack.html">Sine bar</a> · <a href="/llms.txt">llms.txt</a> · <a href="/faq.html">FAQ</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a><br>Free, no login. Always verify critical stacks against your set\'s calibration certificate.'
+const FOOTER = '<footer><a href="/">Calculator</a> · <a href="/calculators/">All calculators</a> · <a href="/calculators/stacks/">Common sizes</a> · <a href="/calculators/sine-bar-gage-block-stack.html">Sine bar</a> · <a href="/llms.txt">llms.txt</a> · <a href="/faq.html">FAQ</a> · <a href="/about.html">About</a> · <a href="/contact.html">Contact</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a><br>Free, no login. Always verify critical stacks against your set\'s calibration certificate.'
   + '<p class="seasonal-xlink no-print"><span aria-hidden="true">🎄</span> <a href="https://askmachinist.com/guides/machinist-christmas-gift-guide" rel="noopener">Machinist Christmas gift guide</a> · <a data-gbc-games="1" href="https://oppsgo.com/thanksgiving-games" target="_blank" rel="noopener">Free Thanksgiving Games</a></p>'
   + '<p class="nick-also no-print">More from Nick: <a href="https://oppsgo.com">OppsGo</a> free browser games · <a href="/arcade/">Break Room</a></p>'
   + '<p class="gbc-legal">© 2026 GageBlockCalc</p>'
@@ -431,7 +431,7 @@ function indexHtml(solvedAll) {
     '<h2>Already on AskMachinist</h2>\n' +
     '<p>AskMachinist already has a worked stack for these sizes. This library does not repeat them.</p>\n' +
     '<nav class="rel">' + hub + '</nav>\n' +
-    '<h2>Related</h2>\n<nav class="rel"><a href="/calculators/">All calculators</a> <a href="/calculators/inch-gage-block-stack.html">Inch 81-piece</a> <a href="/calculators/inch-36-gage-block-stack.html">Inch 36-piece</a> <a href="/calculators/inch-28-gage-block-stack.html">Inch 28-piece</a> <a href="/calculators/metric-112-gage-block-stack.html">Metric 112-piece</a> <a href="/calculators/metric-88-gage-block-stack.html">Metric 88-piece</a> <a href="/calculators/wear-block-stack.html">Wear blocks</a> <a href="/calculators/sine-bar-gage-block-stack.html">Sine bar</a> <a href="/llms.txt">llms.txt</a></nav>\n' +
+    '<h2>Related</h2>\n<nav class="rel"><a href="/calculators/">All calculators</a> <a href="/calculators/inch-gage-block-stack.html">Inch 81-piece</a> <a href="/calculators/inch-36-gage-block-stack.html">Inch 36-piece</a> <a href="/calculators/inch-28-gage-block-stack.html">Inch 28-piece</a> <a href="/calculators/metric-112-gage-block-stack.html">Metric 112-piece</a> <a href="/calculators/metric-88-gage-block-stack.html">Metric 88-piece</a> <a href="/calculators/wear-block-stack.html">Wear blocks</a> <a href="/calculators/sine-bar-gage-block-stack.html">Sine bar</a> <a href="/llms.txt">llms.txt</a> <a href="/guides/how-to-wring-gage-blocks.html">How to wring</a> <a href="/calculators/sine-bar-angle-table.html">Sine bar angle table</a> <a href="/calculators/inch-mm-gage-block-conversion.html">Inch–mm conversion</a></nav>\n' +
     '</main>\n' + FOOTER + '</body></html>\n';
 }
 
@@ -456,6 +456,20 @@ function llmsText(solvedAll) {
   lines.push('- FAQ: https://gageblockcalc.com/faq.html');
   lines.push('- Break Room: https://gageblockcalc.com/arcade');
   lines.push('- Black Friday and Cyber Monday 2026 tool guide: https://gageblockcalc.com/black-friday-machinist-tool-deals.html');
+  lines.push('');
+  lines.push('## Shop how-tos');
+  lines.push('- About: https://gageblockcalc.com/about.html');
+  lines.push('- Contact: https://gageblockcalc.com/contact.html');
+  lines.push('- How to wring gage blocks: https://gageblockcalc.com/guides/how-to-wring-gage-blocks.html');
+  lines.push('- Gage block grades: https://gageblockcalc.com/guides/gage-block-grades.html');
+  lines.push('- Check calipers with gage blocks: https://gageblockcalc.com/guides/check-calipers-with-gage-blocks.html');
+  lines.push('- Verify a height gage: https://gageblockcalc.com/guides/verify-height-gage-with-gage-blocks.html');
+  lines.push('- Sine plate setup: https://gageblockcalc.com/guides/sine-plate-setup.html');
+  lines.push('- Gage block care and storage: https://gageblockcalc.com/guides/gage-block-care-and-storage.html');
+  lines.push('- Ceramic, steel, and carbide: https://gageblockcalc.com/guides/ceramic-vs-steel-vs-carbide-gage-blocks.html');
+  lines.push('- Sine bar angle table: https://gageblockcalc.com/calculators/sine-bar-angle-table.html');
+  lines.push('- Temperature correction: https://gageblockcalc.com/calculators/gage-block-temperature-correction.html');
+  lines.push('- Inch and millimetre conversion: https://gageblockcalc.com/calculators/inch-mm-gage-block-conversion.html');
   lines.push('');
   lines.push('## AskMachinist');
   lines.push('- How to wring gage blocks: https://askmachinist.com/guides/how-to-wring-gage-blocks');

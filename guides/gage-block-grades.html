@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Gage Block Grades 00, 0, AS-1, AS-2, and B | GageBlockCalc</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="What ASME B89.1.9 grades 00, 0, AS-1, and AS-2 mean, how the older grade B differs, and the length tolerance charts list through 1 inch.">
+<link rel="canonical" href="https://gageblockcalc.com/guides/gage-block-grades.html">
+<meta property="og:type" content="article"><meta property="og:title" content="Gage Block Grades 00, 0, AS-1, AS-2, and B"><meta property="og:description" content="What ASME B89.1.9 grades 00, 0, AS-1, and AS-2 mean, how the older grade B differs, and the length tolerance charts list through 1 inch.">
+<meta property="og:url" content="https://gageblockcalc.com/guides/gage-block-grades.html"><meta property="og:image" content="https://gageblockcalc.com/icons/og-image.png?v=2026-10-27">
+<meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#0f172a">
+<link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"HowTo","name":"How to read a gage block grade","step":[{"@type":"HowToStep","name":"Read the grade name on the certificate","text":"ASME B89.1.9 grades are 00, 0, AS-1, and AS-2. ISO 3650 metric grades are K, 0, 1, and 2. Grade B is an older federal name, not an ASME B89.1.9 grade."},{"@type":"HowToStep","name":"Match the grade to the job","text":"Grade 00 is the laboratory end of the ASME list. Grade 0 and AS-1 are the usual inspection grades. AS-2 is the usual working grade for setups. A workshop grade is the wrong master for checking other gages."},{"@type":"HowToStep","name":"Use the certificate for the blocks you have","text":"The calculator adds nominal sizes. A grade is the allowed departure from nominal. The measured departure is on the calibration certificate, and it is what you add when the nominal stack is not enough."}]},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Which ASME grade is the tightest?","acceptedAnswer":{"@type":"Answer","text":"ASME B89.1.9 names grades 00, 0, AS-1, and AS-2. Grade 00 is the tightest of those four. AS-2 is the widest. The tolerance also depends on the nominal length, so a long grade 00 block is not held to the same inch limit as a 1 inch grade 00 block."}},{"@type":"Question","name":"Is grade B an ASME gage block grade?","acceptedAnswer":{"@type":"Answer","text":"No. ASME B89.1.9 does not use grade B. Grade B is a name from the older Federal Specification GGG-G-15A, which listed AAA, AA, A+, A, and B. It is also not the same thing as ASME B89.3.7 grade B, which is a surface-plate grade."}},{"@type":"Question","name":"Does the calculator apply the grade tolerance?","acceptedAnswer":{"@type":"Answer","text":"No. The calculator adds nominal block sizes. The grade is the tolerance band those blocks were made to. The calibration certificate is the measured deviation of each block you actually have."}}]},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"GageBlockCalc","item":"https://gageblockcalc.com/"},{"@type":"ListItem","position":2,"name":"Calculators","item":"https://gageblockcalc.com/calculators/"},{"@type":"ListItem","position":3,"name":"Gage block grades","item":"https://gageblockcalc.com/guides/gage-block-grades.html"}]}]</script>
+<style>html{box-sizing:border-box}*,*:before,*:after{box-sizing:inherit}body{font-family:system-ui,sans-serif;max-width:46rem;margin:0 auto;padding:1.5rem;background:#f8fafc;color:#0f172a;line-height:1.6;overflow-wrap:anywhere}a{color:#0a58ca}h1{font-size:1.6rem;line-height:1.25}h2{margin-top:2rem;font-size:1.2rem;color:#0f172a}.card{background:#fff;border:1px solid #e2e8f0;border-radius:.6rem;padding:1rem 1.2rem;margin:1rem 0}.f{font-family:ui-monospace,monospace;background:#f1f5f9;padding:.6rem .8rem;border-radius:.4rem;display:block;overflow-x:auto;max-width:100%}.cta{display:inline-flex;align-items:center;box-sizing:border-box;min-height:44px;background:#0a58ca;color:#fff;font-weight:700;padding:.6rem 1rem;border-radius:.45rem;text-decoration:none;margin:.25rem .5rem .25rem 0}.table-wrap{overflow-x:auto;max-width:100%;margin:.5rem 0 1rem}table{border-collapse:collapse;width:100%;background:#fff}td,th{border-bottom:1px solid #e2e8f0;padding:.4rem .45rem;text-align:left;vertical-align:top}details{margin:.6rem 0;padding:.7rem 1rem;background:#fff;border:1px solid #e2e8f0;border-radius:.5rem}summary{font-weight:600;cursor:pointer;min-height:44px;display:flex;align-items:center}nav.rel a{display:inline-flex;align-items:center;box-sizing:border-box;min-height:44px;margin-right:.35rem;max-width:100%}main p a:not(.cta){display:inline-flex;align-items:center;box-sizing:border-box;min-height:44px;max-width:100%}header.gbc-brand{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;row-gap:.4rem;padding:.25rem 0 1rem;margin-bottom:1rem;border-bottom:1px solid #e2e8f0}header.gbc-brand>a{min-height:44px;display:inline-flex;align-items:center;gap:.6rem;text-decoration:none;color:inherit;font-weight:700;font-size:1.15rem}footer{margin-top:2.5rem;padding-top:1rem;border-top:1px solid #e2e8f0;font-size:.9rem;color:#334155}footer a{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-height:44px;min-width:44px;max-width:100%;padding:.15rem .45rem}.legal-nav{font-weight:700}.seasonal-xlink,.nick-also{margin:.75rem 0 0}.calc-version{margin-top:.4rem;font-size:12px;color:#595959}label.lbl{font-weight:600;font-size:.92rem;display:block;margin:.7rem 0 .25rem}input,select{width:100%;max-width:100%;font:inherit;padding:.45rem .55rem;border:1px solid #cbd5e1;border-radius:.4rem;background:#fff;color:#0f172a;min-height:44px}.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));gap:.65rem}.note{font-size:.92rem;color:#334155}.big{font-size:1.35rem;font-weight:700;margin:.2rem 0}ol.steps{padding-left:1.2rem}ol.steps li{margin:.35rem 0}@media(max-width:420px){body{padding:1rem}h1{font-size:1.35rem}}@media print{.no-print,header,footer{display:none !important}body{background:#fff;max-width:none;color:#000}a{color:#000;text-decoration:none}}</style>
+</head><body>
+<header class="gbc-brand"><a href="/"><img src="/icons/favicon.svg?v=2026-10-27" width="32" height="32" alt="GageBlockCalc logo">GageBlockCalc</a><span style="opacity:.7;font-size:.9rem">Free gage block stack calculator</span></header>
+<script>/* Sync seasonal strip. Inserted during parse so the line is in the first layout. Keep in step with seasonal.js. */
+(function(){
+  if(document.getElementById('gbc-season'))return;
+  var d=new Date(),m=d.getMonth(),day=d.getDate(),id='',spec=null;
+  if(m===10&&day>=18&&day<=26)id='thanksgiving';
+  else if(m===10&&day>=27)id='deals';
+  else if(m===11)id='christmas';
+  if(id==='thanksgiving')spec=['\uD83E\uDD83','Happy Thanksgiving from GageBlockCalc. The ','/','stack calculator',' is free, with no login.'];
+  else if(id==='deals')spec=['\uD83D\uDED2','Black Friday and Cyber Monday: see our ','/black-friday-machinist-tool-deals.html','machinist tool guide',''];
+  else if(id==='christmas')spec=['\uD83C\uDF84','Merry Christmas from GageBlockCalc. ','https://askmachinist.com/guides/machinist-christmas-gift-guide','Gift ideas for machinists',''];
+  if(!spec)return;
+  var s=document.currentScript;
+  if(!s||!s.parentNode)return;
+  var p=document.createElement('p');
+  p.id='gbc-season';
+  p.className='gbc-season no-print';
+  p.setAttribute('role','note');
+  p.setAttribute('data-gbc-season',id);
+  var home=s.parentNode.classList&&s.parentNode.classList.contains('container');
+  p.style.cssText='box-sizing:border-box;display:block;max-width:100%;min-height:2.25rem;margin:'+(home?'0':'.75rem 0 0')+';padding:.35rem .7rem;font-size:.875rem;line-height:1.4;text-align:left;background:#f8fafc;color:#1e293b;border:1px solid #e2e8f0;border-radius:8px;overflow-wrap:anywhere';
+  var em=document.createElement('span');
+  em.setAttribute('aria-hidden','true');
+  em.textContent=spec[0]+' ';
+  p.appendChild(em);
+  p.appendChild(document.createTextNode(spec[1]));
+  var a=document.createElement('a');
+  a.setAttribute('href',spec[2]);
+  a.textContent=spec[3];
+  a.style.cssText='color:#0a58ca;display:inline;min-height:0;text-decoration:underline;text-underline-offset:2px';
+  if(spec[2].indexOf('https:')===0)a.setAttribute('rel','noopener');
+  p.appendChild(a);
+  if(spec[4])p.appendChild(document.createTextNode(spec[4]));
+  s.parentNode.insertBefore(p,s.nextSibling);
+})();</script>
+<main>
+<h1>Gage Block Grades: 00, 0, AS-1, AS-2, and B</h1>
+
+<p>A grade is the tolerance the blocks were made and certified to. It is not a different stack. A grade 00 one-inch block and an AS-2 one-inch block are both nominally 1 inch. The grade says how far the true length is allowed to sit from that nominal size, and how much the length is allowed to vary across the face.</p>
+<h2>The names in use</h2>
+<p><b>ASME B89.1.9</b> is the US gage block standard. It names four grades: <b>00</b>, <b>0</b>, <b>AS-1</b>, and <b>AS-2</b>. Grade 00 is the tightest. AS-2 is the widest. The length limit gets wider as the block gets longer, so you read the row for that nominal length. The B89.1.9 length tolerance applies across the measuring face, not only at the center reference point. That is a real difference from older specs that toleranced the center and then added a separate variation.</p>
+<p><b>Grade B</b> is not one of those four names. Federal Specification GGG-G-15A listed AAA, AA, A+, A, and B. The later federal spec GGG-G-15C replaced that list with grades 0.5, 1, 2, and 3. Shops that still say "B blocks" are using the older commercial name for a working set. Do not confuse it with ASME B89.3.7 grade B, which is a grade of granite surface plate.</p>
+<p><b>ISO 3650</b> is the metric gage block standard. Its grades are K, 0, 1, and 2. Grade K is the calibration grade. The 1998 edition of ISO 3650 withdrew grade 00. An ISO grade 0 is not a synonym for ASME grade 0, and ISO grade 2 is not a synonym for AS-2. Use the grade system printed on the certificate.</p>
+<h2>Length tolerance through 1 inch</h2>
+<p>Public comparison charts of ASME B89.1.9 agree on the length tolerance, in millionths of an inch, for the short rows below. One millionth of an inch is 0.000001 in. Variation in length and flatness are separate limits in the standard and are not in this table. Longer blocks have wider length limits. The certificate that came with the set is the row that applies to those blocks.</p>
+<div class="table-wrap"><table>
+<thead><tr><th>Nominal length</th><th>Grade 00</th><th>Grade 0</th><th>Grade AS-1</th><th>Grade AS-2</th></tr></thead>
+<tbody>
+<tr><td>Through 0.050 in</td><td>±4</td><td>±6</td><td>±12</td><td>±24</td></tr>
+<tr><td>Through 0.400 in</td><td>±3</td><td>±5</td><td>±8</td><td>±18</td></tr>
+<tr><td>Through 1.000 in</td><td>±3</td><td>±6</td><td>±12</td><td>±24</td></tr>
+</tbody></table></div>
+<p class="note">Values are millionths of an inch (±0.000001 in), from comparison charts of ASME B89.1.9. A block through 1 inch in grade 00 is listed at ±0.000003 in. The same size in AS-2 is listed at ±0.000024 in.</p>
+<h2>What to buy for the job</h2>
+<p>A stack that lives in a setup, and that you wring and take apart all day, is usually AS-2. Inspection and a check of other gages usually want grade 0 or AS-1, with a certificate. Grade 00 belongs where it is the master for other blocks, not in a machine vise. A workshop grade, including an old grade B set, is the wrong master for checking a micrometer if the job calls for an inspection grade.</p>
+<h2>Worked example</h2>
+<p>The 1.000 in block in an 81-piece set is one block. The calculator does not care which grade it is. Open <a href="/?target=1.000&amp;set=inch-81&amp;wear=0">1.000 in on the 81-piece set</a> and the result is the 1.000 block. If the certificate says that block is 1.000004 in, the measured length is the certificate value. The nominal stack is still 1.000 in, and the grade only tells you whether a departure of 0.000004 in was allowed.</p>
+<p>On the "through 1 inch" row, ±0.000004 in is inside the grade 0 chart limit of ±0.000006 in and outside the grade 00 chart limit of ±0.000003 in. That comparison is the chart, not a calibration. The lab's reported deviation and its uncertainty are the numbers you use on a job.</p>
+<h2>On this site</h2>
+<nav class="rel"><a href="/calculators/inch-gage-block-stack.html">Inch 81-piece calculator</a> <a href="/guides/gage-block-care-and-storage.html">Care and storage</a> <a href="/guides/ceramic-vs-steel-vs-carbide-gage-blocks.html">Ceramic, steel, and carbide</a></nav>
+<h2>On Ask a Machinist</h2>
+<nav class="rel"><a href="https://askmachinist.com/guides/how-to-choose-a-gage-block-set" rel="noopener">How to choose a gage block set</a> <a href="https://askmachinist.com/guides/gage-block-calibration-interval" rel="noopener">Calibration interval</a> <a href="https://askmachinist.com/guides/how-to-build-a-gage-block-stack" rel="noopener">How to build a gage block stack</a></nav>
+<h2>FAQ</h2>
+<details><summary>Which ASME grade is the tightest?</summary><p>ASME B89.1.9 names grades 00, 0, AS-1, and AS-2. Grade 00 is the tightest of those four. AS-2 is the widest. The tolerance also depends on the nominal length, so a long grade 00 block is not held to the same inch limit as a 1 inch grade 00 block.</p></details>
+<details><summary>Is grade B an ASME gage block grade?</summary><p>No. ASME B89.1.9 does not use grade B. Grade B is a name from the older Federal Specification GGG-G-15A, which listed AAA, AA, A+, A, and B. It is also not the same thing as ASME B89.3.7 grade B, which is a surface-plate grade.</p></details>
+<details><summary>Does the calculator apply the grade tolerance?</summary><p>No. The calculator adds nominal block sizes. The grade is the tolerance band those blocks were made to. The calibration certificate is the measured deviation of each block you actually have.</p></details>
+</main>
+<footer><a href="/">Calculator</a> · <a href="/calculators/">All calculators</a> · <a href="/calculators/stacks/">Common sizes</a> · <a href="/calculators/sine-bar-gage-block-stack.html">Sine bar</a> · <a href="/llms.txt">llms.txt</a> · <a href="/faq.html">FAQ</a><br>Free, no login. Always verify critical stacks against your set's calibration certificate.<p class="legal-nav"><a href="/about.html">About</a> · <a href="/contact.html">Contact</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></p><p class="seasonal-xlink no-print"><span aria-hidden="true">🎄</span> <a href="https://askmachinist.com/guides/machinist-christmas-gift-guide" rel="noopener">Machinist Christmas gift guide</a> · <a data-gbc-games="1" href="https://oppsgo.com/thanksgiving-games" target="_blank" rel="noopener">Free Thanksgiving Games</a></p><p class="nick-also no-print">More from Nick: <a href="https://oppsgo.com">OppsGo</a> free browser games · <a href="/arcade/">Break Room</a></p><p class="gbc-legal">© 2026 GageBlockCalc</p><div class="calc-version no-print"><span id="calcVersion" class="notranslate" translate="no"></span></div></footer>
+<script src="/seasonal.js" defer></script>
+<script src="/version.js" defer></script>
+</body></html>
