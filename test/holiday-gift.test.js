@@ -84,7 +84,7 @@ if (!sitemap.includes('https://gageblockcalc.com/machinist-holiday-gift-guide.ht
 const llms = fs.readFileSync(path.join(root, 'llms.txt'), 'utf8');
 if (!llms.includes('https://gageblockcalc.com/machinist-holiday-gift-guide.html')) bad('llms.txt missing');
 const version = fs.readFileSync(path.join(root, 'version.js'), 'utf8');
-if (!version.includes('version:"1.0.140"')) bad('version stamp is not 1.0.140');
+if (!version.includes('version:"1.0.141"')) bad('version stamp is not 1.0.141');
 
 console.log(fail ? fail + ' FAILURES' : 'ALL PASS');
 process.exit(fail ? 1 : 0);

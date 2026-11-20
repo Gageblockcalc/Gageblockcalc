@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Knoop Case Depth Calculator - HK &amp; Effective Case Depth | GageBlockCalc</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Free Knoop case depth calculator for HK and effective case depth from stage and filar readings. Runs in the browser. No login.">
+<link rel="canonical" href="https://gageblockcalc.com/knoop-case-depth-calculator.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="GageBlockCalc">
+<meta property="og:title" content="Knoop Case Depth Calculator - HK &amp; Effective Case Depth | GageBlockCalc">
+<meta property="og:description" content="Free Knoop case depth calculator for HK and effective case depth from stage and filar readings. Runs in the browser. No login.">
+<meta property="og:url" content="https://gageblockcalc.com/knoop-case-depth-calculator.html">
+<meta property="og:image" content="https://gageblockcalc.com/icons/og-image.png?v=2026-10-27">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Knoop Case Depth Calculator - HK &amp; Effective Case Depth | GageBlockCalc">
+<meta name="twitter:description" content="Free Knoop case depth calculator for HK and effective case depth from stage and filar readings. Runs in the browser. No login.">
+<meta name="twitter:image" content="https://gageblockcalc.com/icons/og-image.png?v=2026-10-27">
+<meta name="theme-color" content="#0f172a">
+<link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"WebApplication","name":"Knoop Case Depth Calculator","url":"https://gageblockcalc.com/knoop-case-depth-calculator.html","description":"Free browser calculator for Knoop microhardness case depth. Stage and filar readings become distance from the edge, effective case depth, the long diagonal, and approximate HK.","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"browserRequirements":"Requires JavaScript"},{"@context":"https://schema.org","@type":"HowTo","name":"How to run a Knoop case-depth traverse","step":[{"@type":"HowToStep","name":"Zero the stage on the edge","text":"Zero the stage on the part edge and enter that reading."},{"@type":"HowToStep","name":"Read the first mark","text":"Make the first mark about 0.002 in in from the edge. That drum reading is the near-surface case hardness."},{"@type":"HowToStep","name":"Step deeper and stagger","text":"Step 0.001 to 0.003 in deeper for each mark and stagger the marks sideways."},{"@type":"HowToStep","name":"Keep the long axis parallel to the edge","text":"Keep the Knoop long axis parallel to the edge."},{"@type":"HowToStep","name":"Keep the spacing","text":"Keep at least 2.5 times the short diagonal between marks and from the edge (ASTM E384)."},{"@type":"HowToStep","name":"Stop at the drum reading","text":"Enter the filar drum reading. Keep going until it reaches the stop, then read the effective case depth."}]},{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How is HK calculated here?","acceptedAnswer":{"@type":"Answer","text":"HK = 14229 × load in grams ÷ (long diagonal in micrometres)². The same number is 14.229 × load in kilogram-force ÷ (long diagonal in millimetres)². A 500 g load and a 95 µm diagonal give about 788.3. Calculated HK is approximate. Your shop's conversion table or the part spec governs."}},{"@type":"Question","name":"What does this page report as effective case depth?","acceptedAnswer":{"@type":"Answer","text":"The distance from the part edge to the mark, plus 0.001 in. Distance is the absolute difference of the mark stage reading and the zero reading. The added 0.001 in is the rule this page uses. It is not taken from a part specification. Record the case depth your shop procedure or the part spec tells you to record."}},{"@type":"Question","name":"When does the calculator say to stop?","acceptedAnswer":{"@type":"Answer","text":"You set a stop in filar-drum units. The default is 229. A larger drum reading is a longer diagonal and a softer impression. While the drum reading is below the stop, the page says to keep going and names the next stage reading about 0.002 in further from the edge, in the same direction the mark already moved from the zero. If the mark is still on the zero, that step is in the positive direction. When the drum reading is at or above the stop, the page reports the effective case depth for that mark."}},{"@type":"Question","name":"How should the marks be spaced?","acceptedAnswer":{"@type":"Answer","text":"Put the first mark about 0.002 in in from the edge. That reading is the near-surface hardness, not the case depth. Step about 0.001 to 0.003 in deeper for each later mark and stagger the marks sideways. Keep the Knoop long axis parallel to the edge. ASTM E384 calls for at least 2.5 times the short diagonal between marks and between a mark and the edge. This page does not measure the short diagonal."}}]},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"GageBlockCalc","item":"https://gageblockcalc.com/"},{"@type":"ListItem","position":2,"name":"Calculators","item":"https://gageblockcalc.com/calculators/"},{"@type":"ListItem","position":3,"name":"Knoop case depth","item":"https://gageblockcalc.com/knoop-case-depth-calculator.html"}]}]</script>
+<style>html{box-sizing:border-box}*,*:before,*:after{box-sizing:inherit}body{font-family:system-ui,sans-serif;max-width:46rem;margin:0 auto;padding:1.5rem;background:#f8fafc;color:#0f172a;line-height:1.6;overflow-wrap:anywhere}a{color:#0a58ca}h1{font-size:1.6rem;line-height:1.25}h2{margin-top:2rem;font-size:1.2rem;color:#0f172a}h3{margin:1.3rem 0 .4rem;font-size:1.05rem;color:#0f172a}.card{background:#fff;border:1px solid #e2e8f0;border-radius:.6rem;padding:1rem 1.2rem;margin:1rem 0;min-width:0}.f{font-family:ui-monospace,monospace;background:#f1f5f9;padding:.6rem .8rem;border-radius:.4rem;display:block;overflow-wrap:anywhere;max-width:100%}.cta{display:inline-flex;align-items:center;box-sizing:border-box;min-height:44px;background:#0a58ca;color:#fff;font-weight:700;padding:.6rem 1rem;border-radius:.45rem;text-decoration:none;margin:.25rem .5rem .25rem 0}.table-wrap{max-width:100%;margin:.5rem 0 1rem}table{border-collapse:collapse;width:100%;background:#fff}td,th{border-bottom:1px solid #e2e8f0;padding:.4rem .45rem;text-align:left;vertical-align:top}details{margin:.6rem 0;padding:.7rem 1rem;background:#fff;border:1px solid #e2e8f0;border-radius:.5rem}summary{font-weight:600;cursor:pointer;min-height:44px;display:flex;align-items:center}nav.rel a{display:inline-flex;align-items:center;box-sizing:border-box;min-height:44px;margin-right:.35rem;max-width:100%}main p a:not(.cta){display:inline-flex;align-items:center;box-sizing:border-box;min-height:44px;max-width:100%}header.gbc-brand{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;row-gap:.4rem;padding:.25rem 0 1rem;margin-bottom:1rem;border-bottom:1px solid #e2e8f0}header.gbc-brand>a{min-height:44px;display:inline-flex;align-items:center;gap:.6rem;text-decoration:none;color:inherit;font-weight:700;font-size:1.15rem}footer{margin-top:2.5rem;padding-top:1rem;border-top:1px solid #e2e8f0;font-size:.9rem;color:#334155}footer a{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-height:44px;min-width:44px;max-width:100%;padding:.15rem .45rem}.legal-nav{font-weight:700}.seasonal-xlink,.nick-also{margin:.75rem 0 0}.calc-version{margin-top:.4rem;font-size:12px;color:#595959}label.lbl{font-weight:600;font-size:.92rem;display:block;margin:.7rem 0 .25rem;color:#0f172a}input,select,button{width:100%;max-width:100%;font:inherit;padding:.45rem .55rem;border:1px solid #cbd5e1;border-radius:.4rem;background:#fff;color:#0f172a;min-height:44px}button{width:auto;cursor:pointer}button.primary{background:#0a58ca;color:#fff;border-color:#0a58ca;font-weight:700}.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,11rem),1fr));gap:.65rem}.fields>div{min-width:0}.note{font-size:.92rem;color:#334155}.big{font-size:1.35rem;font-weight:700;margin:.2rem 0}ol.steps{padding-left:1.2rem}ol.steps li{margin:.35rem 0}.warn{background:#fff7ed;border:1px solid #c2410c;border-radius:.45rem;padding:.6rem .75rem;color:#7c2d12}.outs{display:grid;grid-template-columns:1fr;gap:.45rem;margin:.7rem 0}.outs div{background:#f8fafc;border:1px solid #e2e8f0;border-radius:.45rem;padding:.55rem .7rem;min-width:0}.outs dt{font-size:.85rem;font-weight:700;color:#0f172a}.outs dd{margin:.15rem 0 0;font-size:1.2rem;font-weight:700}.status{margin:.7rem 0;padding:.65rem .75rem;border-radius:.45rem;border:1px solid #cbd5e1;background:#fff;font-weight:700}.status.is-go{background:#fff7ed;border-color:#c2410c;color:#9a3412}.status.is-stop{background:#f0fdf4;border-color:#166534;color:#14532d}.actions{display:flex;flex-wrap:wrap;gap:.5rem;margin:.6rem 0}.actions button{max-width:100%}.log{width:100%;table-layout:fixed}.log th{font-size:.85rem;overflow-wrap:anywhere}.log td{vertical-align:middle}.log input{width:100%;min-width:0}.log .log-flag{display:block;min-height:1.1em;font-size:.8rem;font-weight:700;color:#713f12}.log tr.hit{background:#fef9c3}.log .remove{min-width:44px}@media(min-width:700px){.outs{grid-template-columns:1fr 1fr}.outs .full{grid-column:1 / -1}}@media(max-width:640px){.log thead{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.log,.log tbody,.log tr,.log td{display:block;width:auto}.log{table-layout:auto}.log tr{border:1px solid #e2e8f0;border-radius:.5rem;margin:.55rem 0;padding:.4rem .65rem;background:#fff}.log tr.hit{background:#fef9c3;border-color:#a16207}.log td{border:0;padding:.3rem 0}.log td[data-label]::before{content:attr(data-label);display:block;font-weight:700;font-size:.85rem;color:#0f172a}}@media(max-width:420px){body{padding:1rem}h1{font-size:1.35rem}}@media print{.no-print,header,footer,.actions{display:none !important}body{background:#fff;max-width:none;color:#000}a{color:#000;text-decoration:none}}</style>
+</head><body>
+<header class="gbc-brand"><a href="/"><img src="/icons/favicon.svg?v=2026-10-27" width="32" height="32" alt="GageBlockCalc logo">GageBlockCalc</a><span style="opacity:.7;font-size:.9rem">Free gage block stack calculator</span></header>
+<script>/* Sync seasonal strip. Inserted during parse so the line is in the first layout. Keep in step with seasonal.js. */
+(function(){
+  if(document.getElementById('gbc-season'))return;
+  var d=new Date(),m=d.getMonth(),day=d.getDate(),id='',spec=null;
+  if(m===10&&day>=18&&day<=26)id='thanksgiving';
+  else if(m===10&&day>=27)id='deals';
+  else if(m===11)id='christmas';
+  if(id==='thanksgiving')spec=['\uD83E\uDD83','Happy Thanksgiving from GageBlockCalc. The ','/','stack calculator',' is free, with no login.'];
+  else if(id==='deals')spec=['\uD83D\uDED2','Black Friday and Cyber Monday: see our ','/black-friday-machinist-tool-deals.html','machinist tool guide',''];
+  else if(id==='christmas')spec=['\uD83C\uDF84','Merry Christmas from GageBlockCalc. ','https://askmachinist.com/guides/machinist-christmas-gift-guide','Gift ideas for machinists',''];
+  if(!spec)return;
+  var s=document.currentScript;
+  if(!s||!s.parentNode)return;
+  var p=document.createElement('p');
+  p.id='gbc-season';
+  p.className='gbc-season no-print';
+  p.setAttribute('role','note');
+  p.setAttribute('data-gbc-season',id);
+  var home=s.parentNode.classList&&s.parentNode.classList.contains('container');
+  p.style.cssText='box-sizing:border-box;display:block;max-width:100%;min-height:2.25rem;margin:'+(home?'0':'.75rem 0 0')+';padding:.35rem .7rem;font-size:.875rem;line-height:1.4;text-align:left;background:#f8fafc;color:#1e293b;border:1px solid #e2e8f0;border-radius:8px;overflow-wrap:anywhere';
+  var em=document.createElement('span');
+  em.setAttribute('aria-hidden','true');
+  em.textContent=spec[0]+' ';
+  p.appendChild(em);
+  p.appendChild(document.createTextNode(spec[1]));
+  var a=document.createElement('a');
+  a.setAttribute('href',spec[2]);
+  a.textContent=spec[3];
+  a.style.cssText='color:#0a58ca;display:inline;min-height:0;text-decoration:underline;text-underline-offset:2px';
+  if(spec[2].indexOf('https:')===0)a.setAttribute('rel','noopener');
+  p.appendChild(a);
+  if(spec[4])p.appendChild(document.createTextNode(spec[4]));
+  s.parentNode.insertBefore(p,s.nextSibling);
+})();</script>
+<main>
+<h1>Knoop Case Depth Calculator</h1>
+<p>A Knoop microhardness traverse walks indentations in from the part edge until the filar drum reaches a stop you set. This page turns the stage reading and the drum reading into distance from the edge, an effective case depth, the long diagonal, and an approximate HK. It runs in the browser. Nothing is uploaded.</p>
+<p class="warn">Calculated HK is approximate. Your shop's conversion table or the part spec governs.</p>
+<h2>Readings</h2>
+<div class="card" id="knoopCalc">
+<div class="fields">
+<div><label class="lbl" for="knoopZero">Zero reading (inches)</label><input id="knoopZero" type="number" inputmode="decimal" step="any" value="0.0000" autocomplete="off" aria-describedby="knoopZeroHelp"></div>
+<div><label class="lbl" for="knoopMark">Mark stage reading (inches)</label><input id="knoopMark" type="number" inputmode="decimal" step="any" value="0.0020" autocomplete="off" aria-describedby="knoopMarkHelp"></div>
+<div><label class="lbl" for="knoopDrum">Filar drum reading (units)</label><input id="knoopDrum" type="number" inputmode="decimal" step="any" value="190" autocomplete="off"></div>
+<div><label class="lbl" for="knoopStop">Stop reading (units)</label><input id="knoopStop" type="number" inputmode="decimal" step="any" value="229" autocomplete="off" aria-describedby="knoopStopHelp"></div>
+<div><label class="lbl" for="knoopScaleUnits">Scale, filar units</label><input id="knoopScaleUnits" type="number" inputmode="decimal" step="any" value="190" autocomplete="off" aria-describedby="knoopScaleHelp"></div>
+<div><label class="lbl" for="knoopScaleUm">Scale, length (µm)</label><input id="knoopScaleUm" type="number" inputmode="decimal" step="any" value="95" autocomplete="off" aria-describedby="knoopScaleHelp"></div>
+<div><label class="lbl" for="knoopLoad">Load (grams)</label><input id="knoopLoad" type="number" inputmode="decimal" step="any" value="500" autocomplete="off"></div>
+</div>
+<p id="knoopZeroHelp" class="note">Stage micrometer reading with the crosshair on the part edge.</p>
+<p id="knoopMarkHelp" class="note">Stage micrometer reading at the indentation you are measuring.</p>
+<p id="knoopStopHelp" class="note">Drum units where you stop the traverse. The default is 229. A larger drum reading is a longer diagonal and a softer impression.</p>
+<p id="knoopScaleHelp" class="note">Both scale numbers are editable. The default is 190 units = 95 µm.</p>
+<p id="knoopScaleOut" class="big">0.5 µm per unit</p>
+<p id="knoopFormula" class="f">d = 190 × 0.5 = 95 µm. HK = 14229 × 500 / 95² = 788.3.</p>
+<dl class="outs">
+<div><dt>Distance from edge</dt><dd id="knoopDist">0.0020 in</dd></div>
+<div><dt>Effective case depth</dt><dd id="knoopDepth">0.0030 in</dd></div>
+<div><dt>Long diagonal</dt><dd id="knoopDiag">95 µm</dd></div>
+<div><dt>HK</dt><dd id="knoopHK">788.3</dd></div>
+</dl>
+<p id="knoopStatus" class="status is-go" role="status" aria-live="polite" aria-atomic="true">Keep going - next mark at about 0.0040 in</p>
+<p class="note">Distance is the absolute difference of the mark and the zero, in inches to 4 decimals. Effective case depth on this page is that distance plus 0.001 in. While the drum is below the stop, the next mark is about 0.002 in further from the edge, in the same direction the mark already moved from zero. If the mark is still on the zero, the step is positive.</p>
+<h3>Mark log</h3>
+<p class="note">Add each stage reading and drum reading. The first row whose drum is at or above the stop is marked, and that row's effective case depth is reported. Readings and the log stay in this browser only.</p>
+<div class="table-wrap">
+<table class="log">
+<caption class="note">Logged marks. Checked from the top.</caption>
+<thead><tr><th>Stage (in)</th><th>Drum</th><th>Distance (in)</th><th>d (µm)</th><th>HK</th><th>Mark</th></tr></thead>
+<tbody id="knoopLogBody"></tbody>
+</table>
+</div>
+<p id="knoopLogSummary" role="status" aria-live="polite" aria-atomic="true">No marks logged yet.</p>
+<div class="actions no-print"><button type="button" class="primary" id="knoopAdd">Add mark</button><button type="button" id="knoopReset">Reset to defaults</button></div>
+</div>
+<h2>Worked check</h2>
+<p>The form opens on this check. Scale 190 filar units = 95 µm, so each unit is 0.5 µm. A drum reading of 190 is a 95 µm long diagonal. At 500 g:</p>
+<span class="f">HK = 14229 × 500 / 95² = 788.3</span>
+<p>That is the same result as 14.229 × 0.5 kgf / (0.095 mm)². The default stop is 229 units, and 190 is below it, so the status says to keep going. The next stage reading is the current mark plus 0.002 in when the mark is at or above the zero. Set the drum to 229 or more and the status changes to stop reached. With the zero at 0.0000 and the mark at 0.0020, the distance is 0.0020 in and the effective case depth is 0.0030 in.</p>
+<h2>How to run the traverse</h2>
+<ol class="steps">
+<li>Zero the stage on the part edge and enter that reading.</li>
+<li>Make the first mark about 0.002 in in from the edge. That drum reading is the near-surface case hardness.</li>
+<li>Step 0.001 to 0.003 in deeper for each mark and stagger the marks sideways.</li>
+<li>Keep the Knoop long axis parallel to the edge.</li>
+<li>Keep at least 2.5 times the short diagonal between marks and from the edge (ASTM E384).</li>
+<li>Enter the filar drum reading. Keep going until it reaches the stop, then read the effective case depth.</li>
+</ol>
+<p class="note">This page does not measure the short diagonal, and it does not apply a hardness conversion or a case-depth specification. Use the table and the spec your shop uses.</p>
+<h2>On this site</h2>
+<nav class="rel"><a href="/">Gage block calculator</a> <a href="/calculators/">All calculators</a> <a href="/faq.html">FAQ</a></nav>
+<h2>FAQ</h2>
+<details><summary>How is HK calculated here?</summary><p>HK = 14229 × load in grams ÷ (long diagonal in micrometres)². The same number is 14.229 × load in kilogram-force ÷ (long diagonal in millimetres)². A 500 g load and a 95 µm diagonal give about 788.3. Calculated HK is approximate. Your shop's conversion table or the part spec governs.</p></details>
+<details><summary>What does this page report as effective case depth?</summary><p>The distance from the part edge to the mark, plus 0.001 in. Distance is the absolute difference of the mark stage reading and the zero reading. The added 0.001 in is the rule this page uses. It is not taken from a part specification. Record the case depth your shop procedure or the part spec tells you to record.</p></details>
+<details><summary>When does the calculator say to stop?</summary><p>You set a stop in filar-drum units. The default is 229. A larger drum reading is a longer diagonal and a softer impression. While the drum reading is below the stop, the page says to keep going and names the next stage reading about 0.002 in further from the edge, in the same direction the mark already moved from the zero. If the mark is still on the zero, that step is in the positive direction. When the drum reading is at or above the stop, the page reports the effective case depth for that mark.</p></details>
+<details><summary>How should the marks be spaced?</summary><p>Put the first mark about 0.002 in in from the edge. That reading is the near-surface hardness, not the case depth. Step about 0.001 to 0.003 in deeper for each later mark and stagger the marks sideways. Keep the Knoop long axis parallel to the edge. ASTM E384 calls for at least 2.5 times the short diagonal between marks and between a mark and the edge. This page does not measure the short diagonal.</p></details>
+</main>
+<footer><a href="/">Calculator</a> · <a href="/calculators/">All calculators</a> · <a href="/calculators/stacks/">Common sizes</a> · <a href="/calculators/sine-bar-gage-block-stack.html">Sine bar</a> · <a href="/llms.txt">llms.txt</a> · <a href="/faq.html">FAQ</a><br>Free, no login. Always verify critical stacks against your set's calibration certificate.<p class="legal-nav"><a href="/about.html">About</a> · <a href="/contact.html">Contact</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a></p><p class="seasonal-xlink no-print"><span aria-hidden="true">🎄</span> <a href="https://askmachinist.com/guides/machinist-christmas-gift-guide" rel="noopener">Machinist Christmas gift guide</a> · <a data-gbc-games="1" href="https://oppsgo.com/thanksgiving-games" target="_blank" rel="noopener">Free Thanksgiving Games</a></p><p class="nick-also no-print">More from Nick: <a href="https://oppsgo.com">OppsGo</a> free browser games · <a href="/arcade/">Break Room</a></p><p class="gbc-legal">© 2026 GageBlockCalc</p><div class="calc-version no-print"><span id="calcVersion" class="notranslate" translate="no"></span></div></footer>
+<script src="/js/knoop-case.js?v=1.0.141" defer></script>
+<script src="/seasonal.js?v=1.0.141" defer></script>
+<script src="/version.js?v=1.0.141" defer></script>
+</body></html>

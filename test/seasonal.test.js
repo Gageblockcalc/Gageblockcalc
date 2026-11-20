@@ -134,7 +134,7 @@ function walk(dir, out) {
   });
   return out;
 }
-const targets = [path.join(root, 'index.html'), path.join(root, 'black-friday-machinist-tool-deals.html')]
+const targets = [path.join(root, 'index.html'), path.join(root, 'black-friday-machinist-tool-deals.html'), path.join(root, 'knoop-case-depth-calculator.html')]
   .concat(walk(path.join(root, 'calculators'), []));
 targets.forEach(function (file) {
   const html = fs.readFileSync(file, 'utf8');
