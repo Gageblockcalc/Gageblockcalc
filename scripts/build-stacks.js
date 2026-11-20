@@ -456,6 +456,7 @@ function llmsText(solvedAll) {
   lines.push('- FAQ: https://gageblockcalc.com/faq.html');
   lines.push('- Break Room: https://gageblockcalc.com/arcade');
   lines.push('- Black Friday and Cyber Monday 2026 tool guide: https://gageblockcalc.com/black-friday-machinist-tool-deals.html');
+  lines.push('- 2026 machinist holiday gift guide: https://gageblockcalc.com/machinist-holiday-gift-guide.html');
   lines.push('');
   lines.push('## Shop how-tos');
   lines.push('- About: https://gageblockcalc.com/about.html');
