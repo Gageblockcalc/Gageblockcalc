@@ -103,9 +103,9 @@ if (!sitemap.includes('https://gageblockcalc.com/knoop-case-depth-calculator.htm
 const llms = fs.readFileSync(path.join(root, 'llms.txt'), 'utf8');
 if (!llms.includes('https://gageblockcalc.com/knoop-case-depth-calculator.html')) bad('llms.txt');
 const version = fs.readFileSync(path.join(root, 'version.js'), 'utf8');
-if (!version.includes('version:"1.0.141"')) bad('version stamp is not 1.0.141');
+if (!version.includes('version:"1.0.142"')) bad('version stamp is not 1.0.142');
 const sw = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
-if (!sw.includes("const CACHE = 'gbc-1.0.141';")) bad('service worker cache');
+if (!sw.includes("const CACHE = 'gbc-1.0.142';")) bad('service worker cache');
 
 console.log(fail ? fail + ' FAILURES' : 'ALL PASS');
 process.exit(fail ? 1 : 0);
