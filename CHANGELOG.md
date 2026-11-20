@@ -1,3 +1,9 @@
+## 2026-11-20 — Knoop case depth calculator (v1.0.141)
+
+- New `/knoop-case-depth-calculator.html`. Stage zero, mark reading, filar drum, stop (default 229), editable scale (default 190 units = 95 µm), and load in grams (default 500). Live distance from the edge, effective case depth (distance + 0.001 in), long diagonal, and approximate HK. A mark log can be kept in this browser only. HK uses 14229 × grams / µm², which is 14.229 × kgf / mm². 500 g at 95 µm is about 788.3. The page says the result is approximate and that the shop conversion table or the part spec governs. No new tracker. `algorithm.js` is unchanged.
+- Home has a tool card and a related-guides link. The calculators index links the page. Sitemap and `llms.txt` include the URL.
+- Version stamp is 1.0.141, the next patch after 1.0.140. `scripts/write-version.sh 1.0.141` wrote the stamp. Rollback of this page is v1.0.140 at 89f2463.
+
 ## 2026-11-20 — 2026 machinist holiday gift guide (v1.0.140)
 
 - New `/machinist-holiday-gift-guide.html` with starter, shop, and pro tiers for gage blocks, calipers, micrometers, dial and test indicators, and tool storage, plus stocking stuffers. Amazon links use tag `gageblockcalc-20`. Product pages are used only where the listing title was checked. The rest are tagged searches for the model. No prices. ItemList, BreadcrumbList, and FAQPage JSON-LD. The page links the calculator, stack pages, the Black Friday guide, and the AskMachinist gift guide.

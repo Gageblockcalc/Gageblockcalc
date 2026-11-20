@@ -454,6 +454,7 @@ function llmsText(solvedAll) {
   lines.push('- Wear blocks: https://gageblockcalc.com/calculators/wear-block-stack.html');
   lines.push('- Embed the widget: https://gageblockcalc.com/embed.html');
   lines.push('- FAQ: https://gageblockcalc.com/faq.html');
+  lines.push('- Knoop case depth (HK): https://gageblockcalc.com/knoop-case-depth-calculator.html');
   lines.push('- Break Room: https://gageblockcalc.com/arcade');
   lines.push('- Black Friday and Cyber Monday 2026 tool guide: https://gageblockcalc.com/black-friday-machinist-tool-deals.html');
   lines.push('- 2026 machinist holiday gift guide: https://gageblockcalc.com/machinist-holiday-gift-guide.html');
