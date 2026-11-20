@@ -1,3 +1,9 @@
+## 2026-11-20 — 2026 machinist holiday gift guide (v1.0.140)
+
+- New `/machinist-holiday-gift-guide.html` with starter, shop, and pro tiers for gage blocks, calipers, micrometers, dial and test indicators, and tool storage, plus stocking stuffers. Amazon links use tag `gageblockcalc-20`. Product pages are used only where the listing title was checked. The rest are tagged searches for the model. No prices. ItemList, BreadcrumbList, and FAQPage JSON-LD. The page links the calculator, stack pages, the Black Friday guide, and the AskMachinist gift guide.
+- The home page has a holiday card beside the shop block, and the Black Friday guide links back. Sitemap and `llms.txt` include the URL. `algorithm.js` is unchanged.
+- Version stamp is 1.0.140, the next patch after 1.0.139. `scripts/write-version.sh 1.0.140` wrote the stamp. Rollback of this page is v1.0.139 at 73af105.
+
 ## 2026-11-19 — About, contact, and shop how-tos (v1.0.139)
 
 - New `/about.html` and `/contact.html`. About covers what the calculator is, who it is for, free with no login, the browser cache, the Amazon Associate disclosure, and Ask a Machinist. Contact uses support@gageblockcalc.com plus the calculator Feedback and Chat links. No form and no new address.
