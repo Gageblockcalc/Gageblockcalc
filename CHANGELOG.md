@@ -1,3 +1,9 @@
+## 2026-11-24 — Prefer unique block sizes when the count ties (v1.0.143)
+
+- The stack solver still uses the fewest blocks first. When two stacks have that same minimum count, it now prefers the one that does not reuse a block size. A repeated size is used only when it makes a strictly shorter stack than every no-repeat combination.
+- Wear mode is unchanged: the required pair of wear blocks is not treated as a shortcut, and default one-of-each-size results (including recipe pages and pinned examples) stay the same. The tiebreak matters when a set has two or more of a size, for example after Select All or when wear is on and a second 0.5 mm (or similar) copy is available.
+- Version stamp is 1.0.143, the next patch after 1.0.142. `scripts/write-version.sh 1.0.143` wrote the stamp. Rollback is v1.0.142 at dffafb0.
+
 ## 2026-11-20 — Knoop case depth calculator (v1.0.141)
 
 - New `/knoop-case-depth-calculator.html`. Stage zero, mark reading, filar drum, stop (default 229), editable scale (default 190 units = 95 µm), and load in grams (default 500). Live distance from the edge, effective case depth (distance + 0.001 in), long diagonal, and approximate HK. A mark log can be kept in this browser only. HK uses 14229 × grams / µm², which is 14.229 × kgf / mm². 500 g at 95 µm is about 788.3. The page says the result is approximate and that the shop conversion table or the part spec governs. No new tracker. `algorithm.js` is unchanged.
