@@ -646,25 +646,74 @@ function digitSearchUnits(targetUnits, items, { collect = 40, want = 5, maxNodes
   return results;
 }
 
+/**
+ * Extra copies of a size (sum of count-1). When wear mode framed the
+ * stack with both wear blocks, those two copies do not count — they
+ * are required, not a solver shortcut.
+ */
+function stackDuplicateExtras(units, wearUnits, framed) {
+  const c = new Map();
+  for (const u of units) c.set(u, (c.get(u) || 0) + 1);
+  if (framed && wearUnits != null) {
+    const n = c.get(wearUnits) || 0;
+    if (n >= 2) c.set(wearUnits, n - 2);
+  }
+  let extras = 0;
+  for (const n of c.values()) if (n > 1) extras += n - 1;
+  return extras;
+}
+
+function capItemsUnique(items) {
+  return items.map((it) => ({ u: it.u, c: Math.min(it.c, 1) }));
+}
+
 function findStacks(target, setDef, avail, useWear = false, usage = null) {
   const scale = setDef.unitScale;
   const usageMap = buildUsageMap(usage, scale);
   const targetUnits = toUnits(target, scale);
   const MAX_SHOWN = 5;
+  const wearUnits = useWear && setDef.wearSize != null ? toUnits(setDef.wearSize, scale) : null;
+  const wearKey = wearUnits != null ? keyOf(setDef.wearSize) : null;
   let raw = [];
+  let framed = false;
+  let uniqueItems = null;
+  let uniqueTarget = targetUnits;
+  let prefixWear = false;
+
   if (targetUnits > 0) {
-    if (useWear && setDef.wearSize != null) {
-      const wu = toUnits(setDef.wearSize, scale);
-      const wk = keyOf(setDef.wearSize);
-      if ((avail[wk] || 0) >= 2 && targetUnits > 2 * wu) {
-        const inner = digitSearchUnits(targetUnits - 2 * wu, availabilityItems(setDef, { ...avail, [wk]: avail[wk] - 2 }).sort((a, b) => b.u - a.u));
-        raw = inner.map((s) => [wu, ...s, wu]);
+    if (wearUnits != null) {
+      if ((avail[wearKey] || 0) >= 2 && targetUnits > 2 * wearUnits) {
+        const innerItems = availabilityItems(setDef, { ...avail, [wearKey]: avail[wearKey] - 2 }).sort((a, b) => b.u - a.u);
+        const inner = digitSearchUnits(targetUnits - 2 * wearUnits, innerItems);
+        if (inner.length) {
+          raw = inner.map((s) => [wearUnits, ...s, wearUnits]);
+          framed = true;
+          uniqueItems = capItemsUnique(innerItems);
+          uniqueTarget = targetUnits - 2 * wearUnits;
+          prefixWear = true;
+        }
       }
     }
     if (!raw.length) {
-      raw = digitSearchUnits(targetUnits, availabilityItems(setDef, avail).sort((a, b) => b.u - a.u));
+      const items = availabilityItems(setDef, avail).sort((a, b) => b.u - a.u);
+      raw = digitSearchUnits(targetUnits, items);
+      uniqueItems = capItemsUnique(items);
+      uniqueTarget = targetUnits;
     }
   }
+
+  // Min block count stays first. If a min-length stack repeats a
+  // size, also search with counts capped at 1 so a same-length
+  // no-repeat stack cannot be missed. A repeat is kept only when it
+  // is strictly shorter than every unique-size stack.
+  const minLen = raw.length ? raw.reduce((m, s) => Math.min(m, s.length), Infinity) : 0;
+  const needUnique = uniqueItems && raw.some((s) => s.length === minLen && stackDuplicateExtras(s, wearUnits, framed) > 0);
+  if (needUnique) {
+    let more = digitSearchUnits(uniqueTarget, uniqueItems);
+    if (prefixWear) more = more.map((s) => [wearUnits, ...s, wearUnits]);
+    raw = raw.concat(more);
+  }
+
   const keys = new Set();
   const uniq = [];
   raw.forEach((s, idx) => {
@@ -673,9 +722,14 @@ function findStacks(target, setDef, avail, useWear = false, usage = null) {
     const k = ordered.join(',');
     if (keys.has(k)) return;
     keys.add(k);
-    uniq.push({ s: ordered, idx, use: stackUsageUnits(ordered, usageMap) });
+    uniq.push({
+      s: ordered,
+      idx,
+      use: stackUsageUnits(ordered, usageMap),
+      dups: stackDuplicateExtras(ordered, wearUnits, framed),
+    });
   });
-  uniq.sort((a, b) => a.s.length - b.s.length || a.use - b.use || a.idx - b.idx);
+  uniq.sort((a, b) => a.s.length - b.s.length || a.dups - b.dups || a.use - b.use || a.idx - b.idx);
   const stacks = uniq.slice(0, MAX_SHOWN).map((x) => x.s.map((u) => fromUnits(u, scale)));
   return { stacks, method: stacks.length ? 'classic' : 'none' };
 }
