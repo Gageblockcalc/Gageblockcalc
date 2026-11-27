@@ -14,7 +14,7 @@
     var scope = root && root.querySelectorAll ? root : document;
     var links = scope.querySelectorAll('a[href]');
     var d = when || new Date();
-    var christmas = d.getMonth() === 11;
+    var christmas = (d.getMonth() === 10 && d.getDate() >= 27) || d.getMonth() === 11;
     var gamesHref = christmas ? 'https://oppsgo.com/christmas-games' : 'https://oppsgo.com/thanksgiving-games';
     var gamesLabel = christmas ? 'Free Christmas Games' : 'Free Thanksgiving Games';
     for (var i = 0; i < links.length; i++) {

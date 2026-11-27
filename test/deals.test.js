@@ -30,8 +30,8 @@ if (/\d+\s*%\s*off|\$\s*\d|countdown|hurry|limited time/i.test(page)) bad('price
   if (!page.includes('id="' + id.slice(1) + '"')) bad('missing section ' + id);
 });
 if (!page.includes('More from Nick: <a href="https://oppsgo.com">OppsGo</a> free browser games')) bad('OppsGo footer missing');
-if (!page.includes('data-gbc-games="1" href="https://oppsgo.com/thanksgiving-games"')) bad('Thanksgiving games link missing');
-if (page.includes('oppsgo.com/christmas-games')) bad('static deals page should ship Thanksgiving games');
+if (!page.includes('data-gbc-games="1" href="https://oppsgo.com/christmas-games"')) bad('Christmas games link missing');
+if (page.includes('oppsgo.com/thanksgiving-games')) bad('static deals page should ship Christmas games');
 if (!page.includes('Machinist Christmas gift guide')) bad('Christmas gift guide missing');
 if (!page.includes('id="calcVersion"')) bad('version footer missing');
 

@@ -84,8 +84,10 @@
 
   function gamesFor(date) {
     var d = date || new Date();
-    // Static HTML ships Thanksgiving (correct through Nov 30). December, on and after Dec 1, is Christmas.
-    if (d.getMonth() === 11) return { href: XGAMES, label: 'Free Christmas Games' };
+    var m = d.getMonth();
+    var day = d.getDate();
+    // Static HTML ships Christmas (correct from Nov 27 through Dec 31). Thanksgiving games through Nov 26.
+    if ((m === 10 && day >= 27) || m === 11) return { href: XGAMES, label: 'Free Christmas Games' };
     return { href: TGAMES, label: 'Free Thanksgiving Games' };
   }
 

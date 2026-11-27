@@ -1,3 +1,9 @@
+## 2026-11-27 — Footer Christmas games link (v1.0.144)
+
+- The seasonal footer games link now shows Free Christmas Games, pointing at https://oppsgo.com/christmas-games, from November 27 through December 31. Thanksgiving games stay through November 26. The date rule lives in `seasonal.js`, with the same window in `boot.js` and `faq-boot.js` for leftover Halloween catalog links. Static HTML ships the Christmas link as the current-season fallback. The top seasonal strip is unchanged: deals November 27–30, Christmas greeting from December 1.
+- The locked "More from Nick: OppsGo free browser games" line is unchanged. `algorithm.js` is unchanged.
+- Version stamp is 1.0.144, the next patch after 1.0.143. `scripts/write-version.sh 1.0.144` wrote the stamp. Rollback is v1.0.143 at b797781.
+
 ## 2026-11-24 — Prefer unique block sizes when the count ties (v1.0.143)
 
 - The stack solver still uses the fewest blocks first. When two stacks have that same minimum count, it now prefers the one that does not reuse a block size. A repeated size is used only when it makes a strictly shorter stack than every no-repeat combination.

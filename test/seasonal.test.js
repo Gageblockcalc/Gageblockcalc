@@ -152,15 +152,16 @@ targets.forEach(function (file) {
 
 const index = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 if (index.includes('data-seasonal-pun') || index.includes('seasonal-pun')) bad('old pun line still on the home page');
-if (!index.includes('data-gbc-games="1" href="https://oppsgo.com/thanksgiving-games"') || !index.includes('>Free Thanksgiving Games</a>')) bad('Free Thanksgiving Games footer link missing');
+if (!index.includes('data-gbc-games="1" href="https://oppsgo.com/christmas-games"') || !index.includes('>Free Christmas Games</a>')) bad('Free Christmas Games footer link missing');
+if (index.includes('oppsgo.com/thanksgiving-games') || index.includes('Free Thanksgiving Games')) bad('static HTML should ship Christmas games, not Thanksgiving');
 if (!index.includes('More from Nick: <a href="https://oppsgo.com">OppsGo</a> free browser games')) bad('OppsGo link missing');
 
 function gamesAt(y, m, d) { return season.gamesFor(new Date(y, m - 1, d, 12, 0, 0)); }
-[['Nov 18', 2026, 11, 18], ['Nov 30', 2026, 11, 30], ['Jan 1', 2027, 1, 1]].forEach(function (row) {
+[['Nov 18', 2026, 11, 18], ['Nov 26', 2026, 11, 26], ['Jan 1', 2027, 1, 1]].forEach(function (row) {
   const g = gamesAt(row[1], row[2], row[3]);
   if (!g || g.href !== 'https://oppsgo.com/thanksgiving-games' || g.label !== 'Free Thanksgiving Games') bad(row[0] + ' games ' + JSON.stringify(g));
 });
-[['Dec 1', 2026, 12, 1], ['Dec 5', 2026, 12, 5], ['Dec 31', 2026, 12, 31]].forEach(function (row) {
+[['Nov 27', 2026, 11, 27], ['Nov 30', 2026, 11, 30], ['Dec 1', 2026, 12, 1], ['Dec 5', 2026, 12, 5], ['Dec 31', 2026, 12, 31]].forEach(function (row) {
   const g = gamesAt(row[1], row[2], row[3]);
   if (!g || g.href !== 'https://oppsgo.com/christmas-games' || g.label !== 'Free Christmas Games') bad(row[0] + ' games ' + JSON.stringify(g));
 });
@@ -182,8 +183,10 @@ season.applyGames({ querySelectorAll: function () { return [opps, online, games]
 if (games.href !== 'https://oppsgo.com/christmas-games' || games.textContent !== 'Free Christmas Games') bad('Dec 1 did not swap the games link');
 if (opps.href !== 'https://oppsgo.com' || opps.textContent !== 'OppsGo') bad('OppsGo link was changed');
 if (online.textContent !== 'Free Online Games') bad('Free Online Games was changed');
-season.applyGames({ querySelectorAll: function () { return [games]; } }, new Date(2026, 10, 30, 12));
-if (games.href !== 'https://oppsgo.com/thanksgiving-games' || games.textContent !== 'Free Thanksgiving Games') bad('Nov 30 did not keep Thanksgiving games');
+season.applyGames({ querySelectorAll: function () { return [games]; } }, new Date(2026, 10, 26, 12));
+if (games.href !== 'https://oppsgo.com/thanksgiving-games' || games.textContent !== 'Free Thanksgiving Games') bad('Nov 26 did not keep Thanksgiving games');
+season.applyGames({ querySelectorAll: function () { return [games]; } }, new Date(2026, 10, 27, 12));
+if (games.href !== 'https://oppsgo.com/christmas-games' || games.textContent !== 'Free Christmas Games') bad('Nov 27 did not start Christmas games');
 
 console.log(fail ? fail + ' FAILURES' : 'ALL PASS');
 process.exit(fail ? 1 : 0);
