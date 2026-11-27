@@ -11,9 +11,9 @@ const boot = fs.readFileSync(path.join(root, 'boot.js'), 'utf8');
 const faqBoot = fs.readFileSync(path.join(root, 'faq-boot.js'), 'utf8');
 
 if (/free-halloween-games\.pages\.dev|oppsgo\.com\/halloween-games|Free Halloween Games/i.test(index)) bad('index still has a halloween games link');
-if (!index.includes('data-gbc-games="1" href="https://oppsgo.com/thanksgiving-games"')) bad('thanksgiving games href missing');
-if (!index.includes('>Free Thanksgiving Games</a>')) bad('thanksgiving games label missing');
-if (index.includes('oppsgo.com/christmas-games')) bad('static HTML should ship Thanksgiving games, not Christmas');
+if (!index.includes('data-gbc-games="1" href="https://oppsgo.com/christmas-games"')) bad('christmas games href missing');
+if (!index.includes('>Free Christmas Games</a>')) bad('christmas games label missing');
+if (index.includes('oppsgo.com/thanksgiving-games')) bad('static HTML should ship Christmas games, not Thanksgiving');
 if (!index.includes('href="https://oppsgo.com/" target="_blank" rel="noopener">Free Online Games</a>')) bad('evergreen games link changed');
 if (!index.includes('>Dance Coach</a>')) bad('dance coach missing');
 if (!index.includes('>Machinist Hub</a>')) bad('Machinist Hub missing');
@@ -68,14 +68,19 @@ const evergreen = fakeLink('https://oppsgo.com/', 'Free Online Games');
 const dance = fakeLink('https://dancecoach.pages.dev/', 'Dance Coach');
 const hub = fakeLink('https://askmachinist.com/', 'Machinist Hub');
 const labeled = fakeLink('https://example.com/old', 'Free Halloween Games');
-runSwap([pages, opps, evergreen, dance, hub, labeled], new Date(2026, 10, 30));
+runSwap([pages, opps, evergreen, dance, hub, labeled], new Date(2026, 10, 26));
 
 function expectGames(el, name, href, label) {
   if (el.href !== href || el.textContent !== label) bad(name + ' not swapped: ' + el.href + ' ' + el.textContent);
 }
-expectGames(pages, 'pages.dev Nov 30', 'https://oppsgo.com/thanksgiving-games', 'Free Thanksgiving Games');
-expectGames(opps, 'oppsgo halloween Nov 30', 'https://oppsgo.com/thanksgiving-games', 'Free Thanksgiving Games');
-expectGames(labeled, 'label only Nov 30', 'https://oppsgo.com/thanksgiving-games', 'Free Thanksgiving Games');
+expectGames(pages, 'pages.dev Nov 26', 'https://oppsgo.com/thanksgiving-games', 'Free Thanksgiving Games');
+expectGames(opps, 'oppsgo halloween Nov 26', 'https://oppsgo.com/thanksgiving-games', 'Free Thanksgiving Games');
+expectGames(labeled, 'label only Nov 26', 'https://oppsgo.com/thanksgiving-games', 'Free Thanksgiving Games');
+const nov27Pages = fakeLink('https://free-halloween-games.pages.dev/', 'Free Halloween Games');
+const nov27Opps = fakeLink('https://oppsgo.com/halloween-games/', 'Free Halloween Games');
+runSwap([nov27Pages, nov27Opps], new Date(2026, 10, 27));
+expectGames(nov27Pages, 'pages.dev Nov 27', 'https://oppsgo.com/christmas-games', 'Free Christmas Games');
+expectGames(nov27Opps, 'oppsgo halloween Nov 27', 'https://oppsgo.com/christmas-games', 'Free Christmas Games');
 
 const decPages = fakeLink('https://free-halloween-games.pages.dev/', 'Free Halloween Games');
 const decOpps = fakeLink('https://oppsgo.com/halloween-games/', 'Free Halloween Games');
